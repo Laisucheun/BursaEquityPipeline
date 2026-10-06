@@ -1,0 +1,46 @@
+[1/44] 1155 Malayan Banking Berhad    -> NOT_FOUND
+[2/44] 2445 Kuala Lumpur Kepong Berha -> NOT_FOUND
+[3/44] 4707 Nestle (Malaysia) Berhad  -> NOT_FOUND
+[4/44] 0097 ViTrox Corporation Berhad -> FOUND
+[5/44] 2089 United Plantations Berhad -> FOUND
+[6/44] 5227 IGB Real Estate Investmen -> NOT_FOUND
+[7/44] 5296 Mr D.I.Y. Group (M) Berha -> FOUND
+[8/44] 7277 Dialog Group Berhad       -> FOUND
+[9/44] 5031 TIME dotCom Berhad        -> NOT_FOUND
+[10/44] 5263 Sunway Construction Group -> ERROR
+[11/44] 0166 Inari Amertron Berhad     -> ERROR
+[12/44] 3794 Malayan Cement Berhad     -> ERROR
+[13/44] 1899 Batu Kawan Berhad         -> ERROR
+[14/44] 5176 Sunway Real Estate Invest -> ERROR
+[15/44] 3034 Hap Seng Consolidated Ber -> ERROR
+[16/44] 7113 Top Glove Corporation Bhd -> ERROR
+[17/44] 8206 Eco World Development Gro -> ERROR
+[18/44] 4731 Scientex Berhad           -> ERROR
+[19/44] 2291 Genting Plantations Berha -> ERROR
+[20/44] 8621 LPI Capital Bhd           -> ERROR
+[21/44] 5286 Mi Technovation Berhad    -> ERROR
+[22/44] 5258 Lingkaran Trans Kota Hold -> ERROR
+[23/44] 1171 MBSB Berhad               -> ERROR
+[24/44] 4006 Oriental Kopi Holdings Be -> ERROR
+[25/44] 5272 Ranhill Utilities Berhad  -> ERROR
+[26/44] 5200 UOA Development Bhd       -> ERROR
+[27/44] 0270 NationGate Holdings Berha -> ERROR
+[28/44] 1163 Allianz Malaysia Berhad   -> ERROR
+[29/44] 5106 Axis Real Estate Investme -> ERROR
+[30/44] 5264 Malakoff Corporation Berh -> ERROR
+[31/44] 8664 S P Setia Berhad          -> ERROR
+[32/44] 7172 PMB Technology Berhad     -> ERROR
+[33/44] 5151 Hextar Global Berhad      -> ERROR
+[34/44] 7153 Kossan Rubber Industries  -> ERROR
+[35/44] 5401 Tropicana Corporation Ber -> ERROR
+[36/44] 5038 KSL Holdings Berhad       -> ERROR
+[37/44] 0245 MN Holdings Berhad        -> ERROR
+[38/44] 5148 UEM Sunrise Berhad        -> ERROR
+[39/44] 8583 Mah Sing Group Berhad     -> ERROR
+[40/44] 6633 Leong Hup International B -> ERROR
+[41/44] 7103 Spritzer Bhd              -> ERROR
+[42/44] 3565 WCE Holdings Berhad       -> NOT_FOUND
+[43/44] 4324 Hengyuan Refining Company -> FOUND
+[44/44] 0233 Pekat Group Berhad        -> FOUND
+
+Done: found=6 not_found=6 errors=32 total=44

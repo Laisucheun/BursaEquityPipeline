@@ -1,0 +1,983 @@
+stock_code,company_name,industry_group,primary_sector
+5188,China Ouhua Winery Holdings Limited,Beverage (Alcoholic),Consumer Staples
+5156,XiDeLang Holdings Ltd,Shoe,Consumer Discretionary
+0147,Innity Corporation Berhad,Advertising,Communication Services
+0007,PUC Berhad,Advertising,Communication Services
+9431,Seni Jaya Corporation Berhad,Advertising,Communication Services
+7212,Destini Berhad,Aerospace/Defense,Industrials
+5238,AirAsia X Berhad,Air Transport,Industrials
+7209,Cheetah Holdings Berhad,Apparel,Consumer Discretionary
+7087,Magni-Tech Industries Berhad,Apparel,Consumer Discretionary
+7139,Niche Capital Emas Holdings Berhad,Apparel,Consumer Discretionary
+0049,Oceancash Pacific Berhad,Apparel,Consumer Discretionary
+6068,PCCS Group Berhad,Apparel,Consumer Discretionary
+5080,Poh Kong Holdings Berhad,Apparel,Consumer Discretionary
+7168,PRG Holdings Berhad,Apparel,Consumer Discretionary
+7130,Reneuco Berhad,Apparel,Consumer Discretionary
+8966,Techbase Industries Berhad,Apparel,Consumer Discretionary
+0250,YX Precious Metals Bhd,Apparel,Consumer Discretionary
+5131,Zhulian Corporation Berhad,Apparel,Consumer Discretionary
+1619,DRB-HICOM Berhad,Auto & Truck,Consumer Discretionary
+4405,Tan Chong Motor Holdings Berhad,Auto & Truck,Consumer Discretionary
+5198,ABM Fujiya Berhad,Auto Parts,Consumer Discretionary
+5015,APM Automotive Holdings Berhad,Auto Parts,Consumer Discretionary
+0263,Betamek Berhad,Auto Parts,Consumer Discretionary
+7773,EP Manufacturing Bhd,Auto Parts,Consumer Discretionary
+5322,Feytech Holdings Berhad,Auto Parts,Consumer Discretionary
+5291,KHPT Holdings Berhad,Auto Parts,Consumer Discretionary
+9083,Kumpulan Jetson Berhad,Auto Parts,Consumer Discretionary
+7004,MCE Holdings Berhad,Auto Parts,Consumer Discretionary
+7060,New Hoong Fatt Holdings Berhad,Auto Parts,Consumer Discretionary
+5271,Pecca Group Berhad,Auto Parts,Consumer Discretionary
+7811,Sapura Industrial Berhad,Auto Parts,Consumer Discretionary
+7132,SMIS Corporation Berhad,Auto Parts,Consumer Discretionary
+5185,AFFIN Bank Berhad,Bank (Money Center),Financials
+2488,Alliance Bank Malaysia Berhad,Bank (Money Center),Financials
+1015,AMMB Holdings Berhad,Bank (Money Center),Financials
+5258,Bank Islam Malaysia Berhad,Bank (Money Center),Financials
+1023,CIMB Group Holdings Berhad,Bank (Money Center),Financials
+5819,Hong Leong Bank Berhad,Bank (Money Center),Financials
+1082,Hong Leong Financial Group Berhad,Bank (Money Center),Financials
+1155,Malayan Banking Berhad,Bank (Money Center),Financials
+1295,Public Bank Berhad,Bank (Money Center),Financials
+1066,RHB Bank Berhad,Bank (Money Center),Financials
+1171,MBSB Berhad,Banks (Regional),Financials
+2836,Carlsberg Brewery Malaysia Berhad,Beverage (Alcoholic),Consumer Staples
+3255,Heineken Malaysia Berhad,Beverage (Alcoholic),Consumer Staples
+3689,Fraser & Neave Holdings Bhd,Beverage (Soft),Consumer Staples
+7237,Power Root Berhad,Beverage (Soft),Consumer Staples
+7103,Spritzer Bhd,Beverage (Soft),Consumer Staples
+6399,Astro Malaysia Holdings Berhad,Broadcasting,Communication Services
+4502,Media Prima Berhad,Broadcasting,Communication Services
+5088,Apex Equity Holdings Berhad,Brokerage & Investment Banking,Financials
+5274,Hong Leong Capital Berhad,Brokerage & Investment Banking,Financials
+3379,Insas Berhad,Brokerage & Investment Banking,Financials
+6483,Kenanga Investment Bank Berhad,Brokerage & Investment Banking,Financials
+7082,M & A Equity Holdings Berhad,Brokerage & Investment Banking,Financials
+0285,Mercury Securities Group Berhad,Brokerage & Investment Banking,Financials
+7086,AbleGroup Berhad,Building Materials,Industrials
+7609,Ajiya Berhad,Building Materials,Industrials
+7162,Astino Berhad,Building Materials,Industrials
+0227,Econframe Berhad,Building Materials,Industrials
+0100,ES Ceramics Technology Berhad,Building Materials,Industrials
+03026,Fibromat (M) Berhad,Building Materials,Industrials
+5371,Kim Hin Industry Berhad,Building Materials,Industrials
+0288,Minox International Group Berhad,Building Materials,Industrials
+8117,PGF Capital Berhad,Building Materials,Industrials
+9237,Sarawak Consolidated Industries Berhad,Building Materials,Industrials
+7115,SKB Shutters Corporation Berhad,Building Materials,Industrials
+9296,Sorento Capital Berhad,Building Materials,Industrials
+7235,Superlon Holdings Berhad,Building Materials,Industrials
+7133,United U-LI Corporation Berhad,Building Materials,Industrials
+5009,White Horse Berhad,Building Materials,Industrials
+7025,Woodlandor Holdings Berhad,Building Materials,Industrials
+5048,YB Ventures Berhad,Building Materials,Industrials
+0248,Yew Lee Pacific Group Berhad,Building Materials,Industrials
+7014,YLI Holdings Berhad,Building Materials,Industrials
+0122,Advance Information Marketing Berhad,Business & Consumer Services,Industrials
+0191,Cabnet Holdings Berhad,Business & Consumer Services,Industrials
+5301,CTOS Digital Berhad,Business & Consumer Services,Industrials
+5081,Esthetics International Group Berhad,Business & Consumer Services,Consumer Discretionary
+0128,Frontken Corporation Berhad,Business & Consumer Services,Industrials
+0167,MClean Technologies Berhad,Business & Consumer Services,Industrials
+0236,Ramssol Group Berhad,Business & Consumer Services,Industrials
+0081,Rekatech Capital Berhad,Business & Consumer Services,Industrials
+7083,Analabs Resources Berhad,Chemical (Basic),Materials
+0105,Asia Poly Holdings Berhad,Chemical (Basic),Materials
+1899,Batu Kawan Berhad,Chemical (Basic),Materials
+0205,DPI Holdings Berhad,Chemical (Basic),Materials
+8443,Hil Industries Berhad,Chemical (Basic),Materials
+0054,Karyon Industries Berhad,Chemical (Basic),Materials
+5284,Lotte Chemical Titan Holding Berhad,Chemical (Basic),Materials
+5068,Luster Industries Bhd,Chemical (Basic),Materials
+5183,PETRONAS Chemicals Group Berhad,Chemical (Basic),Materials
+9954,RGT Berhad,Chemical (Basic),Materials
+4731,Scientex Berhad,Chemical (Basic),Materials
+5308,Seng Fong Holdings Berhad,Chemical (Basic),Materials
+5134,Southern Acids (M) Berhad,Chemical (Basic),Materials
+7200,Tek Seng Holdings Berhad,Chemical (Basic),Materials
+7692,WTEC Group Berhad,Chemical (Basic),Materials
+0301,Zantat Holdings Berhad,Chemical (Basic),Materials
+4758,Ancom Nylex Berhad,Chemical (Diversified),Materials
+3298,Hexza Corporation Berhad,Chemical (Diversified),Materials
+5151,Hextar Global Berhad,Chemical (Specialty),Materials
+7222,Imaspro Corporation Berhad,Chemical (Specialty),Materials
+0055,Sersol Berhad,Chemical (Specialty),Materials
+0306,Smart Asia Chemical Bhd,Chemical (Specialty),Materials
+5289,Techbond Group Berhad,Chemical (Specialty),Materials
+7173,Toyo Ventures Holdings Berhad,Chemical (Specialty),Materials
+0175,HHRG Berhad,Coal & Related Energy,Energy
+7031,Amtel Holdings Berhad,Computer Services,Information Technology
+0038,Artroniq Berhad,Computer Services,Information Technology
+0277,Cloudpoint Technology Berhad,Computer Services,Information Technology
+0246,Cnergenz Berhad,Computer Services,Information Technology
+03025,Crest Group Berhad,Computer Services,Information Technology
+8338,Dataprep Holdings Bhd,Computer Services,Information Technology
+0029,Digistar Corporation Berhad,Computer Services,Information Technology
+0131,Divfex Berhad,Computer Services,Information Technology
+0154,EA Holdings Berhad,Computer Services,Information Technology
+5036,Edaran Berhad,Computer Services,Information Technology
+9377,FSBM Holdings Berhad,Computer Services,Information Technology
+0311,Go Hub Capital Berhad,Computer Services,Information Technology
+0060,Harvest Miracle Capital Berhad,Computer Services,Information Technology
+5028,HeiTech Padu Berhad,Computer Services,Information Technology
+03038,ICT Zone Asia Berhad,Computer Services,Information Technology
+0265,Infomina Berhad,Computer Services,Information Technology
+0036,Key Alliance Group Berhad,Computer Services,Information Technology
+0249,LGMS Berhad,Computer Services,Information Technology
+0075,LYC Healthcare Berhad,Computer Services,Information Technology
+0156,ManagePay Systems Berhad,Computer Services,Information Technology
+5011,Mesiniaga Berhad,Computer Services,Information Technology
+0034,MMAG Holdings Berhad,Computer Services,Information Technology
+4944,NEXG Berhad,Computer Services,Information Technology
+9008,Omesti Berhad,Computer Services,Information Technology
+0006,Pineapple Resources Berhad,Computer Services,Information Technology
+0123,Privasia Technology Berhad,Computer Services,Information Technology
+0202,Radiant Globaltech Berhad,Computer Services,Information Technology
+0129,Silver Ridge Holdings Bhd.,Computer Services,Information Technology
+0259,SNS Network Technology Berhad,Computer Services,Information Technology
+0132,Technodex Bhd,Computer Services,Information Technology
+9075,Theta Edge Berhad,Computer Services,Information Technology
+5322,VETECE Holdings Berhad,Computer Services,Information Technology
+0066,Vsolar Group Berhad,Computer Services,Information Technology
+5162,VSTECS Berhad,Computer Services,Information Technology
+0140,Xox Networks Berhad,Computer Services,Information Technology
+0086,Ygl Convergence Berhad,Computer Services,Information Technology
+0094,Zen Tech International Berhad,Computer Services,Information Technology
+0010,IRIS Corporation Berhad,Computers/Peripherals,Information Technology
+5161,JCY International Berhad,Computers/Peripherals,Information Technology
+0040,OpenSys (M) Berhad,Computers/Peripherals,Information Technology
+7005,B.I.G. Industries Berhad,Construction Supplies,Materials
+8133,Boustead Heavy Industries Corporation Berhad,Construction Supplies,Industrials
+2852,Cahya Mata Sarawak Berhad,Construction Supplies,Materials
+7187,Chin Hin Group Property Berhad,Construction Supplies,Industrials
+7018,CME Group Berhad,Construction Supplies,Industrials
+5071,Coastal Contracts Bhd,Construction Supplies,Industrials
+8435,Concrete Engineering Products Berhad,Construction Supplies,Materials
+5165,DFCITY Group Berhad,Construction Supplies,Materials
+7229,Favelle Favco Berhad,Construction Supplies,Industrials
+5000,Hume Cement Industries Berhad,Construction Supplies,Materials
+6211,Kia Lim Berhad,Construction Supplies,Materials
+3794,Malayan Cement Berhad,Construction Supplies,Materials
+7140,OKA Corporation Bhd,Construction Supplies,Materials
+7544,Quality Concrete Holdings Berhad,Construction Supplies,Materials
+5145,Sealink International Berhad,Construction Supplies,Industrials
+5149,TAS Offshore Berhad,Construction Supplies,Industrials
+7043,Xin Synergy Group Berhad,Construction Supplies,Materials
+1481,Advance Synergy Berhad,Diversified,Industrials
+0068,Asdion Berhad,Diversified,Industrials
+3395,Berjaya Corporation Berhad,Diversified,Industrials
+3034,Hap Seng Consolidated Berhad,Diversified,Industrials
+3301,Hong Leong Industries Berhad,Diversified,Industrials
+5606,IGB Berhad,Diversified,Financials
+2607,Inch Kenneth Kajang Rubber Public Limited Company,Diversified,Industrials
+6491,Kumpulan Fima Berhad,Diversified,Industrials
+3891,Malayan United Industries Berhad,Diversified,Industrials
+3905,Mulpha International Bhd,Diversified,Financials
+4197,Sime Darby Berhad,Diversified,Industrials
+5211,Sunway Berhad,Diversified,Industrials
+2429,Tanco Holdings Berhad,Diversified,Industrials
+8702,Texchem Resources Bhd,Diversified,Industrials
+5016,Warisan TC Holdings Berhad,Diversified,Industrials
+7090,Apex Healthcare Berhad,Drugs (Pharmaceutical),Health Care
+7148,Duopharma Biotech Berhad,Drugs (Pharmaceutical),Health Care
+0002,Kotra Industries Berhad,Drugs (Pharmaceutical),Health Care
+0171,PeterLabs Holdings Berhad,Drugs (Pharmaceutical),Health Care
+5278,Rhone Ma Holdings Berhad,Drugs (Pharmaceutical),Health Care
+7178,Y.S.P. Southeast Asia Holding Berhad,Drugs (Pharmaceutical),Health Care
+5204,AwanBiru Technology Berhad,Education,Consumer Discretionary
+5166,Cyberjaya Education Group Berhad,Education,Consumer Discretionary
+0107,Eduspec Holdings Berhad,Education,Consumer Discretionary
+9792,SEG International Bhd,Education,Consumer Discretionary
+0117,SMRT Holdings Berhad,Education,Consumer Discretionary
+0149,Fibon Berhad,Electrical Equipment,Industrials
+9601,Ho Wah Genting Berhad,Electrical Equipment,Industrials
+0295,Master Tec Group Berhad,Electrical Equipment,Industrials
+6149,Metrod Holdings Berhad,Electrical Equipment,Industrials
+7095,P.I.E. Industrial Berhad,Electrical Equipment,Industrials
+0217,Powerwell Holdings Berhad,Electrical Equipment,Industrials
+0215,Solarvest Holdings Berhad,Electrical Equipment,Industrials
+0225,Southern Cable Group Berhad,Electrical Equipment,Industrials
+7207,Success Transformer Corporation Berhad,Electrical Equipment,Industrials
+0262,Sunview Group Berhad,Electrical Equipment,Industrials
+0001,Supercomnet Technologies Berhad,Electrical Equipment,Industrials
+7097,Ta Win Holdings Berhad,Electrical Equipment,Industrials
+0118,Trive Property Group Berhad,Electrical Equipment,Industrials
+7227,UMS-Neiken Group Berhad,Electrical Equipment,Industrials
+8907,EG Industries Berhad,Electronics (Consumer & Office),Consumer Discretionary
+9172,Formosa Prosonic Industries Berhad,Electronics (Consumer & Office),Consumer Discretionary
+7146,AE Multi Holdings Berhad,Electronics (General),Information Technology
+03011,Amlex Holdings Berhad,Electronics (General),Information Technology
+5302,Aurelius Technologies Berhad,Electronics (General),Information Technology
+5311,Cape EMS Berhad,Electronics (General),Information Technology
+5220,Globaltec Formation Berhad,Electronics (General),Information Technology
+3247,GUH Holdings Berhad,Electronics (General),Information Technology
+9393,Industronics Berhad,Electronics (General),Information Technology
+5107,IQ Group Holdings Berhad,Electronics (General),Information Technology
+5309,ITMAX System Berhad,Electronics (General),Information Technology
+0127,JHM Consolidation Berhad,Electronics (General),Information Technology
+0111,K-One Technology Berhad,Electronics (General),Information Technology
+0112,Mikro MSC Berhad,Electronics (General),Information Technology
+0270,NationGate Holdings Berhad,Electronics (General),Information Technology
+03025,Northeast Group Berhad,Electronics (General),Information Technology
+0083,Notion VTec Berhad,Electronics (General),Information Technology
+6637,PNE PCB Berhad,Electronics (General),Information Technology
+0196,QES Group Berhad,Electronics (General),Information Technology
+0183,Salutica Berhad,Electronics (General),Information Technology
+0028,Scope Industries Berhad,Electronics (General),Information Technology
+7155,SKP Resources Bhd,Electronics (General),Information Technology
+0093,Solution Group Berhad,Electronics (General),Information Technology
+5066,THMY Holdings Berhad,Electronics (General),Information Technology
+7100,Uchi Technologies Berhad,Electronics (General),Information Technology
+6963,V.S. Industry Berhad,Electronics (General),Information Technology
+0102,Waja Konsortium Berhad,Electronics (General),Information Technology
+5281,Advancecon Holdings Berhad,Engineering/Construction,Industrials
+7078,Ahmad Zaki Resources Berhad,Engineering/Construction,Industrials
+5293,AME Elite Consortium Berhad,Engineering/Construction,Industrials
+0226,Aneka Jaringan Holdings Berhad,Engineering/Construction,Industrials
+7007,ARK Resources Holdings Berhad,Engineering/Construction,Industrials
+7579,AWC Berhad,Engineering/Construction,Industrials
+5190,Benalec Holdings Berhad,Engineering/Construction,Industrials
+6173,Bina Darulaman Berhad,Engineering/Construction,Industrials
+5932,Bina Puri Holdings Bhd,Engineering/Construction,Industrials
+7195,Binastra Corporation Berhad,Engineering/Construction,Industrials
+6998,Bintai Kinden Corporation Berhad,Engineering/Construction,Industrials
+7209,Cheeding Holdings Berhad,Engineering/Construction,Industrials
+7245,Citaglobal Berhad,Engineering/Construction,Industrials
+8591,Crest Builder Holdings Berhad,Engineering/Construction,Industrials
+0291,Critical Holdings Berhad,Engineering/Construction,Industrials
+7528,DKLS Industries Berhad,Engineering/Construction,Industrials
+0059,Ecobuilt Holdings Berhad,Engineering/Construction,Industrials
+5253,Econpile Holdings Berhad,Engineering/Construction,Industrials
+0255,Ecoscience International Berhad,Engineering/Construction,Industrials
+8877,Ekovest Berhad,Engineering/Construction,Industrials
+5205,Eversendai Corporation Berhad,Engineering/Construction,Industrials
+5222,FBG Holdings Berhad,Engineering/Construction,Industrials
+5226,Gabungan AQRS Berhad,Engineering/Construction,Industrials
+9261,Gadang Holdings Berhad,Engineering/Construction,Industrials
+0206,Gagasan Nadi Cergas Berhad,Engineering/Construction,Industrials
+5398,Gamuda Berhad,Engineering/Construction,Industrials
+0198,GDB Holdings Berhad,Engineering/Construction,Industrials
+7197,Geohan Corporation Berhad,Engineering/Construction,Industrials
+3204,George Kent (Malaysia) Berhad,Engineering/Construction,Industrials
+0284,Glostrext Berhad,Engineering/Construction,Industrials
+7022,Greentronics Technology Berhad,Engineering/Construction,Industrials
+0296,HE Group Berhad,Engineering/Construction,Industrials
+5169,Ho Hup Construction Company Berhad,Engineering/Construction,Industrials
+0185,HSS Engineers Berhad,Engineering/Construction,Industrials
+0221,iCents Group Holdings Berhad,Engineering/Construction,Industrials
+3336,IJM Corporation Berhad,Engineering/Construction,Industrials
+7240,Infraharta Holdings Berhad,Engineering/Construction,Industrials
+5178,Ingenieur Gudang Berhad,Engineering/Construction,Industrials
+0192,Inta Bina Group Berhad,Engineering/Construction,Industrials
+4723,JAKS Resources Berhad,Engineering/Construction,Industrials
+0292,Jati Tinggi Group Berhad,Engineering/Construction,Industrials
+0151,Kelington Group Berhad,Engineering/Construction,Industrials
+7161,Kerjaya Prospek Group Berhad,Engineering/Construction,Industrials
+5171,Kimlun Corporation Berhad,Engineering/Construction,Industrials
+0193,Kinergy Advancement Berhad,Engineering/Construction,Industrials
+9466,KKB Engineering Berhad,Engineering/Construction,Industrials
+5310,Kumpulan Kitacon Berhad,Engineering/Construction,Industrials
+7170,LFE Corporation Berhad,Engineering/Construction,Industrials
+1651,Malaysian Resources Corporation Berhad,Engineering/Construction,Industrials
+5129,Melati Ehsan Holdings Berhad,Engineering/Construction,Industrials
+8192,Mercury Industries Berhad,Engineering/Construction,Industrials
+7595,MGB Berhad,Engineering/Construction,Industrials
+9571,Mitrajaya Holdings Berhad,Engineering/Construction,Industrials
+0245,MN Holdings Berhad,Engineering/Construction,Industrials
+5085,Mudajaya Group Berhad,Engineering/Construction,Industrials
+5703,Muhibbah Engineering (M) Bhd.,Engineering/Construction,Industrials
+5073,Naim Holdings Berhad,Engineering/Construction,Industrials
+0235,Nestcon Berhad,Engineering/Construction,Industrials
+0233,Pekat Group Berhad,Engineering/Construction,Industrials
+8311,Pesona Metro Holdings Berhad,Engineering/Construction,Industrials
+5219,Pestec International Berhad,Engineering/Construction,Industrials
+9598,Pintaras Jaya Berhad,Engineering/Construction,Industrials
+7163,PJBumi Berhad,Engineering/Construction,Industrials
+7055,PLB Engineering Berhad,Engineering/Construction,Industrials
+0091,Propel Global Berhad,Engineering/Construction,Industrials
+5070,Protasco Berhad,Engineering/Construction,Industrials
+9741,Rohas Tecnic Berhad,Engineering/Construction,Industrials
+0223,Samaiden Group Berhad,Engineering/Construction,Industrials
+0109,SC Estate Builder Berhad,Engineering/Construction,Industrials
+5172,Sinaran Advance Group Berhad,Engineering/Construction,Industrials
+0045,Southern Score Builders Berhad,Engineering/Construction,Industrials
+03050,Sunmow Holding Berhad,Engineering/Construction,Industrials
+5263,Sunway Construction Group Berhad,Engineering/Construction,Industrials
+03033,Supergenics Berhad,Engineering/Construction,Industrials
+9717,Sycal Ventures Berhad,Engineering/Construction,Industrials
+0211,Taghill Holdings Berhad,Engineering/Construction,Industrials
+5054,TRC Synergy Berhad,Engineering/Construction,Industrials
+5042,TSR Capital Berhad,Engineering/Construction,Industrials
+5297,Tuju Setia Berhad,Engineering/Construction,Industrials
+2054,Txcd Berhad,Engineering/Construction,Industrials
+1368,UEM Edgenta Berhad,Engineering/Construction,Industrials
+0310,UUE Holdings Berhad,Engineering/Construction,Industrials
+5006,Varia Berhad,Engineering/Construction,Industrials
+0273,Vestland Berhad,Engineering/Construction,Industrials
+0069,Vinvest Capital Holdings Berhad,Engineering/Construction,Industrials
+7070,Vizione Holdings Berhad,Engineering/Construction,Industrials
+9679,WCT Holdings Berhad,Engineering/Construction,Industrials
+0162,Widad Group Berhad,Engineering/Construction,Industrials
+7003,Y&G Corporation Bhd.,Engineering/Construction,Industrials
+7028,Zecon Berhad,Engineering/Construction,Industrials
+2283,Zelan Berhad,Engineering/Construction,Industrials
+0315,Kucingko Berhad,Entertainment,Communication Services
+0011,Brite-Tech Berhad,Environmental & Waste Services,Industrials
+5184,Cypark Resources Berhad,Environmental & Waste Services,Industrials
+0039,GFM Services Berhad,Environmental & Waste Services,Industrials
+0160,Hiap Huat Holdings Berhad,Environmental & Waste Services,Industrials
+0024,JAG Berhad,Environmental & Waste Services,Industrials
+0293,KJTS Group Berhad,Environmental & Waste Services,Industrials
+7201,Progressive Impact Corporation Berhad,Environmental & Waste Services,Industrials
+0089,Tex Cycle Technology (M) Berhad,Environmental & Waste Services,Industrials
+7054,Astral Asia Berhad,Farming/Agriculture,Consumer Staples
+5069,BLD Plantation Bhd.,Farming/Agriculture,Consumer Staples
+8982,Cepatwawasan Group Berhad,Farming/Agriculture,Consumer Staples
+1929,Chin Teck Plantations Berhad,Farming/Agriculture,Consumer Staples
+5029,Far East Holdings Berhad,Farming/Agriculture,Consumer Staples
+2291,Genting Plantations Berhad,Farming/Agriculture,Consumer Staples
+2135,Gopeng Berhad,Farming/Agriculture,Consumer Staples
+0136,Greenyield Berhad,Farming/Agriculture,Consumer Staples
+5138,Hap Seng Plantations Holdings Berhad,Farming/Agriculture,Consumer Staples
+7501,Harn Len Corporation Bhd,Farming/Agriculture,Consumer Staples
+6262,Innoprise Plantations Berhad,Farming/Agriculture,Consumer Staples
+1961,IOI Corporation Berhad,Farming/Agriculture,Consumer Staples
+5323,Johor Plantations Group Berhad,Farming/Agriculture,Consumer Staples
+3476,Keck Seng (Malaysia) Berhad,Farming/Agriculture,Consumer Staples
+5027,Kim Loong Resources Berhad,Farming/Agriculture,Consumer Staples
+2453,Kluang Rubber Company (Malaya) Berhad,Farming/Agriculture,Consumer Staples
+1996,Kretam Holdings Berhad,Farming/Agriculture,Consumer Staples
+2445,Kuala Lumpur Kepong Berhad,Farming/Agriculture,Consumer Staples
+0189,Matang Berhad,Farming/Agriculture,Consumer Staples
+5026,MHC Plantations Bhd.,Farming/Agriculture,Consumer Staples
+5319,MKH Oil Palm (East Kalimantan) Berhad,Farming/Agriculture,Consumer Staples
+2038,Negri Sembilan Oil Palms Berhad,Farming/Agriculture,Consumer Staples
+1902,Pinehill Pacific Berhad,Farming/Agriculture,Consumer Staples
+9695,PLS Plantations Berhad,Farming/Agriculture,Consumer Staples
+5113,Rimbunan Sawit Berhad,Farming/Agriculture,Consumer Staples
+2542,"Riverview Rubber Estates, Berhad",Farming/Agriculture,Consumer Staples
+5126,Sarawak Oil Palms Berhad,Farming/Agriculture,Consumer Staples
+5135,Sarawak Plantation Berhad,Farming/Agriculture,Consumer Staples
+5285,SD Guthrie Berhad,Farming/Agriculture,Consumer Staples
+4316,Sin Heng Chan (Malaya) Berhad,Farming/Agriculture,Consumer Staples
+2569,Sungei Bagan Rubber Company (Malaya) Berhad,Farming/Agriculture,Consumer Staples
+5012,Ta Ann Holdings Berhad,Farming/Agriculture,Consumer Staples
+2054,TDM Berhad,Farming/Agriculture,Consumer Staples
+5112,TH Plantations Berhad,Farming/Agriculture,Consumer Staples
+9059,TSH Resources Berhad,Farming/Agriculture,Consumer Staples
+2593,United Malacca Berhad,Farming/Agriculture,Consumer Staples
+2089,United Plantations Berhad,Farming/Agriculture,Consumer Staples
+5139,AEON Credit Service (M) Berhad,Financial Svcs. (Non-bank & Insurance),Financials
+1818,Bursa Malaysia Berhad,Financial Svcs. (Non-bank & Insurance),Financials
+5228,ELK-Desa Resources Berhad,Financial Svcs. (Non-bank & Insurance),Financials
+0286,Evergreen Max Cash Capital Berhad,Financial Svcs. (Non-bank & Insurance),Financials
+3441,Johan Holdings Berhad,Financial Svcs. (Non-bank & Insurance),Financials
+0242,Pappajack Berhad,Financial Svcs. (Non-bank & Insurance),Financials
+9296,RCE Capital Berhad,Financial Svcs. (Non-bank & Insurance),Financials
+0200,Revenue Group Berhad,Financial Svcs. (Non-bank & Insurance),Financials
+5325,Well Chip Group Berhad,Financial Svcs. (Non-bank & Insurance),Financials
+7167,Able Global Berhad,Food Processing,Consumer Staples
+2658,Ajinomoto (Malaysia) Berhad,Food Processing,Consumer Staples
+6432,Apollo Food Holdings Berhad,Food Processing,Consumer Staples
+2828,C.I. Holdings Berhad,Food Processing,Consumer Staples
+7174,CAB Cakaran Corporation Berhad,Food Processing,Consumer Staples
+7128,CAM Resources Berhad,Food Processing,Consumer Staples
+7035,CCK Consolidated Holdings Berhad,Food Processing,Consumer Staples
+3026,Dutch Lady Milk Industries Berhad,Food Processing,Consumer Staples
+0297,ETA Group Berhad,Food Processing,Consumer Staples
+5306,Farm Fresh Berhad,Food Processing,Consumer Staples
+5102,Guan Chong Berhad,Food Processing,Consumer Staples
+5187,HB Global Limited,Food Processing,Consumer Staples
+5024,Hup Seng Industries Berhad,Food Processing,Consumer Staples
+8478,Hwa Tai Industries Berhad,Food Processing,Consumer Staples
+7216,Kawan Food Berhad,Food Processing,Consumer Staples
+6203,Khee San Berhad,Food Processing,Consumer Staples
+9385,Lay Hong Berhad,Food Processing,Consumer Staples
+6633,Leong Hup International Berhad,Food Processing,Consumer Staples
+8303,Lotus KFM Berhad,Food Processing,Consumer Staples
+7085,LTKM Berhad,Food Processing,Consumer Staples
+0095,MAG Holdings Berhad,Food Processing,Consumer Staples
+3662,Malayan Flour Mills Berhad,Food Processing,Consumer Staples
+5202,MSM Malaysia Holdings Berhad,Food Processing,Consumer Staples
+0280,MYMBN Berhad,Food Processing,Consumer Staples
+4707,Nestlé (Malaysia) Berhad,Food Processing,Consumer Staples
+7315,OB Holdings Berhad,Food Processing,Consumer Staples
+5533,OCB Berhad,Food Processing,Consumer Staples
+0312,Ocean Fresh Berhad,Food Processing,Consumer Staples
+0252,Orgabio Holdings Berhad,Food Processing,Consumer Staples
+7107,Oriental Food Industries Holdings Berhad,Food Processing,Consumer Staples
+4081,Pan Malaysia Corporation Berhad,Food Processing,Consumer Staples
+4065,PPB Group Berhad,Food Processing,Consumer Staples
+0260,PT Resources Holdings Berhad,Food Processing,Consumer Staples
+7134,PWF Corporation Bhd.,Food Processing,Consumer Staples
+7084,QL Resources Berhad,Food Processing,Consumer Staples
+0300,SBH Marine Holdings Berhad,Food Processing,Consumer Staples
+0212,SDS Group Berhad,Food Processing,Consumer Staples
+9776,Sinmah Capital Berhad,Food Processing,Consumer Staples
+7439,Teck Guan Perdana Berhad,Food Processing,Consumer Staples
+7252,Teo Seng Capital Berhad,Food Processing,Consumer Staples
+0012,Three-A Resources Berhad,Food Processing,Consumer Staples
+7176,TPC Plus Berhad,Food Processing,Consumer Staples
+7121,XL Holdings Berhad,Food Processing,Consumer Staples
+5300,Yenher Holdings Berhad,Food Processing,Consumer Staples
+0309,Agricore CS Holdings Berhad,Food Wholesalers,Consumer Staples
+3948,DutaLand Berhad,Food Wholesalers,Consumer Staples
+0304,Farm Price Holdings Berhad,Food Wholesalers,Consumer Staples
+0074,Green Ocean Corporation Berhad,Food Wholesalers,Consumer Staples
+0180,Kim Teck Cheong Consolidated Berhad,Food Wholesalers,Consumer Staples
+03018,Supreme Consolidated Resources Berhad,Food Wholesalers,Consumer Staples
+0271,Wellspire Holdings Berhad,Food Wholesalers,Consumer Staples
+7198,DPS Resources Berhad,Furn/Home Furnishings,Consumer Discretionary
+0239,Ecomate Holdings Berhad,Furn/Home Furnishings,Consumer Discretionary
+7094,Eurospan Holdings Berhad,Furn/Home Furnishings,Consumer Discretionary
+2984,FACB Industries Incorporated Berhad,Furn/Home Furnishings,Consumer Discretionary
+8605,Federal International Holdings Berhad,Furn/Home Furnishings,Consumer Discretionary
+5160,Homeritz Corporation Berhad,Furn/Home Furnishings,Consumer Discretionary
+7152,Jaycorp Berhad,Furn/Home Furnishings,Consumer Discretionary
+7062,Khind Holdings Berhad,Furn/Home Furnishings,Consumer Discretionary
+8079,Lee Swee Kiat Group Berhad,Furn/Home Furnishings,Consumer Discretionary
+7089,Lii Hen Industries Bhd,Furn/Home Furnishings,Consumer Discretionary
+7935,Milux Corporation Berhad,Furn/Home Furnishings,Consumer Discretionary
+0229,Mobilia Holdings Berhad,Furn/Home Furnishings,Consumer Discretionary
+3719,Panasonic Manufacturing Malaysia Berhad,Furn/Home Furnishings,Consumer Discretionary
+9407,Paragon Union Berhad,Furn/Home Furnishings,Consumer Discretionary
+9997,Pensonic Holdings Berhad,Furn/Home Furnishings,Consumer Discretionary
+7088,Poh Huat Resources Holdings Berhad,Furn/Home Furnishings,Consumer Discretionary
+7006,Rhong Khen International Berhad,Furn/Home Furnishings,Consumer Discretionary
+7180,Sern Kou Resources Berhad,Furn/Home Furnishings,Consumer Discretionary
+7246,Signature International Berhad,Furn/Home Furnishings,Consumer Discretionary
+0216,Spring Art Holdings Berhad,Furn/Home Furnishings,Consumer Discretionary
+7186,SWS Capital Berhad,Furn/Home Furnishings,Consumer Discretionary
+0279,Synergy House Berhad,Furn/Home Furnishings,Consumer Discretionary
+0197,Wegmans Holdings Berhad,Furn/Home Furnishings,Consumer Discretionary
+3069,Mega First Corporation Berhad,Green & Renewable Energy,Utilities
+7191,Adventa Berhad,Healthcare Products,Health Care
+0163,Careplus Group Berhad,Healthcare Products,Health Care
+2127,Comfort Gloves Berhad,Healthcare Products,Health Care
+5168,Hartalega Holdings Berhad,Healthcare Products,Health Care
+7153,Kossan Rubber Industries Bhd,Healthcare Products,Health Care
+0182,LKL International Berhad,Healthcare Products,Health Care
+5079,One Glove Group Berhad,Healthcare Products,Health Care
+7106,Supermax Corporation Berhad,Healthcare Products,Health Care
+7113,Top Glove Corporation Bhd.,Healthcare Products,Health Care
+0303,Alpha IVF Group Berhad,Healthcare Support Services,Health Care
+0283,DC Healthcare Holdings Berhad,Healthcare Support Services,Health Care
+7184,G3 Global Berhad,Healthcare Support Services,Health Care
+0041,Hong Seng Consolidated Berhad,Healthcare Support Services,Health Care
+03005,Metro Healthcare Berhad,Healthcare Support Services,Health Care
+0222,Optimax Holdings Berhad,Healthcare Support Services,Health Care
+7081,Pharmaniaga Berhad,Healthcare Support Services,Health Care
+0101,TMC Life Sciences Berhad,Healthcare Support Services,Health Care
+03013,Topvision Eye Specialist Berhad,Healthcare Support Services,Health Care
+0256,UMediC Group Berhad,Healthcare Support Services,Health Care
+0155,Malaysian Genomics Resource Centre Berhad,Heathcare Information and Technology,Health Care
+03057,Sancy Berhad,Heathcare Information and Technology,Health Care
+0005,UCrest Berhad,Heathcare Information and Technology,Health Care
+0237,Haily Group Berhad,Homebuilding,Consumer Discretionary
+0221,TCS Group Holdings Berhad,Homebuilding,Consumer Discretionary
+0243,Cengild Medical Berhad,Hospitals/Healthcare Facilities,Health Care
+0157,Focus Point Holdings Berhad,Hospitals/Healthcare Facilities,Health Care
+5225,IHH Healthcare Berhad,Hospitals/Healthcare Facilities,Health Care
+5878,KPJ Healthcare Berhad,Hospitals/Healthcare Facilities,Health Care
+6114,PMCK Berhad,Hospitals/Healthcare Facilities,Health Care
+8885,Avillion Berhad,Hotel/Gaming,Consumer Discretionary
+3239,Berjaya Assets Berhad,Hotel/Gaming,Consumer Discretionary
+4219,Berjaya Land Berhad,Hotel/Gaming,Consumer Discretionary
+0152,DGB Asia Berhad,Hotel/Gaming,Consumer Discretionary
+2143,ECM Libra Group Berhad,Hotel/Gaming,Consumer Discretionary
+3182,Genting Berhad,Hotel/Gaming,Consumer Discretionary
+4715,Genting Malaysia Berhad,Hotel/Gaming,Consumer Discretionary
+5592,Grand Central Enterprises Bhd.,Hotel/Gaming,Consumer Discretionary
+9113,Iconic Worldwide Berhad,Hotel/Gaming,Consumer Discretionary
+1643,Landmarks Berhad,Hotel/Gaming,Consumer Discretionary
+3573,Lien Hoe Corporation Berhad,Hotel/Gaming,Consumer Discretionary
+1198,MAA Group Berhad,Hotel/Gaming,Consumer Discretionary
+7243,Magma Group Berhad,Hotel/Gaming,Consumer Discretionary
+3859,Magnum Berhad,Hotel/Gaming,Consumer Discretionary
+2097,Meta Bright Group Berhad,Hotel/Gaming,Consumer Discretionary
+3018,Olympia Industries Berhad,Hotel/Gaming,Consumer Discretionary
+0022,Parlo Berhad,Hotel/Gaming,Consumer Discretionary
+0037,RGB International Bhd.,Hotel/Gaming,Consumer Discretionary
+5517,Shangri-La Hotels (Malaysia) Berhad,Hotel/Gaming,Consumer Discretionary
+1562,Sports Toto Berhad,Hotel/Gaming,Consumer Discretionary
+0179,Bioalpha Holdings Berhad,Household Products,Consumer Staples
+5318,DXN Holdings Bhd.,Household Products,Consumer Staples
+9091,Emico Holdings Berhad,Household Products,Consumer Discretionary
+7149,Eng Kah Corporation Berhad,Household Products,Consumer Staples
+7803,Hextar Healthcare Berhad,Household Products,Consumer Staples
+5247,Karex Berhad,Household Products,Consumer Staples
+7215,Ni Hsin Group Berhad,Household Products,Consumer Discretionary
+0201,Nova Wellness Group Berhad,Household Products,Consumer Staples
+5066,NTPM Holdings Berhad,Household Products,Consumer Staples
+5022,Paos Holdings Berhad,Household Products,Consumer Staples
+0262,Sunzen Group Berhad,Household Products,Consumer Staples
+03048,Vanzo Holdings Berhad,Household Products,Consumer Staples
+7165,Velocity Capital Partner Berhad,Household Products,Consumer Discretionary
+0281,Daythree Digital Berhad,Information Services,Industrials
+0064,Efficient E-Solutions Berhad,Information Services,Industrials
+0099,Scicom (MSC) Berhad,Information Services,Industrials
+1163,Allianz Malaysia Berhad,Insurance (General),Financials
+6139,Syarikat Takaful Malaysia Keluarga Berhad,Insurance (General),Financials
+5230,Tune Protect Group Berhad,Insurance (General),Financials
+1058,Manulife Holdings Berhad,Insurance (Life),Financials
+8621,LPI Capital Bhd,Insurance (Prop/Cas.),Financials
+6009,Pacific & Orient Berhad,Insurance (Prop/Cas.),Financials
+0150,Fintec Global Berhad,Investments & Asset Management,Financials
+2186,Kuchai Development Berhad,Investments & Asset Management,Financials
+0053,OSK Ventures International Berhad,Investments & Asset Management,Financials
+0209,Aimflex Berhad,Machinery,Industrials
+5568,APB Resources Berhad,Machinery,Industrials
+0168,BM GreenTech Berhad,Machinery,Industrials
+7076,CB Industrial Product Holding Berhad,Machinery,Industrials
+0238,CEKD Berhad,Machinery,Industrials
+5007,Chin Well Holdings Berhad,Machinery,Industrials
+7986,CN Asia Corporation Bhd,Machinery,Industrials
+5317,CPE Technology Berhad,Machinery,Industrials
+7233,Dufu Technology Corp. Berhad,Machinery,Industrials
+0267,ECA Integrated Solution Berhad,Machinery,Industrials
+5208,EITA Resources Berhad,Machinery,Industrials
+4065,EPB Group Berhad,Machinery,Industrials
+8613,Erdasan Group Berhad,Machinery,Industrials
+9318,FITTERS Diversified Berhad,Machinery,Industrials
+0231,Flexidynamic Holdings Berhad,Machinery,Industrials
+0188,HLT Global Berhad,Machinery,Industrials
+5291,HPMT Holdings Berhad,Machinery,Industrials
+0307,Kawan Renergy Berhad,Machinery,Industrials
+7199,Kein Hing International Berhad,Machinery,Industrials
+6971,Kobay Technology Bhd.,Machinery,Industrials
+7033,Kumpulan H & L High-Tech Berhad,Machinery,Industrials
+0113,MMS Ventures Berhad,Machinery,Industrials
+5152,Muar Ban Lee Group Berhad,Machinery,Industrials
+7692,MyTech Group Berhad,Machinery,Industrials
+7160,Pentamaster Corporation Berhad,Machinery,Industrials
+7232,Resintech Berhad,Machinery,Industrials
+9822,SAM Engineering & Equipment (M) Berhad,Machinery,Industrials
+0133,Sanichi Technology Berhad,Machinery,Industrials
+5163,Seremban Engineering Berhad,Machinery,Industrials
+0251,SFP Tech Holdings Berhad,Machinery,Industrials
+5010,Tong Herr Resources Berhad,Machinery,Industrials
+7091,Unimech Group Berhad,Machinery,Industrials
+5292,UWC Berhad,Machinery,Industrials
+0232,Volcano Berhad,Machinery,Industrials
+7231,Wellcall Holdings Berhad,Machinery,Industrials
+7050,Wong Engineering Corporation Berhad,Machinery,Industrials
+0025,YBS International Berhad,Machinery,Industrials
+7214,A-Rank Berhad,Metals & Mining,Materials
+0218,AIZO Group Berhad,Metals & Mining,Materials
+2674,Alcom Group Berhad,Metals & Mining,Materials
+7221,BSL Corporation Berhad,Metals & Mining,Materials
+0240,Coraza Integrated Technology Berhad,Metals & Mining,Materials
+9326,LB Aluminium Berhad,Metals & Mining,Materials
+5916,Malaysia Smelting Corporation Berhad,Metals & Mining,Materials
+7225,P.A. Resources Berhad,Metals & Mining,Materials
+5436,Perusahaan Sadur Timah Malaysia (Perstima) Berhad,Metals & Mining,Materials
+7172,PMB Technology Berhad,Metals & Mining,Materials
+8869,Press Metal Aluminium Holdings Berhad,Metals & Mining,Materials
+0298,Wentel Engineering Holdings Berhad,Metals & Mining,Materials
+7186,Winstar Capital Berhad,Metals & Mining,Materials
+7315,AHB Holdings Berhad,Office Equipment & Services,Industrials
+7129,Asia File Corporation Bhd.,Office Equipment & Services,Industrials
+8052,Central Global Berhad,Office Equipment & Services,Industrials
+9423,CWG Holdings Berhad,Office Equipment & Services,Industrials
+7208,Euro Holdings Berhad,Office Equipment & Services,Industrials
+7223,Jadi Imaging Holdings Berhad,Office Equipment & Services,Industrials
+7017,Komarkcorp Berhad,Office Equipment & Services,Industrials
+5231,PBS Berhad,Office Equipment & Services,Industrials
+7211,TAFI Industries Berhad,Office Equipment & Services,Industrials
+0257,Unique Fire Holdings Berhad,Office Equipment & Services,Industrials
+5199,Hibiscus Petroleum Berhad,Oil/Gas (Production and Exploration),Energy
+5243,Velesto Energy Berhad,Oil/Gas (Production and Exploration),Energy
+7676,JAG Capital Berhad,Oil/Gas Distribution,Energy
+0080,Straits Energy Resources Berhad,Oil/Gas Distribution,Energy
+5115,Alam Maritim Resources Berhad,Oilfield Svcs/Equip.,Energy
+5210,Bumi Armada Berhad,Oilfield Svcs/Equip.,Energy
+5257,Carimin Petroleum Berhad,Oilfield Svcs/Equip.,Energy
+5141,Dayang Enterprise Holdings Bhd,Oilfield Svcs/Equip.,Energy
+5132,Deleum Berhad,Oilfield Svcs/Equip.,Energy
+7277,Dialog Group Berhad,Oilfield Svcs/Equip.,Energy
+0084,Fast Energy Holdings Berhad,Oilfield Svcs/Equip.,Energy
+7253,Handal Energy Berhad,Oilfield Svcs/Equip.,Energy
+4324,Hengyuan Refining Company Berhad,Oilfield Svcs/Equip.,Energy
+5321,Keyfield International Berhad,Oilfield Svcs/Equip.,Energy
+5186,Malaysia Marine and Heavy Engineering Holdings Berhad,Oilfield Svcs/Equip.,Energy
+5078,Marine & General Berhad,Oilfield Svcs/Equip.,Energy
+0220,Ocean Vantage Holdings Berhad,Oilfield Svcs/Equip.,Energy
+7108,Perdana Petroleum Berhad,Oilfield Svcs/Equip.,Energy
+5133,Petra Energy Berhad,Oilfield Svcs/Equip.,Energy
+3042,Petron Malaysia Refining & Marketing Bhd,Oilfield Svcs/Equip.,Energy
+0219,Reservoir Link Energy Bhd,Oilfield Svcs/Equip.,Energy
+03049,Steel Hawk Berhad,Oilfield Svcs/Equip.,Energy
+7228,T7 Global Berhad,Oilfield Svcs/Equip.,Energy
+7250,Uzma Berhad,Oilfield Svcs/Equip.,Energy
+5142,Wasco Berhad,Oilfield Svcs/Equip.,Energy
+7293,Yinson Holdings Berhad,Oilfield Svcs/Equip.,Energy
+6297,Box-Pak (Malaysia) Bhd.,Packaging & Container,Materials
+5100,BP Plastics Holding Bhd.,Packaging & Container,Materials
+9938,Bright Packaging Industry Berhad,Packaging & Container,Materials
+5105,Can-One Berhad,Packaging & Container,Materials
+7157,CYL Corporation Berhad,Packaging & Container,Materials
+7114,D'nonce Technology Bhd.,Packaging & Container,Materials
+0269,DS Sigma Holdings Berhad,Packaging & Container,Materials
+7197,GE-Shen Corporation Berhad,Packaging & Container,Materials
+9148,Greater Bay Holdings Berhad,Packaging & Container,Materials
+0228,HPP Holdings Berhad,Packaging & Container,Materials
+8362,KYM Holdings Bhd,Packaging & Container,Materials
+0268,L&P Global Berhad,Packaging & Container,Materials
+7029,Master-Pack Group Berhad,Packaging & Container,Materials
+3883,Muda Holdings Berhad,Packaging & Container,Materials
+5065,Ornapaper Berhad,Packaging & Container,Materials
+8273,Public Packages Holdings Berhad,Packaging & Container,Materials
+7498,Ralco Corporation Berhad,Packaging & Container,Materials
+7247,SCGM Bhd,Packaging & Container,Materials
+8125,Scientex Packaging (Ayer Keroh) Berhad,Packaging & Container,Materials
+7248,SLP Resources Berhad,Packaging & Container,Materials
+7034,Thong Guan Industries Berhad,Packaging & Container,Materials
+7285,Tomypak Holdings Berhad,Packaging & Container,Materials
+4995,Versatile Creative Berhad,Packaging & Container,Materials
+5025,Auro Holdings Berhad,Paper/Forest Products,Materials
+7188,BTM Resources Berhad,Paper/Forest Products,Materials
+7169,Dominant Enterprise Berhad,Paper/Forest Products,Materials
+9016,Eksons Corporation Berhad,Paper/Forest Products,Materials
+5101,Evergreen Fibreboard Berhad,Paper/Forest Products,Materials
+5197,Focus Lumber Berhad,Paper/Forest Products,Materials
+5649,Golden Pharos Berhad,Paper/Forest Products,Materials
+5095,HeveaBoard Berhad,Paper/Forest Products,Materials
+7202,Hextar Retail Berhad,Paper/Forest Products,Materials
+4383,Jaya Tiasa Holdings Berhad,Paper/Forest Products,Materials
+0170,Kanger International Berhad,Paper/Forest Products,Materials
+7123,Maxland Berhad,Paper/Forest Products,Materials
+5223,Mentiga Corporation Berhad,Paper/Forest Products,Materials
+5001,Mieco Chipboard Berhad,Paper/Forest Products,Materials
+5576,Minho (M) Berhad,Paper/Forest Products,Materials
+6904,Subur Tiasa Holdings Berhad,Paper/Forest Products,Materials
+7854,Timberwell Berhad,Paper/Forest Products,Materials
+0302,Topmix Berhad,Paper/Forest Products,Materials
+7757,UPA Corporation Berhad,Paper/Forest Products,Materials
+4243,W T K Holdings Berhad,Paper/Forest Products,Materials
+7203,Wang-Zheng Berhad,Paper/Forest Products,Materials
+7471,Eden Inc. Berhad,Power,Utilities
+5209,Gas Malaysia Berhad,Power,Utilities
+5264,Malakoff Corporation Berhad,Power,Utilities
+6033,PETRONAS Gas Berhad,Power,Utilities
+5347,Tenaga Nasional Berhad,Power,Utilities
+7128,AuMas Resources Berhad,Precious Metals,Materials
+8044,Computer Forms (Malaysia) Berhad,Publishing & Newspapers,Industrials
+3107,Fima Corporation Berhad,Publishing & Newspapers,Industrials
+0213,MTAG Group Berhad,Publishing & Newspapers,Industrials
+7241,Nextgreen Global Berhad,Publishing & Newspapers,Industrials
+5252,Sasbadi Holdings Berhad,Publishing & Newspapers,Communication Services
+6084,Star Media Group Berhad,Publishing & Newspapers,Communication Services
+7374,Tien Wah Press Holdings Berhad,Publishing & Newspapers,Industrials
+5116,Al-'Aqar Healthcare REIT,R.E.I.T.,Real Estate
+5269,Al-Salam Real Estate Investment Trust,R.E.I.T.,Real Estate
+5127,AmanahRaya Real Estate Investment Trust,R.E.I.T.,Real Estate
+5307,AME Real Estate Investment Trust,R.E.I.T.,Real Estate
+5120,AmFirst Real Estate Investment Trust,R.E.I.T.,Real Estate
+5130,Atrium Real Estate Investment Trust,R.E.I.T.,Real Estate
+5106,Axis Real Estate Investment Trust,R.E.I.T.,Real Estate
+5299,IGB Commercial Real Estate Investment Trust,R.E.I.T.,Real Estate
+5123,Sentral REIT,R.E.I.T.,Real Estate
+5111,Tower Real Estate Investment Trust,R.E.I.T.,Real Estate
+5110,Uoa Real Estate Investment,R.E.I.T.,Real Estate
+5109,YTL Hospitality REIT,R.E.I.T.,Real Estate
+7131,ACME Holdings Berhad,Real Estate (Development),Real Estate
+4057,Asian Pac Holdings Berhad,Real Estate (Development),Real Estate
+5182,Avaland Berhad,Real Estate (Development),Real Estate
+7120,Axteria Group Berhad,Real Estate (Development),Real Estate
+2305,AYER Holdings Berhad,Real Estate (Development),Real Estate
+6602,BCB Berhad,Real Estate (Development),Real Estate
+0174,BEDI Berhad,Real Estate (Development),Real Estate
+9814,Bertam Alliance Berhad,Real Estate (Development),Real Estate
+5049,Country View Berhad,Real Estate (Development),Real Estate
+6718,Crescendo Corporation Berhad,Real Estate (Development),Real Estate
+8206,Eco World Development Group Berhad,Real Estate (Development),Real Estate
+6076,Encorp Berhad,Real Estate (Development),Real Estate
+8613,ENRA Group Berhad,Real Estate (Development),Real Estate
+6815,Eupe Corporation Berhad,Real Estate (Development),Real Estate
+8494,EWI Capital Berhad,Real Estate (Development),Real Estate
+6041,Farlim Group (Malaysia) Bhd.,Real Estate (Development),Real Estate
+1147,Global Oriental Berhad,Real Estate (Development),Real Estate
+5020,Glomac Berhad,Real Estate (Development),Real Estate
+7382,Golden Land Berhad,Real Estate (Development),Real Estate
+9962,Gromutual Berhad,Real Estate (Development),Real Estate
+5062,Hua Yang Berhad,Real Estate (Development),Real Estate
+5084,Ibraco Berhad,Real Estate (Development),Real Estate
+9687,Ideal Capital Berhad,Real Estate (Development),Real Estate
+5249,IOI Properties Group Berhad,Real Estate (Development),Real Estate
+1589,Iskandar Waterfront City Berhad,Real Estate (Development),Real Estate
+8923,Jiankun International Berhad,Real Estate (Development),Real Estate
+6769,JKG Land Berhad,Real Estate (Development),Real Estate
+7323,Ken Holdings Berhad,Real Estate (Development),Real Estate
+7077,Kerjaya Prospek Property Berhad,Real Estate (Development),Real Estate
+5038,KSL Holdings Berhad,Real Estate (Development),Real Estate
+0308,KTI Landmark Berhad,Real Estate (Development),Real Estate
+7179,Lagenda Properties Berhad,Real Estate (Development),Real Estate
+3174,Land & General Berhad,Real Estate (Development),Real Estate
+8494,LBI Capital Berhad,Real Estate (Development),Real Estate
+5789,LBS Bina Group Berhad,Real Estate (Development),Real Estate
+8893,M K Land Holdings Berhad,Real Estate (Development),Real Estate
+7617,Magna Prima Berhad,Real Estate (Development),Real Estate
+8583,Mah Sing Group Berhad,Real Estate (Development),Real Estate
+8141,Majuperak Holdings Berhad,Real Estate (Development),Real Estate
+6181,Malton Berhad,Real Estate (Development),Real Estate
+5236,Matrix Concepts Holdings Berhad,Real Estate (Development),Real Estate
+4022,Maxim Global Berhad,Real Estate (Development),Real Estate
+1694,Menang Corporation (M) Berhad,Real Estate (Development),Real Estate
+5040,Meridian Berhad,Real Estate (Development),Real Estate
+6114,MKH Berhad,Real Estate (Development),Real Estate
+3913,MUI Properties Berhad,Real Estate (Development),Real Estate
+9539,Multi-Usage Holdings Berhad,Real Estate (Development),Real Estate
+0056,NCT Alliance Berhad,Real Estate (Development),Real Estate
+7071,OCR Group Berhad,Real Estate (Development),Real Estate
+5827,Oriental Interest Berhad,Real Estate (Development),Real Estate
+5053,OSK Holdings Berhad,Real Estate (Development),Real Estate
+2682,Parkwood Holdings Berhad,Real Estate (Development),Real Estate
+6912,Pasdec Holdings Berhad,Real Estate (Development),Real Estate
+5075,Plenitude Berhad,Real Estate (Development),Real Estate
+5313,Radium Development Berhad,Real Estate (Development),Real Estate
+8745,S & F Capital Berhad,Real Estate (Development),Real Estate
+8664,S P Setia Berhad,Real Estate (Development),Real Estate
+5207,SBC Corporation Berhad,Real Estate (Development),Real Estate
+2224,Selangor Dredging Berhad,Real Estate (Development),Real Estate
+5213,Sentoria Group Berhad,Real Estate (Development),Real Estate
+5288,Sime Darby Property Berhad,Real Estate (Development),Real Estate
+5315,SkyWorld Development Berhad,Real Estate (Development),Real Estate
+3743,Sunsuria Berhad,Real Estate (Development),Real Estate
+1538,Symphony Life Berhad,Real Estate (Development),Real Estate
+2259,Talam Transform Berhad,Real Estate (Development),Real Estate
+5191,Tambun Indah Land Berhad,Real Estate (Development),Real Estate
+0230,Teladan Group Berhad,Real Estate (Development),Real Estate
+7889,Thriven Global Berhad,Real Estate (Development),Real Estate
+5239,Titijaya Land Berhad,Real Estate (Development),Real Estate
+5401,Tropicana Corporation Berhad,Real Estate (Development),Real Estate
+7079,TWL Holdings Berhad,Real Estate (Development),Real Estate
+5148,UEM Sunrise Berhad,Real Estate (Development),Real Estate
+5200,UOA Development Bhd,Real Estate (Development),Real Estate
+3158,YNH Property Bhd,Real Estate (Development),Real Estate
+7066,Yong Tai Berhad,Real Estate (Development),Real Estate
+5738,Country Heights Holdings Berhad,Real Estate (General/Diversified),Real Estate
+3417,Eastern & Oriental Berhad,Real Estate (General/Diversified),Real Estate
+3557,EcoFirst Consolidated Bhd,Real Estate (General/Diversified),Real Estate
+1503,GuocoLand (Malaysia) Berhad,Real Estate (General/Diversified),Real Estate
+7105,HCK Capital Group Berhad,Real Estate (General/Diversified),Real Estate
+4251,I-Berhad,Real Estate (General/Diversified),Real Estate
+1724,Paramount Corporation Berhad,Real Estate (General/Diversified),Real Estate
+4286,Seal Incorporated Berhad,Real Estate (General/Diversified),Real Estate
+6017,SHL Consolidated Bhd.,Real Estate (General/Diversified),Real Estate
+7765,Rapid Synergy Berhad,Real Estate (Operations & Services),Real Estate
+4596,Sapura Resources Berhad,Real Estate (Operations & Services),Real Estate
+5260,Only World Group Holdings Berhad,Recreation,Consumer Discretionary
+6459,MNRB Holdings Berhad,Reinsurance,Financials
+5196,Berjaya Food Berhad,Restaurant/Dining,Consumer Discretionary
+7036,Borneo Oil Berhad,Restaurant/Dining,Consumer Discretionary
+0116,Focus Dynamics Group Berhad,Restaurant/Dining,Consumer Discretionary
+4006,Oriental Kopi Holdings Berhad,Restaurant/Dining,Consumer Discretionary
+0153,Oversea Enterprise Berhad,Restaurant/Dining,Consumer Discretionary
+2739,Techna-X Berhad,Restaurant/Dining,Consumer Discretionary
+5248,Bermaz Auto Berhad,Retail (Automotive),Consumer Discretionary
+4006,Oriental Holdings Berhad,Retail (Automotive),Consumer Discretionary
+7080,Permaju Industries Berhad,Retail (Automotive),Consumer Discretionary
+5681,PETRONAS Dagangan Berhad,Retail (Automotive),Consumer Discretionary
+7137,BMS Holdings Berhad,Retail (Building Supply),Consumer Discretionary
+03047,Lim Seong Hai Capital Berhad,Retail (Building Supply),Consumer Discretionary
+5296,Mr D.I.Y. Group (M) Berhad,Retail (Building Supply),Consumer Discretionary
+0287,SSF Home Group Berhad,Retail (Building Supply),Consumer Discretionary
+0218,ACO Group Berhad,Retail (Distributors),Industrials
+7722,Asia Brands Berhad,Retail (Distributors),Consumer Discretionary
+5021,AYS Ventures Berhad,Retail (Distributors),Industrials
+0187,BCM Alliance Berhad,Retail (Distributors),Industrials
+5273,Chin Hin Group Berhad,Retail (Distributors),Industrials
+7016,Chuan Huat Resources Berhad,Retail (Distributors),Industrials
+5104,Citra Nusa Holdings Berhad,Retail (Distributors),Consumer Discretionary
+5037,Compugates Holdings Berhad,Retail (Distributors),Consumer Discretionary
+0261,Cosmos Technology International Berhad,Retail (Distributors),Industrials
+03053,CUCKOO International (MAL) Berhad,Retail (Distributors),Consumer Discretionary
+5276,Dancomech Holdings Berhad,Retail (Distributors),Industrials
+5908,DKSH Holdings (Malaysia) Berhad,Retail (Distributors),Industrials
+5056,Engtex Group Berhad,Retail (Distributors),Industrials
+2755,FCW Holdings Berhad,Retail (Distributors),Consumer Discretionary
+6939,Fiamma Holdings Berhad,Retail (Distributors),Consumer Discretionary
+5008,Harrisons Holdings (Malaysia) Berhad,Retail (Distributors),Industrials
+0161,Hextar Industries Berhad,Retail (Distributors),Industrials
+5136,Hextar Technologies Solutions Berhad,Retail (Distributors),Industrials
+5673,Jentayu Sustainables Berhad,Retail (Distributors),Industrials
+7096,Joe Holding Berhad,Retail (Distributors),Consumer Discretionary
+5035,Knusford Berhad,Retail (Distributors),Industrials
+9121,KPS Consortium Berhad,Retail (Distributors),Industrials
+5843,Kumpulan Perangsang Selangor Berhad,Retail (Distributors),Industrials
+8486,Lion Posim Berhad,Retail (Distributors),Industrials
+5143,Luxchem Corporation Berhad,Retail (Distributors),Industrials
+3514,Marco Holdings Berhad,Retail (Distributors),Consumer Discretionary
+5983,MBM Resources Berhad,Retail (Distributors),Consumer Discretionary
+7099,MSB Global Group Berhad,Retail (Distributors),Consumer Discretionary
+8419,Pansar Berhad,Retail (Distributors),Industrials
+3611,Paragon Globe Berhad,Retail (Distributors),Industrials
+4464,Pegasus Heights Berhad,Retail (Distributors),Consumer Discretionary
+0289,PLYTEC Holding Berhad,Retail (Distributors),Industrials
+03053,PMW International Berhad,Retail (Distributors),Industrials
+7010,PTT Synergy Group Berhad,Retail (Distributors),Industrials
+7073,Saliran Group Berhad,Retail (Distributors),Industrials
+5147,Samchem Holdings Berhad,Retail (Distributors),Industrials
+0158,SCC Holdings Berhad,Retail (Distributors),Industrials
+5242,Solid Automotive Berhad,Retail (Distributors),Consumer Discretionary
+0297,TSA Group Berhad,Retail (Distributors),Industrials
+5167,Turbo-Mech Berhad,Retail (Distributors),Industrials
+7137,UMS Holdings Berhad,Retail (Distributors),Industrials
+0247,Unitrade Industries Berhad,Retail (Distributors),Industrials
+5159,Yoong Onn Corporation Berhad,Retail (Distributors),Consumer Discretionary
+6599,Aeon Co. (M) Bhd.,Retail (General),Consumer Staples
+7668,Beshom Holdings Berhad,Retail (General),Consumer Staples
+5657,Parkson Holdings Berhad,Retail (General),Consumer Discretionary
+5250,7-Eleven Malaysia Holdings Berhad,Retail (Grocery and Food),Consumer Staples
+5180,CapitaLand Malaysia Trust,Retail (REITs),Real Estate
+5121,Hektar Real Estate Investment Trust,Retail (REITs),Real Estate
+5227,IGB Real Estate Investment Trust,Retail (REITs),Real Estate
+5280,KIP Real Estate Investment Trust,Retail (REITs),Real Estate
+5130,Paradigm Real Estate Investment Trust,Retail (REITs),Real Estate
+5212,Pavilion Real Estate Investment Trust,Retail (REITs),Real Estate
+5176,Sunway Real Estate Investment Trust,Retail (REITs),Real Estate
+6351,Amway (Malaysia) Holdings Berhad,Retail (Special Lines),Consumer Discretionary
+7048,Atlan Holdings Bhd,Retail (Special Lines),Consumer Discretionary
+9288,Bonia Corporation Berhad,Retail (Special Lines),Consumer Discretionary
+03016,Carlo Rino Group Berhad,Retail (Special Lines),Consumer Discretionary
+5295,InNature Berhad,Retail (Special Lines),Consumer Discretionary
+8672,Kamdar Group (M) Berhad,Retail (Special Lines),Consumer Discretionary
+0210,Kim Hin Joo (Malaysia) Berhad,Retail (Special Lines),Consumer Discretionary
+5316,MST Golf Group Berhad,Retail (Special Lines),Consumer Discretionary
+5275,Mynews Holdings Berhad,Retail (Special Lines),Consumer Discretionary
+7052,Padini Holdings Berhad,Retail (Special Lines),Consumer Discretionary
+5305,Senheng New Retail Berhad,Retail (Special Lines),Consumer Discretionary
+9369,Teo Guan Lee Corporation Berhad,Retail (Special Lines),Consumer Discretionary
+7230,Tomei Consolidated Berhad,Retail (Special Lines),Consumer Discretionary
+0190,Eversafe Rubber Berhad,Rubber& Tires,Consumer Discretionary
+7192,GIIB Holdings Berhad,Rubber& Tires,Consumer Discretionary
+7204,D & O Green Technologies Berhad,Semiconductor,Information Technology
+4456,Dagang NeXchange Berhad,Semiconductor,Information Technology
+0278,Edelteq Holdings Berhad,Semiconductor,Information Technology
+7022,Globetronics Technology Bhd.,Semiconductor,Information Technology
+0166,Inari Amertron Berhad,Semiconductor,Information Technology
+9334,KESM Industries Berhad,Semiconductor,Information Technology
+0143,Key ASIC Berhad,Semiconductor,Information Technology
+3867,Malaysian Pacific Industries Berhad,Semiconductor,Information Technology
+0275,Oppstar Berhad,Semiconductor,Information Technology
+5005,Unisem (M) Berhad,Semiconductor,Information Technology
+0181,Aemulus Holdings Berhad,Semiconductor Equip,Information Technology
+0090,Elsoft Research Berhad,Semiconductor Equip,Information Technology
+5277,FoundPac Group Berhad,Semiconductor Equip,Information Technology
+0104,Genetec Technology Berhad,Semiconductor Equip,Information Technology
+0208,Greatech Technology Berhad,Semiconductor Equip,Information Technology
+0146,JF Technology Berhad,Semiconductor Equip,Information Technology
+5286,Mi Technovation Berhad,Semiconductor Equip,Information Technology
+0070,MQ Technology Berhad,Semiconductor Equip,Information Technology
+0272,TT Vision Holdings Berhad,Semiconductor Equip,Information Technology
+4359,Turiya Berhad,Semiconductor Equip,Information Technology
+0120,Visdynamics Holdings Berhad,Semiconductor Equip,Information Technology
+0097,ViTrox Corporation Berhad,Semiconductor Equip,Information Technology
+5032,Bintulu Port Holdings Berhad,Shipbuilding & Marine,Industrials
+7210,FM Global Logistics Holdings Berhad,Shipbuilding & Marine,Industrials
+2062,Harbour-Link Group Berhad,Shipbuilding & Marine,Industrials
+7013,Hubline Berhad,Shipbuilding & Marine,Industrials
+0282,KGW Group Berhad,Shipbuilding & Marine,Industrials
+5077,Maybulk Berhad,Shipbuilding & Marine,Industrials
+3816,MISC Berhad,Shipbuilding & Marine,Industrials
+6254,PDZ Holdings Bhd,Shipbuilding & Marine,Industrials
+8346,Perak Corporation Berhad,Shipbuilding & Marine,Industrials
+5173,Shin Yang Group Berhad,Shipbuilding & Marine,Industrials
+6521,Suria Capital Holdings Berhad,Shipbuilding & Marine,Industrials
+5246,Westports Holdings Berhad,Shipbuilding & Marine,Industrials
+0173,Catcha Digital Berhad,Software (Entertainment),Communication Services
+0058,JcbNext Berhad,Software (Entertainment),Communication Services
+0253,Infoline Tec Group Berhad,Software (Internet),Information Technology
+0258,Agmo Holdings Berhad,Software (System & Application),Information Technology
+0079,Aldrich Resources Berhad,Software (System & Application),Information Technology
+0119,AppAsia Berhad,Software (System & Application),Information Technology
+7181,ARB Berhad,Software (System & Application),Information Technology
+0276,Autocount Dotcom Berhad,Software (System & Application),Information Technology
+5195,Censof Holdings Berhad,Software (System & Application),Information Technology
+0051,Cuscapi Berhad,Software (System & Application),Information Technology
+0174,Evd Berhad,Software (System & Application),Information Technology
+0065,Excel Force MSC Berhad,Software (System & Application),Information Technology
+0023,IFCA MSC Berhad,Software (System & Application),Information Technology
+0176,Kronologi Asia Berhad,Software (System & Application),Information Technology
+0103,M N C Wireless Berhad,Software (System & Application),Information Technology
+0043,Metronic Global Berhad,Software (System & Application),Information Technology
+0126,Microlink Solutions Berhad,Software (System & Application),Information Technology
+0108,N2N Connect Berhad,Software (System & Application),Information Technology
+0020,NetX Holdings Berhad,Software (System & Application),Information Technology
+0096,Nexgram Holdings Berhad,Software (System & Application),Information Technology
+0026,Nova MSC Berhad,Software (System & Application),Information Technology
+0290,Panda Eco System Berhad,Software (System & Application),Information Technology
+0106,Rexit Berhad,Software (System & Application),Information Technology
+0203,Securemetric Berhad,Software (System & Application),Information Technology
+0050,Systech Bhd,Software (System & Application),Information Technology
+0145,TFP Solutions Berhad,Software (System & Application),Information Technology
+0008,Willowglen MSC Berhad,Software (System & Application),Information Technology
+6556,Ann Joo Resources Berhad,Steel,Materials
+7020,ASTEEL Group Berhad,Steel,Materials
+0313,BWYS Group Berhad,Steel,Materials
+5797,Choo Bee Metal Industries Berhad,Steel,Materials
+5094,CSC Steel Holdings Berhad,Steel,Materials
+7217,Eonmetall Group Berhad,Steel,Materials
+5072,Hiap Teck Venture Berhad,Steel,Materials
+5192,K. Seng Seng Corporation Berhad,Steel,Materials
+9881,Leader Steel Holdings Berhad,Steel,Materials
+0266,Leform Berhad,Steel,Materials
+5232,Leon Fuat Berhad,Steel,Materials
+4235,Lion Industries Corporation Berhad,Steel,Materials
+9199,Lysaght Galvanized Steel Berhad,Steel,Materials
+5098,Malaysia Steel Works (KL) Bhd.,Steel,Materials
+7099,Mayu Global Group Berhad,Steel,Materials
+3778,Melewar Industrial Group Berhad,Steel,Materials
+0207,Mestron Holdings Berhad,Steel,Materials
+5087,Mycron Steel Berhad,Steel,Materials
+0150,Pantech Global Berhad,Steel,Materials
+5125,Pantech Group Holdings Berhad,Steel,Materials
+9873,Prestar Resources Berhad,Steel,Materials
+4375,South Malaysia Industries Berhad,Steel,Materials
+5665,Southern Steel Berhad,Steel,Materials
+0211,Tashin Holdings Berhad,Steel,Materials
+6888,Axiata Group Berhad,Telecom (Wireless),Communication Services
+6947,Celcomdigi Berhad,Telecom (Wireless),Communication Services
+6012,Maxis Berhad,Telecom (Wireless),Communication Services
+0092,mTouche Technology Berhad,Telecom (Wireless),Communication Services
+7226,Watta Holding Berhad,Telecom (Wireless),Communication Services
+0165,XOX Berhad,Telecom (Wireless),Communication Services
+0082,Green Packet Berhad,Telecom. Equipment,Information Technology
+0035,Hextar Capital Berhad,Telecom. Equipment,Information Technology
+0085,Mlabs Systems Berhad,Telecom. Equipment,Information Technology
+0169,SMTrack Berhad,Telecom. Equipment,Information Technology
+0195,Binasat Communications Berhad,Telecom. Services,Communication Services
+0172,OCK Group Berhad,Telecom. Services,Communication Services
+0032,REDtone Digital Berhad,Telecom. Services,Communication Services
+0178,Sedania Innovator Berhad,Telecom. Services,Communication Services
+4863,Telekom Malaysia Berhad,Telecom. Services,Communication Services
+5031,TIME dotCom Berhad,Telecom. Services,Communication Services
+4162,British American Tobacco (Malaysia) Berhad,Tobacco,Consumer Staples
+0299,AGX Group Berhad,Transportation,Industrials
+7218,Arka Berhad,Transportation,Industrials
+5099,Capital A Berhad,Transportation,Industrials
+7117,CJ Century Logistics Holdings Berhad,Transportation,Industrials
+4847,Epicon Berhad,Transportation,Industrials
+7676,G Capital Berhad,Transportation,Industrials
+0078,GDEX Berhad,Transportation,Industrials
+5300,Nuenergy Holdings Berhad,Transportation,Industrials
+0186,Perak Transit Berhad,Transportation,Industrials
+4634,Pos Malaysia Berhad,Transportation,Industrials
+5320,Prolintas Infra Business Trust,Transportation,Industrials
+7053,See Hup Consolidated Berhad,Transportation,Industrials
+5303,Swift Haulage Berhad,Transportation,Industrials
+5140,TASCO Berhad,Transportation,Industrials
+8397,Tiong Nam Logistics Holdings Berhad,Transportation,Industrials
+0199,Tri-Mode System (M) Berhad,Transportation,Industrials
+3565,WCE Holdings Berhad,Transportation,Industrials
+0048,Ancom Logistics Berhad,Trucking,Industrials
+0305,Sin-Kung Logistics Berhad,Trucking,Industrials
+5267,Xin Hwa Holdings Berhad,Trucking,Industrials
+4677,YTL Corporation Berhad,Utility (General),Utilities
+6742,YTL Power International Berhad,Utility (General),Utilities
+5041,PBA Holdings Bhd,Utility (Water),Utilities
+6807,Puncak Niaga Holdings Berhad,Utility (Water),Utilities
+5272,Ranhill Utilities Berhad,Utility (Water),Utilities
+8567,Salcon Berhad,Utility (Water),Utilities
+8524,Taliworks Corporation Berhad,Utility (Water),Utilities

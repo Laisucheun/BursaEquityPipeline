@@ -1,0 +1,41 @@
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+dist/
+build/
+
+.env
+.env.local
+
+# Local blob storage and the ingest drop folder hold copyrighted filings.
+storage/
+inbox/
+pdfs/
+*.sqlite
+*.sqlite3
+*.db
+
+# Large data files and scrape logs
+*.pdf
+market_caps_cache.json
+scrape_*_log.txt
+scrape_backfill_backfill_log.txt
+
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+htmlcov/
+.coverage
+
+# Derived snapshot for quick analysis - regenerate with scripts/export_cache.py
+cache/
+
+node_modules/
+web/.next/
+web/out/
+
+.DS_Store
+Thumbs.db
+.claude/

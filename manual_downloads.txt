@@ -1,0 +1,396 @@
+# Companies Requiring Manual Annual Report Download
+# Total: 385 companies
+# Generated: 2026-10-05
+#
+# For each company, visit the IR URL in a browser,
+# download the latest annual report PDF, and place it in:
+#   pdfs/<stock_code>/<filename>.pdf
+# Then run: .venv\Scripts\python.exe -m bursa ingest pdfs/<stock_code>/
+#
+# Tier   Code   Name                                     MCap(B)  Reason          URL
+# ----------------------------------------------------------------------------------------------------------------------------------
+  LARGE  1155   Malayan Banking Berhad                   121.0    unreachable     https://www.maybank.com/en/investor-relations/financial-overview/annual-reports.page
+  LARGE  4707   Nestle (Malaysia) Berhad                 21.1     unreachable     https://nestle.com.my/investors/annual_report
+  LARGE  5263   Sunway Construction Group Berhad         10.1     unreachable     https://www.sunwayconstruction.com.my/investor-relations/annual-reports/
+  MID    3794   Malayan Cement Berhad                    9.2      no PDF found    https://ytlcement.my
+  MID    5176   Sunway Real Estate Investment Trust      7.0      unreachable     https://www.sunwayreit.com/investor-relations/annual-reports/
+  MID    7113   Top Glove Corporation Bhd.               6.3      unreachable     https://www.topglove.com
+  MID    8206   Eco World Development Group Berhad       6.0      never tried     https://www.ecoworld.my
+  MID    8621   LPI Capital Bhd                          5.1      no PDF found    https://www.lonpac.com
+  MID    5286   Mi Technovation Berhad                   4.9      unreachable     https://mi-technovation.com/investor-relations/annual-reports/
+  MID    5258   Lingkaran Trans Kota Holdings Berhad     4.7      no PDF found    https://www.insage.com.my/ir/cmn/trps03/ar.aspx?Symbol=5258
+  MID    1171   MBSB Berhad                              4.4      unreachable     https://www.mbsb.com.my/investor-relations/annual-reports/
+  MID    4006   Oriental Kopi Holdings Berhad            4.4      unreachable     https://www.ohb.com.my
+  MID    5272   Ranhill Utilities Berhad                 4.3      unreachable     https://www.ranhill.com.my/investor-relations/annual-reports/
+  MID    5200   UOA Development Bhd                      4.2      unreachable     https://www.uoadev.com.my/investor-relations/annual-reports/
+  MID    0270   NationGate Holdings Berhad               4.1      no PDF found    https://www.nationgate.com.my
+  MID    1163   Allianz Malaysia Berhad                  3.8      unreachable     https://www.allianz.com.my/investor-relations/annual-reports
+  MID    5264   Malakoff Corporation Berhad              3.7      unreachable     https://www.malakoff.com.my/investor-relations/annual-reports/
+  MID    8664   S P Setia Berhad                         3.7      unreachable     https://www.spsetia.com.my
+  MID    7172   PMB Technology Berhad                    3.2      no PDF found    https://www.pmbtechnology.com
+  MID    5151   Hextar Global Berhad                     3.1      no PDF found    https://www.insage.com.my/ir/cmn/trps03/ar.aspx?Symbol=5151
+  MID    5038   KSL Holdings Berhad                      2.9      unreachable     https://www.ksl.net.my
+  MID    0245   MN Holdings Berhad                       2.8      no PDF found    https://mnholdings.com.my
+  MID    5148   UEM Sunrise Berhad                       2.5      no PDF found    https://uems.listedcompany.com/ar.html
+  MID    8583   Mah Sing Group Berhad                    2.5      no PDF found    https://www.mahsing.com.my
+  MID    6633   Leong Hup International Berhad           2.5      no PDF found    https://www.leonghupinternational.com
+  MID    7103   Spritzer Bhd                             2.3      no PDF found    https://www.spritzer.com.my/wp-content/uploads/2026/04/annual-report-2018.pdf
+  MID    3565   WCE Holdings Berhad                      2.3      no PDF found    https://www.wcehb.com.my
+  SMALL  3417   Eastern & Oriental Berhad                1.9      no PDF found    https://www.easternandoriental.com
+  SMALL  5162   VSTECS Berhad                            1.8      unreachable     https://www.ecsm.com.my
+  SMALL  5109   YTL Hospitality REIT                     1.8      unreachable     https://www.starhillreit.com
+  SMALL  3859   Magnum Berhad                            1.7      unreachable     https://www.magnum.com.my
+  SMALL  9687   Ideal Capital Berhad                     1.7      no PDF found    https://www.idealcapital.com.my
+  SMALL  1996   Kretam Holdings Berhad                   1.5      no PDF found    https://www.kretam.com
+  SMALL  3395   Berjaya Corporation Berhad               1.5      no PDF found    https://www.berjaya.com.my
+  SMALL  0045   Southern Score Builders Berhad           1.5      no PDF found    https://www.gprotechnologies.com
+  SMALL  9296   Sorento Capital Berhad                   1.4      unreachable     https://www.rce.com.my
+  SMALL  5161   JCY International Berhad                 1.4      unreachable     https://www.jcyinternational.com
+  SMALL  7105   HCK Capital Group Berhad                 1.4      unreachable     https://www.hckcapital.com
+  SMALL  6599   Aeon Co. (M) Bhd.                        1.3      no PDF found    https://www.aeonretail.com.my
+  SMALL  1651   Malaysian Resources Corporation Berhad   1.3      unreachable     https://www.mrcb.com.my/main/index.php
+  SMALL  5069   BLD Plantation Bhd.                      1.3      unreachable     https://www.bld.com.my
+  SMALL  4219   Berjaya Land Berhad                      1.2      no PDF found    https://www.berjaya.com.my
+  SMALL  7100   Uchi Technologies Berhad                 1.2      no PDF found    https://www.uchi.net
+  SMALL  6718   Crescendo Corporation Berhad             1.1      never tried     https://www.crescendo.com.my
+  SMALL  7052   Padini Holdings Berhad                   1.0      unreachable     https://corporate.padini.com
+  SMALL  2852   Cahya Mata Sarawak Berhad                1.0      unreachable     https://www.insage.com.my/ir/cmn/trps03/ar.aspx?Symbol=2852
+  SMALL  0295   Master Tec Group Berhad                  1.0      no PDF found    https://mastertec.my
+  SMALL  5271   Pecca Group Berhad                       1.0      no PDF found    https://www.peccaleather.com
+  SMALL  0291   Critical Holdings Berhad                 1.0      no PDF found    https://critical-eng.com
+  SMALL  5908   DKSH Holdings (Malaysia) Berhad          0.9      no PDF found    https://www.dksh.com.my
+  SMALL  1929   Chin Teck Plantations Berhad             0.9      no PDF found    https://www.chinteck.com.my
+  SMALL  7246   Signature International Berhad           0.9      no PDF found    https://www.signaturekitchen.com.my
+  SMALL  5665   Southern Steel Berhad                    0.8      unreachable     https://www.southsteel.com
+  SMALL  9792   SEG International Bhd                    0.8      unreachable     https://www.segi.edu.my
+  SMALL  5274   Hong Leong Capital Berhad                0.8      unreachable     https://www.hlgcap.com.my
+  SMALL  5827   Oriental Interest Berhad                 0.8      no PDF found    https://www.oibgroup.com
+  SMALL  5284   Lotte Chemical Titan Holding Berhad      0.8      no PDF found    https://www.lottechem.my
+  SMALL  3239   Berjaya Assets Berhad                    0.7      no PDF found    https://www.berjaya.com.my
+  SMALL  5184   Cypark Resources Berhad                  0.7      unreachable     https://www.crbenv.com
+  SMALL  0078   GDEX Berhad                              0.7      no PDF found    https://www.gdexpress.com
+  SMALL  0310   UUE Holdings Berhad                      0.7      no PDF found    https://www.uue-holdings.com
+  SMALL  5024   Hup Seng Industries Berhad               0.7      no PDF found    https://www.hsib.com.my
+  SMALL  7010   PTT Synergy Group Berhad                 0.7      no PDF found    https://pttgroup.com.my
+  SMALL  0161   Hextar Industries Berhad                 0.7      no PDF found    https://www.insage.com.my/ir/cmn/trps03/ar.aspx?Symbol=0161
+  SMALL  0240   Coraza Integrated Technology Berhad      0.7      no PDF found    https://corazaintech.com
+  SMALL  7087   Magni-Tech Industries Berhad             0.7      no PDF found    https://www.magni-tech.com.my
+  SMALL  6351   Amway (Malaysia) Holdings Berhad         0.7      unreachable     https://www.amway2u.com
+  SMALL  5001   Mieco Chipboard Berhad                   0.7      unreachable     https://www.mieco.com.my
+  SMALL  1724   Paramount Corporation Berhad             0.6      unreachable     https://www.pcb.my
+  SMALL  1058   Manulife Holdings Berhad                 0.6      unreachable     https://www.manulife.com.my
+  SMALL  2305   AYER Holdings Berhad                     0.6      no PDF found    https://www.tahps.com.my
+  SMALL  0002   Kotra Industries Berhad                  0.6      no PDF found    https://www.kotrapharma.com
+  SMALL  2569   Sungei Bagan Rubber Company (Malaya) B   0.6      no PDF found    https://www.sungeibagan.com
+  SMALL  3611   Paragon Globe Berhad                     0.6      no PDF found    https://www.gbhgroup.com.my
+  SMALL  6017   SHL Consolidated Bhd.                    0.5      no PDF found    https://www.shlcb.com.my
+  SMALL  6939   Fiamma Holdings Berhad                   0.5      no PDF found    https://www.fiamma.com.my
+  SMALL  0311   Go Hub Capital Berhad                    0.5      unreachable     https://gohubcapital.com.my
+  SMALL  5015   APM Automotive Holdings Berhad           0.5      unreachable     https://www.apm-automotive.com
+  SMALL  8524   Taliworks Corporation Berhad             0.5      no PDF found    https://www.taliworks.com.my
+  SMALL  5308   Seng Fong Holdings Berhad                0.5      no PDF found    https://sengfongholdings.com
+  SMALL  0230   Teladan Group Berhad                     0.5      no PDF found    https://teladansetia.com
+  SMALL  7076   CB Industrial Product Holding Berhad     0.5      no PDF found    https://www.cbip.com.my
+  SMALL  5112   TH Plantations Berhad                    0.5      no PDF found    https://www.thplantations.my
+  SMALL  7197   Geohan Corporation Berhad                0.5      no PDF found    https://www.gscorp.com.my
+  SMALL  0275   Oppstar Berhad                           0.5      no PDF found    https://www.oppstar.com.my
+  SMALL  5080   Poh Kong Holdings Berhad                 0.4      no PDF found    https://www.pohkong.com.my
+  SMALL  2755   FCW Holdings Berhad                      0.4      no PDF found    https://www.fcw.com.my
+  SMALL  4243   W T K Holdings Berhad                    0.4      unreachable     https://www.wtkholdings.com
+  SMALL  5134   Southern Acids (M) Berhad                0.4      unreachable     https://www.southernacids.com
+  SMALL  5056   Engtex Group Berhad                      0.4      no PDF found    https://www.engtex.com.my
+  SMALL  0001   Supercomnet Technologies Berhad          0.4      no PDF found    https://www.supercomnet.com.my
+  SMALL  2453   Kluang Rubber Company (Malaya) Berhad    0.4      no PDF found    https://www.kluangrubber.com
+  SMALL  6521   Suria Capital Holdings Berhad            0.4      never tried     https://www.suriagroup.com.my
+  SMALL  0083   Notion VTec Berhad                       0.4      no PDF found    https://www.notionvtec.com
+  SMALL  2038   Negri Sembilan Oil Palms Berhad          0.4      no PDF found    https://www.nsop.com.my
+  SMALL  7229   Favelle Favco Berhad                     0.4      no PDF found    https://www.favellefavco.com
+  SMALL  9466   KKB Engineering Berhad                   0.4      no PDF found    https://www.kkbeb.com.my
+  SMALL  0248   Yew Lee Pacific Group Berhad             0.4      no PDF found    https://yewlee.com.my
+  SMALL  6556   Ann Joo Resources Berhad                 0.4      no PDF found    https://www.annjoo.com.my
+  SMALL  0271   Wellspire Holdings Berhad                0.4      no PDF found    https://wellspireholdings.com
+  SMALL  5006   Varia Berhad                             0.4      unreachable     https://www.stella-holdings.com.my
+  SMALL  5121   Hektar Real Estate Investment Trust      0.3      never tried     https://www.HektarREIT.com
+  SMALL  7163   PJBumi Berhad                            0.3      no PDF found    https://www.pjbumi.com.my
+  SMALL  7108   Perdana Petroleum Berhad                 0.3      no PDF found    https://www.petraperdana.com.my
+  SMALL  5703   Muhibbah Engineering (M) Bhd.            0.3      never tried     https://www.muhibbah.com
+  SMALL  5105   Can-One Berhad                           0.3      no PDF found    https://www.canone.com.my
+  SMALL  0037   RGB International Bhd.                   0.3      no PDF found    https://www.rgbgames.com
+  SMALL  7225   P.A. Resources Berhad                    0.3      no PDF found    https://www.pagroup.com.my
+  SMALL  3719   Panasonic Manufacturing Malaysia Berha   0.3      unreachable     https://pmma.panasonic.com.my
+  SMALL  5113   Rimbunan Sawit Berhad                    0.3      unreachable     https://www.rsb.com.my
+  SMALL  8419   Pansar Berhad                            0.3      no PDF found    https://www.pansar.com.my
+  SMALL  5130   Atrium Real Estate Investment Trust      0.3      unreachable     https://www.atriumreit.com.my
+  SMALL  7082   M & A Equity Holdings Berhad             0.3      no PDF found    https://mnaequityholdings.com
+  SMALL  0298   Wentel Engineering Holdings Berhad       0.3      no PDF found    https://www.wenteleng.com
+  SMALL  5196   Berjaya Food Berhad                      0.3      no PDF found    https://www.berjaya.com
+  SMALL  7133   United U-LI Corporation Berhad           0.3      no PDF found    https://www.uli.com.my
+  SMALL  0095   MAG Holdings Berhad                      0.3      no PDF found    https://magholdings.com.my
+  SMALL  2135   Gopeng Berhad                            0.3      no PDF found    https://www.gopeng.com.my
+  SMALL  0060   Harvest Miracle Capital Berhad           0.3      no PDF found    https://www.hmcap.my
+  SMALL  0287   SSF Home Group Berhad                    0.3      no PDF found    https://www.ssfhome.com
+  SMALL  7178   Y.S.P. Southeast Asia Holding Berhad     0.3      no PDF found    https://www.yspsah.com
+  SMALL  9172   Formosa Prosonic Industries Berhad       0.3      no PDF found    https://www.fp-group.com
+  SMALL  4286   Seal Incorporated Berhad                 0.3      no PDF found    https://www.sib.com.my
+  SMALL  5239   Titijaya Land Berhad                     0.3      no PDF found    https://www.titijaya.com.my
+  SMALL  7617   Magna Prima Berhad                       0.3      no PDF found    https://www.magnaprima.com.my
+  SMALL  5147   Samchem Holdings Berhad                  0.3      unreachable     https://www.samchem.com.my/home
+  SMALL  0266   Leform Berhad                            0.3      no PDF found    https://www.leformgroup.com.my
+  SMALL  0222   Optimax Holdings Berhad                  0.3      unreachable     https://www.optimax2u.com
+  SMALL  0277   Cloudpoint Technology Berhad             0.3      no PDF found    https://www.cloudpoint-technology.com
+  SMALL  5166   Cyberjaya Education Group Berhad         0.3      no PDF found    https://cyberjaya.education
+  SMALL  7211   TAFI Industries Berhad                   0.2      no PDF found    https://www.tafi.com.my
+  SMALL  7230   Tomei Consolidated Berhad                0.2      unreachable     https://www.tomei.com.my
+  SMALL  0089   Tex Cycle Technology (M) Berhad          0.2      no PDF found    https://www.texcycle.com.my
+  SMALL  6769   JKG Land Berhad                          0.2      unreachable     https://www.keladimaju.com
+  SMALL  5120   AmFirst Real Estate Investment Trust     0.2      no PDF found    https://www.amfirstreit.com.my
+  SMALL  0058   JcbNext Berhad                           0.2      no PDF found    https://jcbnext.com
+  SMALL  0185   HSS Engineers Berhad                     0.2      unreachable     https://www.hssgroup.com.my
+  SMALL  7595   MGB Berhad                               0.2      never tried     https://www.mgbgroup.com.my
+  SMALL  7134   PWF Corporation Bhd.                     0.2      unreachable     https://www.pwconsolidated.com.my
+  SMALL  3948   DutaLand Berhad                          0.2      no PDF found    https://www.dutaland.com.my
+  SMALL  7216   Kawan Food Berhad                        0.2      no PDF found    https://www.kawanfood.com
+  SMALL  7004   MCE Holdings Berhad                      0.2      no PDF found    https://www.multicode.com.my
+  SMALL  3883   Muda Holdings Berhad                     0.2      no PDF found    https://www.muda.com.my
+  SMALL  7077   Kerjaya Prospek Property Berhad          0.2      no PDF found    https://www.kpproperty.com.my
+  SMALL  03057  Sancy Berhad                             0.2      no PDF found    https://www.sancyberhad.com
+  SMALL  5007   Chin Well Holdings Berhad                0.2      no PDF found    https://www.chinwell.com.my
+  SMALL  6084   Star Media Group Berhad                  0.2      no PDF found    https://www.thestar.com.my
+  SMALL  7060   New Hoong Fatt Holdings Berhad           0.2      never tried     https://newhoongfatt.com.my/investor-relations/bursa-announcements/
+  SMALL  0175   HHRG Berhad                              0.2      unreachable     https://www.henghuat.com.my
+  SMALL  7854   Timberwell Berhad                        0.2      unreachable     https://timwell.com.my
+  SMALL  0278   Edelteq Holdings Berhad                  0.2      no PDF found    https://edelteq.com
+  SMALL  5932   Bina Puri Holdings Bhd                   0.2      no PDF found    https://www.binapuri.com.my
+  SMALL  0167   MClean Technologies Berhad               0.2      unreachable     https://www.mclean.com.sg
+  SMALL  9326   LB Aluminium Berhad                      0.2      no PDF found    https://www.lbalum.com
+  SMALL  2542   Riverview Rubber Estates, Berhad         0.2      unreachable     https://www.riverview.com.my
+  SMALL  9431   Seni Jaya Corporation Berhad             0.2      no PDF found    https://www.senijayacorp.com
+  SMALL  5204   AwanBiru Technology Berhad               0.2      unreachable     https://www.prestariang.com.my
+  SMALL  4022   Maxim Global Berhad                      0.2      robots blocked  https://maximglobal.com.my
+  SMALL  7091   Unimech Group Berhad                     0.2      no PDF found    https://www.unimechgroup.com
+  SMALL  9385   Lay Hong Berhad                          0.2      no PDF found    https://www.layhong.com.my
+  SMALL  1589   Iskandar Waterfront City Berhad          0.2      unreachable     https://www.tebrauteguh.com.my
+  SMALL  5253   Econpile Holdings Berhad                 0.2      unreachable     https://www.econpile.com
+  SMALL  5160   Homeritz Corporation Berhad              0.2      unreachable     https://www.homeritzcorp.com
+  SMALL  5230   Tune Protect Group Berhad                0.2      no PDF found    https://www.tuneprotect.com
+  SMALL  8273   Public Packages Holdings Berhad          0.2      no PDF found    https://www.pph.com.my
+  SMALL  0189   Matang Berhad                            0.2      unreachable     https://matangholdings.com.my
+  SMALL  2607   Inch Kenneth Kajang Rubber Public Limi   0.2      unreachable     https://www.ikkr.com.my
+  SMALL  0299   AGX Group Berhad                         0.2      no PDF found    https://www.agxlogistics.com
+  SMALL  7202   Hextar Retail Berhad                     0.2      no PDF found    https://www.classicscenic.com
+  SMALL  9008   Omesti Berhad                            0.2      no PDF found    https://www.omesti.com
+  SMALL  7115   SKB Shutters Corporation Berhad          0.2      no PDF found    https://www.skb-shutters.com
+  SMALL  7088   Poh Huat Resources Holdings Berhad       0.2      unreachable     https://www.pohhuat.com
+  SMALL  0108   N2N Connect Berhad                       0.2      no PDF found    https://www.n2nconnect.com
+  SMALL  03053  CUCKOO International (MAL) Berhad        0.2      no PDF found    https://chengco.com.my/wp
+  SMALL  0107   Eduspec Holdings Berhad                  0.2      robots blocked  https://www.eduspec.com.my
+  SMALL  0209   Aimflex Berhad                           0.2      no PDF found    https://www.aimflex.com.my
+  SMALL  0257   Unique Fire Holdings Berhad              0.2      no PDF found    https://www.insage.com.my/ir/cmn/trps03/ar.aspx?Symbol=0257
+  SMALL  0313   BWYS Group Berhad                        0.2      no PDF found    https://bwysgroup.com
+  SMALL  9288   Bonia Corporation Berhad                 0.2      no PDF found    https://www.bonia.com
+  SMALL  7668   Beshom Holdings Berhad                   0.2      no PDF found    https://www.beshom.com
+  SMALL  9776   Sinmah Capital Berhad                    0.2      no PDF found    https://www.sinmah.com.my
+  SMALL  5305   Senheng New Retail Berhad                0.2      no PDF found    https://www.senheng.com.my
+  SMALL  7757   UPA Corporation Berhad                   0.2      no PDF found    https://www.upa.com.my
+  SMALL  9954   RGT Berhad                               0.2      unreachable     https://www.rgtberhad.com 
+  SMALL  7139   Niche Capital Emas Holdings Berhad       0.1      no PDF found    https://www.yikon.com.my
+  SMALL  7198   DPS Resources Berhad                     0.1      unreachable     https://www.shantawood.com.my
+  SMALL  0039   GFM Services Berhad                      0.1      no PDF found    https://www.gfmservices.com.my
+  SMALL  5172   Sinaran Advance Group Berhad             0.1      no PDF found    https://www.sinaranadvance.com.my
+  SMALL  5195   Censof Holdings Berhad                   0.1      no PDF found    https://www.insage.com.my/ir/cmn/trps03/ar.aspx?Symbol=5195
+  SMALL  7089   Lii Hen Industries Bhd                   0.1      no PDF found    https://www.liihenfurniture.com
+  SMALL  3891   Malayan United Industries Berhad         0.1      never tried     https://www.muiglobal.com
+  SMALL  7013   Hubline Berhad                           0.1      no PDF found    https://www.hubline.com
+  SMALL  7140   OKA Corporation Bhd                      0.1      no PDF found    https://www.oka.com.my
+  SMALL  0100   ES Ceramics Technology Berhad            0.1      no PDF found    https://www.esceramics.com.my
+  SMALL  6149   Metrod Holdings Berhad                   0.1      no PDF found    https://www.metrod.com
+  SMALL  7208   Euro Holdings Berhad                     0.1      no PDF found    https://www.euroholdings.com.my
+  SMALL  0272   TT Vision Holdings Berhad                0.1      no PDF found    https://www.ttvision-tech.com
+  SMALL  0007   PUC Berhad                               0.1      unreachable     https://www.puc.com
+  SMALL  0268   L&P Global Berhad                        0.1      unreachable     https://lpglobalbhd.com
+  SMALL  3514   Marco Holdings Berhad                    0.1      no PDF found    https://www.marcoholdings.com.my
+  SMALL  8702   Texchem Resources Bhd                    0.1      no PDF found    https://www.texchemgroup.com
+  SMALL  0173   Catcha Digital Berhad                    0.1      unreachable     https://www.catchamedia.com
+  SMALL  7043   Xin Synergy Group Berhad                 0.1      no PDF found    https://jademarvel.com.my
+  SMALL  9873   Prestar Resources Berhad                 0.1      no PDF found    https://www.prestar.com.my
+  SMALL  2259   Talam Transform Berhad                   0.1      no PDF found    https://www.ttransform.com.my
+  SMALL  2984   FACB Industries Incorporated Berhad      0.1      no PDF found    https://www.facbi.com
+  SMALL  0305   Sin-Kung Logistics Berhad                0.1      no PDF found    https://www.sinkung.my
+  SMALL  8591   Crest Builder Holdings Berhad            0.1      unreachable     https://www.crestbuilder.com.my
+  SMALL  5281   Advancecon Holdings Berhad               0.1      no PDF found    https://www.advancecon.com.my
+  SMALL  0105   Asia Poly Holdings Berhad                0.1      no PDF found    https://www.asiapoly.com.my
+  SMALL  9121   KPS Consortium Berhad                    0.1      no PDF found    https://www.kpscb.com.my
+  SMALL  0261   Cosmos Technology International Berhad   0.1      robots blocked  https://www.ctib.com.my
+  SMALL  7117   CJ Century Logistics Holdings Berhad     0.1      unreachable     https://www.cjcentury.com
+  SMALL  2127   Comfort Gloves Berhad                    0.1      no PDF found    https://www.comfort-rubber.com.my
+  SMALL  5673   Jentayu Sustainables Berhad              0.1      never tried     https://jentayu-sustainables.com
+  SMALL  5797   Choo Bee Metal Industries Berhad         0.1      no PDF found    https://www.choobee.com.my
+  SMALL  5576   Minho (M) Berhad                         0.1      no PDF found    https://www.minhomalaysia.com
+  SMALL  7200   Tek Seng Holdings Berhad                 0.1      never tried     https://www.tekseng.com.my/investor-relations/#annual
+  SMALL  7722   Asia Brands Berhad                       0.1      no PDF found    https://www.asiabrands.com.my
+  SMALL  6602   BCB Berhad                               0.1      no PDF found    https://www.insage.com.my/ir/cmn/trps03/ar.aspx?Symbol=6602
+  SMALL  5260   Only World Group Holdings Berhad         0.1      unreachable     https://www.owg.com.my
+  SMALL  5037   Compugates Holdings Berhad               0.1      unreachable     https://www.compugates.com
+  SMALL  0153   Oversea Enterprise Berhad                0.1      no PDF found    https://www.oversea.com.my
+  SMALL  0283   DC Healthcare Holdings Berhad            0.1      no PDF found    https://dchealthcareholdings.com
+  SMALL  9237   Sarawak Consolidated Industries Berhad   0.1      no PDF found    https://www.scib.com.my
+  SMALL  7029   Master-Pack Group Berhad                 0.1      unreachable     https://www.master.net.my
+  SMALL  0106   Rexit Berhad                             0.1      no PDF found    https://www.rexit.com
+  SMALL  0117   SMRT Holdings Berhad                     0.1      unreachable     https://www.smrhub.com
+  SMALL  5025   Auro Holdings Berhad                     0.1      unreachable     https://www.nwp.com.my
+  SMALL  0281   Daythree Digital Berhad                  0.1      no PDF found    https://www.daythree.co
+  SMALL  7120   Axteria Group Berhad                     0.1      unreachable     https://axteria-group.com.my
+  SMALL  0136   Greenyield Berhad                        0.1      no PDF found    https://www.greenyield.com.my
+  SMALL  0250   YX Precious Metals Bhd                   0.1      no PDF found    https://yxgroup.com.my
+  SMALL  7439   Teck Guan Perdana Berhad                 0.1      no PDF found    https://www.teckguan.com/TGP
+  SMALL  0064   Efficient E-Solutions Berhad             0.1      no PDF found    https://www.efficient.com.my
+  SMALL  5533   OCB Berhad                               0.1      no PDF found    https://www.ocbb.com.my
+  SMALL  9695   PLS Plantations Berhad                   0.1      no PDF found    https://plsplantations.my
+  SMALL  6807   Puncak Niaga Holdings Berhad             0.1      unreachable     https://www.puncakniaga.com.my/pnhbnew2
+  SMALL  9369   Teo Guan Lee Corporation Berhad          0.1      no PDF found    https://www.tglcorp.com.my
+  SMALL  9016   Eksons Corporation Berhad                0.1      no PDF found    https://www.eksons.com.my
+  SMALL  5062   Hua Yang Berhad                          0.1      no PDF found    https://www.huayang.com.my
+  SMALL  7765   Rapid Synergy Berhad                     0.1      no PDF found    https://www.rapidsynergy.com.my
+  SMALL  8346   Perak Corporation Berhad                 0.1      never tried     https://www.perakcorp.com.my
+  SMALL  3247   GUH Holdings Berhad                      0.1      unreachable     https://www.guh.com.my
+  SMALL  7323   Ken Holdings Berhad                      0.1      unreachable     https://www.kenholdings.com.my
+  SMALL  0126   Microlink Solutions Berhad               0.1      no PDF found    https://www.microlink.com.my
+  SMALL  0011   Brite-Tech Berhad                        0.1      no PDF found    https://www.brite-tech.com
+  SMALL  0038   Artroniq Berhad                          0.1      no PDF found    https://www.artroniq.com
+  SMALL  7137   BMS Holdings Berhad                      0.1      no PDF found    https://www.umsh.com
+  SMALL  0252   Orgabio Holdings Berhad                  0.1      no PDF found    https://orgabio.com
+  SMALL  7227   UMS-Neiken Group Berhad                  0.1      no PDF found    https://www.ums-neiken.com
+  SMALL  0237   Haily Group Berhad                       0.1      no PDF found    https://www.haily.my
+  SMALL  0054   Karyon Industries Berhad                 0.1      no PDF found    https://www.karyongroup.com.my
+  SMALL  7247   SCGM Bhd                                 0.1      no PDF found    https://www.scgmbhd.com
+  SMALL  7209   Cheetah Holdings Berhad                  0.1      unreachable     https://www.cheetah.com.my
+  SMALL  5095   HeveaBoard Berhad                        0.1      no PDF found    https://www.heveaboard.com.my
+  SMALL  5190   Benalec Holdings Berhad                  0.1      no PDF found    https://www.benalec.com.my
+  SMALL  7803   Hextar Healthcare Berhad                 0.1      no PDF found    https://www.hextarhealthcare.com
+  SMALL  9997   Pensonic Holdings Berhad                 0.1      never tried     https://www.pensonic.com
+  SMALL  3018   Olympia Industries Berhad                0.1      no PDF found    https://www.oib.com.my
+  SMALL  7066   Yong Tai Berhad                          0.1      no PDF found    https://www.yongtai.com.my
+  SMALL  5231   PBS Berhad                               0.1      no PDF found    https://www.pelikan.com
+  SMALL  7382   Golden Land Berhad                       0.1      no PDF found    https://www.glbhd.com
+  SMALL  0280   MYMBN Berhad                             0.1      no PDF found    https://www.mymbn.com.my
+  SMALL  8486   Lion Posim Berhad                        0.1      unreachable     https://www.lion.com.my/lionfib
+  SMALL  7811   Sapura Industrial Berhad                 0.1      unreachable     https://www.sapura.com.my
+  SMALL  0034   MMAG Holdings Berhad                     0.1      no PDF found    https://www.ingenuity.com.my
+  SMALL  5129   Melati Ehsan Holdings Berhad             0.1      no PDF found    https://www.melatiehsan.com.my
+  SMALL  0113   MMS Ventures Berhad                      0.1      no PDF found    https://www.mmsv.com.my
+  SMALL  0156   ManagePay Systems Berhad                 0.1      unreachable     https://www.mpsb.net
+  SMALL  7123   Maxland Berhad                           0.1      unreachable     https://www.pwibhmalaysia.com.my/corporate-profile
+  SMALL  7223   Jadi Imaging Holdings Berhad             0.1      no PDF found    https://www.jadi.com.my
+  SMALL  8338   Dataprep Holdings Bhd                    0.1      never tried     https://www.dp.com.my
+  SMALL  0102   Waja Konsortium Berhad                   0.1      no PDF found    https://www.waja.my
+  SMALL  7016   Chuan Huat Resources Berhad              0.1      no PDF found    https://www.chuanhuat.com.my
+  SMALL  7062   Khind Holdings Berhad                    0.1      unreachable     https://www.khind.com
+  SMALL  7053   See Hup Consolidated Berhad              0.1      unreachable     https://www.seehup.com.my
+  SMALL  0306   Smart Asia Chemical Bhd                  0.1      no PDF found    https://www.smartasiachemical.com
+  SMALL  7078   Ahmad Zaki Resources Berhad              0.1      no PDF found    https://www.azrb.com
+  SMALL  7498   Ralco Corporation Berhad                 0.1      no PDF found    https://www.insage.com.my/ir/cmn/trps03/ar.aspx?Symbol=7498
+  SMALL  8885   Avillion Berhad                          0.0      no PDF found    https://www.avillion.com
+  SMALL  0210   Kim Hin Joo (Malaysia) Berhad            0.0      no PDF found    https://www.khj-my.com
+  SMALL  0129   Silver Ridge Holdings Bhd.               0.0      no PDF found    https://www.silverridge.com.my
+  SMALL  4596   Sapura Resources Berhad                  0.0      unreachable     https://www.sapura-resources.com
+  SMALL  8192   Mercury Industries Berhad                0.0      no PDF found    https://www.mercury.com.my
+  SMALL  9377   FSBM Holdings Berhad                     0.0      no PDF found    https://www.fsbm.com.my
+  SMALL  5022   Paos Holdings Berhad                     0.0      unreachable     https://www.paos.com.my
+  SMALL  7020   ASTEEL Group Berhad                      0.0      no PDF found    https://ykgigroup.com/ 
+  SMALL  0020   NetX Holdings Berhad                     0.0      no PDF found    https://www.netx.com.my
+  SMALL  4359   Turiya Berhad                            0.0      no PDF found    https://www.turiya.com.my
+  SMALL  0006   Pineapple Resources Berhad               0.0      unreachable     https://www.disccomp.com.my 
+  SMALL  3778   Melewar Industrial Group Berhad          0.0      no PDF found    https://www.melewar-mig.com
+  SMALL  0178   Sedania Innovator Berhad                 0.0      unreachable     https://www.sedaniainnovator.com
+  SMALL  0005   UCrest Berhad                            0.0      no PDF found    https://www.palettemm.com
+  SMALL  0149   Top Glove Corporation Berhad             0.0      unreachable     https://www.topglove.com
+  SMALL  0048   Ancom Logistics Berhad                   0.0      unreachable     https://ancomlogistics.listedcompany.com/home.html
+  SMALL  0301   Zantat Holdings Berhad                   0.0      no PDF found    https://www.zantat.com.my
+  SMALL  0093   Solution Group Berhad                    0.0      no PDF found    https://www.solutiongroup.com.my
+  SMALL  5042   TSR Capital Berhad                       0.0      no PDF found    https://www.tsrcap.com.my
+  SMALL  5165   DFCITY Group Berhad                      0.0      no PDF found    https://www.dfcitygroup.com.my
+  SMALL  9814   Bertam Alliance Berhad                   0.0      no PDF found    https://www.bertamalliance.com
+  SMALL  5198   ABM Fujiya Berhad                        0.0      no PDF found    https://www.abmfujiya.com.my
+  SMALL  8362   KYM Holdings Bhd                         0.0      no PDF found    https://www.kym.com.my
+  SMALL  03011  Amlex Holdings Berhad                    0.0      unreachable     https://www.amlextech.com
+  SMALL  7050   Wong Engineering Corporation Berhad      0.0      no PDF found    https://www.wec.com.my
+  SMALL  0160   Hiap Huat Holdings Berhad                0.0      no PDF found    https://www.hiaphuat.com
+  SMALL  0096   Nexgram Holdings Berhad                  0.0      unreachable     https://www.nexgram.com
+  SMALL  5178   Ingenieur Gudang Berhad                  0.0      no PDF found    https://www.ingenieur.com.my
+  SMALL  5035   Knusford Berhad                          0.0      unreachable     https://www.knusford.com.my
+  SMALL  7889   Thriven Global Berhad                    0.0      no PDF found    https://thriven.com.my
+  SMALL  7005   B.I.G. Industries Berhad                 0.0      no PDF found    https://www.bigind.com.my
+  SMALL  9423   CWG Holdings Berhad                      0.0      no PDF found    https://www.cwgholdings.com.my
+  SMALL  7114   D'nonce Technology Bhd.                  0.0      no PDF found    https://www.dnoncetech.com
+  SMALL  0190   Eversafe Rubber Berhad                   0.0      unreachable     https://www.eversafe.com.my
+  SMALL  0145   TFP Solutions Berhad                     0.0      no PDF found    https://www.tfp.com.my
+  SMALL  7157   CYL Corporation Berhad                   0.0      unreachable     https://www.cylcorporation.com
+  SMALL  5107   IQ Group Holdings Berhad                 0.0      no PDF found    https://www.iq-group.com
+  SMALL  5188   China Ouhua Winery Holdings Limited      0.0      unreachable     https://ouhua.ythaihao.com
+  SMALL  7186   SWS Capital Berhad                       0.0      no PDF found    https://www.swscap.com
+  SMALL  9938   Bright Packaging Industry Berhad         0.0      robots blocked  https://www.brightpack.net
+  SMALL  0154   EA Holdings Berhad                       0.0      unreachable     https://www.eah.com.my
+  SMALL  0055   Sersol Berhad                            0.0      no PDF found    https://www.sersol.com.my
+  SMALL  0116   Focus Dynamics Group Berhad              0.0      no PDF found    https://www.focusdynamics.com.my
+  SMALL  8605   Federal International Holdings Berhad    0.0      unreachable     https://www.ffhb.com.my
+  SMALL  0049   Oceancash Pacific Berhad                 0.0      unreachable     https://www.oceancash.com.my
+  SMALL  9083   Kumpulan Jetson Berhad                   0.0      no PDF found    https://www.jetson.com.my
+  SMALL  03033  Supergenics Berhad                       0.0      no PDF found    https://www.supergenic.com.my
+  SMALL  8478   Hwa Tai Industries Berhad                0.0      no PDF found    https://www.hwatai.com
+  SMALL  0041   Hong Seng Consolidated Berhad            0.0      unreachable     https://www.hongseng.com.my
+  SMALL  7218   Arka Berhad                              0.0      unreachable     https://www.transocean.com.my
+  SMALL  8672   Kamdar Group (M) Berhad                  0.0      no PDF found    https://www.kamdar.com.my
+  SMALL  0080   Straits Energy Resources Berhad          0.0      no PDF found    https://www.straits-interlogistics.com
+  SMALL  6297   Box-Pak (Malaysia) Bhd.                  0.0      no PDF found    https://www.boxpak.com.my
+  SMALL  7025   Woodlandor Holdings Berhad               0.0      no PDF found    https://www.woodlandor.com.my
+  SMALL  8044   Computer Forms (Malaysia) Berhad         0.0      unreachable     https://www.cfm.com.my
+  SMALL  1643   Landmarks Berhad                         0.0      no PDF found    https://www.landmarks.com.my
+  SMALL  7007   ARK Resources Holdings Berhad            0.0      no PDF found    https://www.ark-resources.com.my
+  SMALL  7132   SMIS Corporation Berhad                  0.0      unreachable     https://www.smis.com.my
+  SMALL  0118   Trive Property Group Berhad              0.0      unreachable     https://www.etitech.com.my
+  SMALL  9393   Industronics Berhad                      0.0      no PDF found    https://www.insage.com.my/ir/cmn/trps03/ar.aspx?Symbol=9393
+  SMALL  5156   XiDeLang Holdings Ltd                    0.0      unreachable     https://www.xidelang.com.my
+  SMALL  0066   Vsolar Group Berhad                      0.0      unreachable     https://www.fasttrack.my
+  SMALL  7096   Joe Holding Berhad                       0.0      no PDF found    https://www.gp-products.com
+  SMALL  0069   Vinvest Capital Holdings Berhad          0.0      unreachable     https://www.vinvest.com.my
+  SMALL  9539   Multi-Usage Holdings Berhad              0.0      no PDF found    https://www.muh.com.my
+  SMALL  0074   Green Ocean Corporation Berhad           0.0      no PDF found    https://www.greenoceancorp.com
+  SMALL  6254   PDZ Holdings Bhd                         0.0      no PDF found    https://www.pdzlines.com
+  SMALL  8966   Techbase Industries Berhad               0.0      unreachable     https://www.prolexus.com.my
+  SMALL  0022   Parlo Berhad                             0.0      unreachable     https://www.parlogroup.com
+  SMALL  0094   Zen Tech International Berhad            0.0      no PDF found    https://ztech.com.my
+  SMALL  0079   Aldrich Resources Berhad                 0.0      no PDF found    https://orionixl.com.my
+  SMALL  0043   Metronic Global Berhad                   0.0      unreachable     https://www.metronic-group.com
+  SMALL  9091   Emico Holdings Berhad                    0.0      unreachable     https://www.emico.com.my
+  SMALL  0084   Fast Energy Holdings Berhad              0.0      no PDF found    https://www.techfast.com.my
+  SMALL  0059   Ecobuilt Holdings Berhad                 0.0      unreachable     https://www.mmode.com.my
+  SMALL  0081   Rekatech Capital Berhad                  0.0      unreachable     https://megasuncity.com
+  SMALL  0182   LKL International Berhad                 0.0      no PDF found    https://www.insage.com.my/ir/cmn/trps03/ar.aspx?Symbol=0182
+  SMALL  0152   DGB Asia Berhad                          0.0      unreachable     https://www.dsc.com.sg
+  SMALL  0075   LYC Healthcare Berhad                    0.0      no PDF found    https://www.lychealth.com
+  SMALL  0036   Key Alliance Group Berhad                0.0      unreachable     https://www.kag.com.my
+  SMALL  2739   Techna-X Berhad                          0.0      no PDF found    https://www.techna-x.com
+  SMALL  0169   SMTrack Berhad                           0.0      no PDF found    https://www.insage.com.my/ir/cmn/trps03/ar.aspx?Symbol=0169
+  SMALL  5040   Meridian Berhad                          0.0      unreachable     https://www.meda.com.my
+  SMALL  7253   Handal Energy Berhad                     0.0      no PDF found    https://haenergy.com.my
+  SMALL  8133   Boustead Heavy Industries Corporation    0.0      no PDF found    https://www.bhic.com.my
+  SMALL  0068   Asdion Berhad                            0.0      no PDF found    https://asdiongroup.com
+  ?      2651   Sunway Construction Group Berhad         ?        unreachable     https://www.sunwayconstruction.com.my/investor-relations/annual-reports
+  ?      1838   KLCC Property Holdings Berhad            ?        unreachable     https://klcc.com.my/investor-relations/reports/
+  ?      5206   Ranhill Utilities Berhad                 ?        no PDF found    https://ranhill.com.my
+  ?      7130   Reneuco Berhad                           ?        robots blocked  https://www.reneuco.com
+  ?      03026  Fibromat (M) Berhad                      ?        no PDF found    https://wa.me/60162378521?text=I%20am%20interested%20on%20subscription%20plan
+  ?      03025  Crest Group Berhad                       ?        no PDF found    https://wa.me/60162378521?text=I%20am%20interested%20on%20subscription%20plan
+  ?      03038  ICT Zone Asia Berhad                     ?        no PDF found    https://wa.me/60162378521?text=I%20am%20interested%20on%20subscription%20plan
+  ?      7090   Apex Healthcare Berhad                   ?        no PDF found    https://www.apexhealthcare.com.my
+  ?      1902   Pinehill Pacific Berhad                  ?        no PDF found    https://www.pinepac.com.my
+  ?      03018  Supreme Consolidated Resources Berhad    ?        no PDF found    https://wa.me/60162378521?text=I%20am%20interested%20on%20subscription%20plan
+  ?      03005  Metro Healthcare Berhad                  ?        no PDF found    https://wa.me/60162378521?text=I%20am%20interested%20on%20subscription%20plan
+  ?      03013  Topvision Eye Specialist Berhad          ?        no PDF found    https://wa.me/60162378521?text=I%20am%20interested%20on%20subscription%20plan
+  ?      03048  Vanzo Holdings Berhad                    ?        no PDF found    https://wa.me/60162378521?text=I%20am%20interested%20on%20subscription%20plan
+  ?      6139   Syarikat Takaful Malaysia Keluarga Ber   ?        no PDF found    https://www.takaful-malaysia.com.my
+  ?      2186   Kuchai Development Berhad                ?        no PDF found    https://www.kuchaidevelopment.com
+  ?      03049  Steel Hawk Berhad                        ?        no PDF found    https://wa.me/60162378521?text=I%20am%20interested%20on%20subscription%20plan
+  ?      8125   Scientex Packaging (Ayer Keroh) Berhad   ?        no PDF found    https://www.scientexpackagingak.com.my
+  ?      03047  Lim Seong Hai Capital Berhad             ?        no PDF found    https://wa.me/60162378521?text=I%20am%20interested%20on%20subscription%20plan
+  ?      03016  Carlo Rino Group Berhad                  ?        no PDF found    https://wa.me/60162378521?text=I%20am%20interested%20on%20subscription%20plan

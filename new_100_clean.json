@@ -1,0 +1,576 @@
+[
+  {
+    "stock_code": "1066",
+    "company_name": "RHB Bank Berhad",
+    "ir_homepage_url": "https://www.rhbgroup.com/investor-relations/overview/key-financial-information/index.html",
+    "confidence": "none",
+    "reasoning": "unverified - carried over from a claude.ai batch that did not return confidence/reasoning"
+  },
+  {
+    "stock_code": "5819",
+    "company_name": "Hong Leong Bank Berhad",
+    "ir_homepage_url": "https://www.hlb.com.my/en/personal-banking/about-us/investor-relations/annual-and-quarterly-financial-reports.html",
+    "confidence": "none",
+    "reasoning": "unverified - carried over from a claude.ai batch that did not return confidence/reasoning"
+  },
+  {
+    "stock_code": "5185",
+    "company_name": "AFFIN Bank Berhad",
+    "ir_homepage_url": "https://affin.listedcompany.com/ar.html",
+    "confidence": "none",
+    "reasoning": "unverified - carried over from a claude.ai batch that did not return confidence/reasoning"
+  },
+  {
+    "stock_code": "1082",
+    "company_name": "Hong Leong Financial Group Berhad",
+    "ir_homepage_url": "https://www.hlfg.com.my/investor-relations/annual-reports.html",
+    "confidence": "none",
+    "reasoning": "unverified - carried over from a claude.ai batch that did not return confidence/reasoning"
+  },
+  {
+    "stock_code": "1163",
+    "company_name": "Allianz Malaysia Berhad",
+    "ir_homepage_url": "https://www.allianz.com.my/personal/allianz-at-a-glance/investor-relations/financial-reports.html",
+    "confidence": "none",
+    "reasoning": "unverified - carried over from a claude.ai batch that did not return confidence/reasoning"
+  },
+  {
+    "stock_code": "5139",
+    "company_name": "AEON Credit Service (M) Berhad",
+    "ir_homepage_url": "https://aeoncredit.com.my/investor-relations/integrated-annual-report/",
+    "confidence": "none",
+    "reasoning": "unverified - carried over from a claude.ai batch that did not return confidence/reasoning"
+  },
+  {
+    "stock_code": "1203",
+    "company_name": "AmBank Group Berhad",
+    "ir_homepage_url": "https://www.ambankgroup.com/investor-relations/annual-report",
+    "confidence": "none",
+    "reasoning": "unverified - carried over from a claude.ai batch that did not return confidence/reasoning"
+  },
+  {
+    "stock_code": "6035",
+    "company_name": "Kenanga Investment Bank Berhad",
+    "ir_homepage_url": "https://www.kenanga.com.my/investor-relations/reports/",
+    "confidence": "none",
+    "reasoning": "unverified - carried over from a claude.ai batch that did not return confidence/reasoning"
+  },
+  {
+    "stock_code": "5114",
+    "company_name": "Al-Aqar Healthcare REIT",
+    "ir_homepage_url": "https://www.alaqar.com.my/Investor-reports.php",
+    "confidence": "none",
+    "reasoning": "unverified - carried over from a claude.ai batch that did not return confidence/reasoning"
+  },
+  {
+    "stock_code": "6742",
+    "company_name": "YTL Power International Berhad",
+    "ir_homepage_url": "https://www.ytlpowerinternational.com/investor-relations/quarterly-annual-reports/",
+    "confidence": "none",
+    "reasoning": "unverified - carried over from a claude.ai batch that did not return confidence/reasoning"
+  },
+  {
+    "stock_code": "4677",
+    "company_name": "YTL Corporation Berhad",
+    "ir_homepage_url": "https://www.ytl.com/aboutus/financial-report/reports-ytl-corporation/",
+    "confidence": "none",
+    "reasoning": "unverified - carried over from a claude.ai batch that did not return confidence/reasoning"
+  },
+  {
+    "stock_code": "5209",
+    "company_name": "Gas Malaysia Berhad",
+    "ir_homepage_url": "https://www.gasmalaysia.com/investors/annual-reports/",
+    "confidence": "none",
+    "reasoning": "unverified - carried over from a claude.ai batch that did not return confidence/reasoning"
+  },
+  {
+    "stock_code": "5297",
+    "company_name": "Yinson Holdings Berhad",
+    "ir_homepage_url": "https://www.yinson.com/investors/reports-and-presentations/",
+    "confidence": "none",
+    "reasoning": "unverified - carried over from a claude.ai batch that did not return confidence/reasoning"
+  },
+  {
+    "stock_code": "5100",
+    "company_name": "Hibiscus Petroleum Berhad",
+    "ir_homepage_url": "https://www.hibiscuspetroleum.com/investor-relations-old/annual-reports/",
+    "confidence": "none",
+    "reasoning": "unverified - carried over from a claude.ai batch that did not return confidence/reasoning"
+  },
+  {
+    "stock_code": "6812",
+    "company_name": "Dialog Group Berhad",
+    "ir_homepage_url": "https://www.dialogasia.com/investors/annual-reports",
+    "confidence": "none",
+    "reasoning": "unverified - carried over from a claude.ai batch that did not return confidence/reasoning"
+  },
+  {
+    "stock_code": "5326",
+    "company_name": "Velesto Energy Berhad",
+    "ir_homepage_url": "https://velesto.com/investor-relations/reports-amp-presentations",
+    "confidence": "none",
+    "reasoning": "unverified - carried over from a claude.ai batch that did not return confidence/reasoning"
+  },
+  {
+    "stock_code": "6882",
+    "company_name": "Sapura Energy Berhad",
+    "ir_homepage_url": "https://ir2.chartnexus.com/vantnrg/index.php",
+    "confidence": "none",
+    "reasoning": "unverified - carried over from a claude.ai batch that did not return confidence/reasoning"
+  },
+  {
+    "stock_code": "5398",
+    "company_name": "Gamuda Berhad",
+    "ir_homepage_url": "https://gamuda.com/for-investors/integrated-annual-report/",
+    "confidence": "none",
+    "reasoning": "unverified - carried over from a claude.ai batch that did not return confidence/reasoning"
+  },
+  {
+    "stock_code": "2637",
+    "company_name": "IJM Corporation Berhad",
+    "ir_homepage_url": "https://www.ijm.com/investor-relations/annual-reports",
+    "confidence": "none",
+    "reasoning": "unverified - carried over from a claude.ai batch that did not return confidence/reasoning"
+  },
+  {
+    "stock_code": "2651",
+    "company_name": "Sunway Construction Group Berhad",
+    "ir_homepage_url": "https://www.sunwayconstruction.com.my/investor-relations/annual-reports",
+    "confidence": "none",
+    "reasoning": "unverified - carried over from a claude.ai batch that did not return confidence/reasoning"
+  },
+  {
+    "stock_code": "6335",
+    "company_name": "WCE Holdings Berhad",
+    "ir_homepage_url": null,
+    "confidence": "none",
+    "reasoning": "unverified - carried over from a claude.ai batch that did not return confidence/reasoning"
+  },
+  {
+    "stock_code": "2655",
+    "company_name": "Kerjaya Prospek Group Berhad",
+    "ir_homepage_url": "https://ir2.chartnexus.com/kerjayagroup/annual_report.php",
+    "confidence": "none",
+    "reasoning": "unverified - carried over from a claude.ai batch that did not return confidence/reasoning"
+  },
+  {
+    "stock_code": "2633",
+    "company_name": "Ekovest Berhad",
+    "ir_homepage_url": "https://ekovest.listedcompany.com/ar.html",
+    "confidence": "none",
+    "reasoning": "unverified - carried over from a claude.ai batch that did not return confidence/reasoning"
+  },
+  {
+    "stock_code": "5379",
+    "company_name": "Sunway Berhad",
+    "ir_homepage_url": "https://www.sunway.com.my/investor-relations/financial-info/",
+    "confidence": "none",
+    "reasoning": "unverified - carried over from a claude.ai batch that did not return confidence/reasoning"
+  },
+  {
+    "stock_code": "3704",
+    "company_name": "SP Setia Berhad",
+    "ir_homepage_url": "https://spsetia.com/investor-relations/",
+    "confidence": "none",
+    "reasoning": "unverified - carried over from a claude.ai batch that did not return confidence/reasoning"
+  },
+  {
+    "stock_code": "5119",
+    "company_name": "Tropicana Corporation Berhad",
+    "ir_homepage_url": "https://www.tropicanacorp.com.my/reports-and-presentations",
+    "confidence": "none",
+    "reasoning": "unverified - carried over from a claude.ai batch that did not return confidence/reasoning"
+  },
+  {
+    "stock_code": "5285",
+    "company_name": "SD Guthrie Berhad",
+    "ir_homepage_url": "https://www.sdguthrie.com/investor-relations/investor-resources/reports",
+    "confidence": "none",
+    "reasoning": "unverified - carried over from a claude.ai batch that did not return confidence/reasoning"
+  },
+  {
+    "stock_code": "5249",
+    "company_name": "IOI Properties Group Berhad",
+    "ir_homepage_url": "https://www.ioiproperties.com.my/investors-media/reports",
+    "confidence": "none",
+    "reasoning": "unverified - carried over from a claude.ai batch that did not return confidence/reasoning"
+  },
+  {
+    "stock_code": "5288",
+    "company_name": "Sime Darby Property Berhad",
+    "ir_homepage_url": "https://www.simedarbyproperty.com/investor-relations/annual-report",
+    "confidence": "none",
+    "reasoning": "unverified - carried over from a claude.ai batch that did not return confidence/reasoning"
+  },
+  {
+    "stock_code": "4197",
+    "company_name": "Sime Darby Berhad",
+    "ir_homepage_url": "https://www.sime.com/investor-relations/annual-reports/",
+    "confidence": "none",
+    "reasoning": "unverified - carried over from a claude.ai batch that did not return confidence/reasoning"
+  },
+  {
+    "stock_code": "5126",
+    "company_name": "Sarawak Oil Palms Berhad",
+    "ir_homepage_url": "https://sop.com.my/investor-relations/",
+    "confidence": "none",
+    "reasoning": "unverified - carried over from a claude.ai batch that did not return confidence/reasoning"
+  },
+  {
+    "stock_code": "5299",
+    "company_name": "Genting Plantations Berhad",
+    "ir_homepage_url": "https://www.gentingplantations.com/investor-relations/annual_reports/",
+    "confidence": "none",
+    "reasoning": "unverified - carried over from a claude.ai batch that did not return confidence/reasoning"
+  },
+  {
+    "stock_code": "5169",
+    "company_name": "Batu Kawan Berhad",
+    "ir_homepage_url": "https://bkawan.com.my/investor-relations/",
+    "confidence": "none",
+    "reasoning": "unverified - carried over from a claude.ai batch that did not return confidence/reasoning"
+  },
+  {
+    "stock_code": "5101",
+    "company_name": "United Plantations Berhad",
+    "ir_homepage_url": "https://unitedplantations.com/reports/",
+    "confidence": "none",
+    "reasoning": "unverified - carried over from a claude.ai batch that did not return confidence/reasoning"
+  },
+  {
+    "stock_code": "1919",
+    "company_name": "Chin Hin Group Berhad",
+    "ir_homepage_url": "https://www.chinhingroup.com/annual-reports/",
+    "confidence": "none",
+    "reasoning": "unverified - carried over from a claude.ai batch that did not return confidence/reasoning"
+  },
+  {
+    "stock_code": "8869",
+    "company_name": "Press Metal Aluminium Holdings Berhad",
+    "ir_homepage_url": "https://www.pressmetal.com/investor-relations/reports-presentations",
+    "confidence": "none",
+    "reasoning": "unverified - carried over from a claude.ai batch that did not return confidence/reasoning"
+  },
+  {
+    "stock_code": "3816",
+    "company_name": "MISC Berhad",
+    "ir_homepage_url": "https://www.miscgroup.com/investor-relations/presentations-and-reports",
+    "confidence": "none",
+    "reasoning": "unverified - carried over from a claude.ai batch that did not return confidence/reasoning"
+  },
+  {
+    "stock_code": "5236",
+    "company_name": "Matrix Concepts Holdings Berhad",
+    "ir_homepage_url": "https://www.mchb.com.my/investor-relations/reports-presentations",
+    "confidence": "none",
+    "reasoning": "unverified - carried over from a claude.ai batch that did not return confidence/reasoning"
+  },
+  {
+    "stock_code": "1617",
+    "company_name": "DRB-HICOM Berhad",
+    "ir_homepage_url": "https://www.drb-hicom.com/investors/annual-report_/",
+    "confidence": "none",
+    "reasoning": "unverified - carried over from a claude.ai batch that did not return confidence/reasoning"
+  },
+  {
+    "stock_code": "5318",
+    "company_name": "DXN Holdings Berhad",
+    "ir_homepage_url": "https://www.dxn2u.com/investor-relations/",
+    "confidence": "none",
+    "reasoning": "unverified - carried over from a claude.ai batch that did not return confidence/reasoning"
+  },
+  {
+    "stock_code": "5168",
+    "company_name": "Hartalega Holdings Berhad",
+    "ir_homepage_url": "https://hartalega.com.my/investor-relations/reports/",
+    "confidence": "none",
+    "reasoning": "unverified - carried over from a claude.ai batch that did not return confidence/reasoning"
+  },
+  {
+    "stock_code": "5378",
+    "company_name": "Kossan Rubber Industries Berhad",
+    "ir_homepage_url": "https://kossan.com.my/investor-relations/annual-reports/",
+    "confidence": "none",
+    "reasoning": "unverified - carried over from a claude.ai batch that did not return confidence/reasoning"
+  },
+  {
+    "stock_code": "5151",
+    "company_name": "Supermax Corporation Berhad",
+    "ir_homepage_url": "https://www.supermax.com.my/investor-relations-annual-reports",
+    "confidence": "none",
+    "reasoning": "unverified - carried over from a claude.ai batch that did not return confidence/reasoning"
+  },
+  {
+    "stock_code": "1659",
+    "company_name": "Malaysia Cement Berhad",
+    "ir_homepage_url": "https://ytlcement.my/en/investor-relations",
+    "confidence": "none",
+    "reasoning": "unverified - carried over from a claude.ai batch that did not return confidence/reasoning"
+  },
+  {
+    "stock_code": "4065",
+    "company_name": "PPB Group Berhad",
+    "ir_homepage_url": "https://www.ppbgroup.com/investor-relations/financial-performance/annual-reports/",
+    "confidence": "none",
+    "reasoning": "unverified - carried over from a claude.ai batch that did not return confidence/reasoning"
+  },
+  {
+    "stock_code": "7084",
+    "company_name": "QL Resources Berhad",
+    "ir_homepage_url": "https://ql.com.my/investor-relations/annual-reports/",
+    "confidence": "none",
+    "reasoning": "unverified - carried over from a claude.ai batch that did not return confidence/reasoning"
+  },
+  {
+    "stock_code": "1672",
+    "company_name": "Hap Seng Consolidated Berhad",
+    "ir_homepage_url": "https://www.hapseng.com.my/en/annual-reports.html",
+    "confidence": "none",
+    "reasoning": "unverified - carried over from a claude.ai batch that did not return confidence/reasoning"
+  },
+  {
+    "stock_code": "3689",
+    "company_name": "Fraser & Neave Holdings Berhad",
+    "ir_homepage_url": "https://www.fn.com.my/investors/#reports",
+    "confidence": "none",
+    "reasoning": "unverified - carried over from a claude.ai batch that did not return confidence/reasoning"
+  },
+  {
+    "stock_code": "5250",
+    "company_name": "7-Eleven Malaysia Holdings Berhad",
+    "ir_homepage_url": "https://www.7eleven.com.my/financial-report/",
+    "confidence": "none",
+    "reasoning": "unverified - carried over from a claude.ai batch that did not return confidence/reasoning"
+  },
+  {
+    "stock_code": "5306",
+    "company_name": "Farm Fresh Berhad",
+    "ir_homepage_url": "https://farmfresh.com.my/investor-relations/",
+    "confidence": "none",
+    "reasoning": "unverified - carried over from a claude.ai batch that did not return confidence/reasoning"
+  },
+  {
+    "stock_code": "5323",
+    "company_name": "Heineken Malaysia Berhad",
+    "ir_homepage_url": "https://www.heinekenmalaysia.com/annual-reports/",
+    "confidence": "none",
+    "reasoning": "unverified - carried over from a claude.ai batch that did not return confidence/reasoning"
+  },
+  {
+    "stock_code": "5372",
+    "company_name": "MSM Malaysia Holdings Berhad",
+    "ir_homepage_url": "https://www.msmsugar.com/investor-relations/reports",
+    "confidence": "none",
+    "reasoning": "unverified - carried over from a claude.ai batch that did not return confidence/reasoning"
+  },
+  {
+    "stock_code": "0128",
+    "company_name": "Frontken Corporation Berhad",
+    "ir_homepage_url": "https://frontken.com/investor-relations/",
+    "confidence": "none",
+    "reasoning": "unverified - carried over from a claude.ai batch that did not return confidence/reasoning"
+  },
+  {
+    "stock_code": "0104",
+    "company_name": "Genetec Technology Berhad",
+    "ir_homepage_url": "https://www.genetec.net/annual-report/",
+    "confidence": "none",
+    "reasoning": "unverified - carried over from a claude.ai batch that did not return confidence/reasoning"
+  },
+  {
+    "stock_code": "6057",
+    "company_name": "Inari Amertron Berhad",
+    "ir_homepage_url": "https://www.inari-amertron.com/annual-reports/",
+    "confidence": "none",
+    "reasoning": "unverified - carried over from a claude.ai batch that did not return confidence/reasoning"
+  },
+  {
+    "stock_code": "5152",
+    "company_name": "Greatech Technology Berhad",
+    "ir_homepage_url": "https://greatech-group.com/en/investor-relations/announcements-reports/",
+    "confidence": "none",
+    "reasoning": "unverified - carried over from a claude.ai batch that did not return confidence/reasoning"
+  },
+  {
+    "stock_code": "0086",
+    "company_name": "Vitrox Corporation Berhad",
+    "ir_homepage_url": "https://www.vitrox.com/investor/annual-report.php",
+    "confidence": "none",
+    "reasoning": "unverified - carried over from a claude.ai batch that did not return confidence/reasoning"
+  },
+  {
+    "stock_code": "7031",
+    "company_name": "MY E.G. Services Berhad",
+    "ir_homepage_url": "https://www.zetrix.com/investor-relations/",
+    "confidence": "none",
+    "reasoning": "unverified - carried over from a claude.ai batch that did not return confidence/reasoning"
+  },
+  {
+    "stock_code": "0170",
+    "company_name": "Pentamaster Corporation Berhad",
+    "ir_homepage_url": "https://pentamaster.listedcompany.com/ar.html",
+    "confidence": "none",
+    "reasoning": "unverified - carried over from a claude.ai batch that did not return confidence/reasoning"
+  },
+  {
+    "stock_code": "5265",
+    "company_name": "Scientex Berhad",
+    "ir_homepage_url": "https://scientex.com.my/investor-relations/financial-reports/",
+    "confidence": "none",
+    "reasoning": "unverified - carried over from a claude.ai batch that did not return confidence/reasoning"
+  },
+  {
+    "stock_code": "5304",
+    "company_name": "Glomac Berhad",
+    "ir_homepage_url": "https://www.glomac.com.my/ms/investor-relations/",
+    "confidence": "none",
+    "reasoning": "unverified - carried over from a claude.ai batch that did not return confidence/reasoning"
+  },
+  {
+    "stock_code": "6947",
+    "company_name": "CelcomDigi Berhad",
+    "ir_homepage_url": "https://celcomdigi.listedcompany.com/ar.html",
+    "confidence": "none",
+    "reasoning": "unverified - carried over from a claude.ai batch that did not return confidence/reasoning"
+  },
+  {
+    "stock_code": "4008",
+    "company_name": "Time Dotcom Berhad",
+    "ir_homepage_url": "https://corporate.time.com.my/about-us/investor-relations/reports-presentations/",
+    "confidence": "none",
+    "reasoning": "unverified - carried over from a claude.ai batch that did not return confidence/reasoning"
+  },
+  {
+    "stock_code": "4502",
+    "company_name": "Media Prima Berhad",
+    "ir_homepage_url": null,
+    "confidence": "none",
+    "reasoning": "unverified - carried over from a claude.ai batch that did not return confidence/reasoning"
+  },
+  {
+    "stock_code": "1980",
+    "company_name": "Astro Malaysia Holdings Berhad",
+    "ir_homepage_url": "https://corporate.astro.com.my/investor-relations/financial-information/annual-reports",
+    "confidence": "none",
+    "reasoning": "unverified - carried over from a claude.ai batch that did not return confidence/reasoning"
+  },
+  {
+    "stock_code": "5099",
+    "company_name": "AirAsia Group Berhad",
+    "ir_homepage_url": "https://airasiax-assistive.listedcompany.com/ar.html",
+    "confidence": "none",
+    "reasoning": "unverified - carried over from a claude.ai batch that did not return confidence/reasoning"
+  },
+  {
+    "stock_code": "5307",
+    "company_name": "Karex Berhad",
+    "ir_homepage_url": "http://karex.com.my/investor-centre-and-reports",
+    "confidence": "none",
+    "reasoning": "unverified - carried over from a claude.ai batch that did not return confidence/reasoning"
+  },
+  {
+    "stock_code": "0149",
+    "company_name": "Top Glove Corporation Berhad",
+    "ir_homepage_url": "https://www.topglove.com/annual-report",
+    "confidence": "none",
+    "reasoning": "unverified - carried over from a claude.ai batch that did not return confidence/reasoning"
+  },
+  {
+    "stock_code": "5192",
+    "company_name": "Ajinomoto (Malaysia) Berhad",
+    "ir_homepage_url": "https://www.ajinomoto.com.my/investors/annual-reports",
+    "confidence": "none",
+    "reasoning": "unverified - carried over from a claude.ai batch that did not return confidence/reasoning"
+  },
+  {
+    "stock_code": "5116",
+    "company_name": "Al-Aqar Healthcare REIT",
+    "ir_homepage_url": "https://www.alaqar.com.my/Investor-reports.php",
+    "confidence": "none",
+    "reasoning": "unverified - carried over from a claude.ai batch that did not return confidence/reasoning"
+  },
+  {
+    "stock_code": "5386",
+    "company_name": "CBPO Holdings Berhad",
+    "ir_homepage_url": "https://cbip.com.my/annual-report/",
+    "confidence": "none",
+    "reasoning": "unverified - carried over from a claude.ai batch that did not return confidence/reasoning"
+  },
+  {
+    "stock_code": "1818",
+    "company_name": "Bursa Malaysia Berhad",
+    "ir_homepage_url": "https://bursa.listedcompany.com/ar.html",
+    "confidence": "none",
+    "reasoning": "unverified - carried over from a claude.ai batch that did not return confidence/reasoning"
+  },
+  {
+    "stock_code": "0174",
+    "company_name": "Pentastar Holdings Berhad",
+    "ir_homepage_url": "https://pentamaster.listedcompany.com/ar.html",
+    "confidence": "none",
+    "reasoning": "unverified - carried over from a claude.ai batch that did not return confidence/reasoning"
+  },
+  {
+    "stock_code": "1838",
+    "company_name": "KLCC Property Holdings Berhad",
+    "ir_homepage_url": "https://klcc.com.my/investor-relations/reports/",
+    "confidence": "none",
+    "reasoning": "unverified - carried over from a claude.ai batch that did not return confidence/reasoning"
+  },
+  {
+    "stock_code": "5503",
+    "company_name": "IGB Real Estate Investment Trust",
+    "ir_homepage_url": "https://www.igbreit.com/annual-report",
+    "confidence": "none",
+    "reasoning": "unverified - carried over from a claude.ai batch that did not return confidence/reasoning"
+  },
+  {
+    "stock_code": "5292",
+    "company_name": "Pavilion Real Estate Investment Trust",
+    "ir_homepage_url": "https://ir2.chartnexus.com/pavreit/annual-reports.php",
+    "confidence": "none",
+    "reasoning": "unverified - carried over from a claude.ai batch that did not return confidence/reasoning"
+  },
+  {
+    "stock_code": "5315",
+    "company_name": "Sunway Real Estate Investment Trust",
+    "ir_homepage_url": null,
+    "confidence": "none",
+    "reasoning": "unverified - carried over from a claude.ai batch that did not return confidence/reasoning"
+  },
+  {
+    "stock_code": "5088",
+    "company_name": "Axis Real Estate Investment Trust",
+    "ir_homepage_url": "https://www.axis-reit.com.my/investor/annual-reports.php",
+    "confidence": "none",
+    "reasoning": "unverified - carried over from a claude.ai batch that did not return confidence/reasoning"
+  },
+  {
+    "stock_code": "5206",
+    "company_name": "Ranhill Utilities Berhad",
+    "ir_homepage_url": "https://ranhill.com.my/investor-relations/reports-presentations/",
+    "confidence": "none",
+    "reasoning": "unverified - carried over from a claude.ai batch that did not return confidence/reasoning"
+  },
+  {
+    "stock_code": "5258",
+    "company_name": "Lingkaran Trans Kota Holdings Berhad",
+    "ir_homepage_url": "https://litrak.com.my/investor-relations/company-announcement/annual-report/",
+    "confidence": "none",
+    "reasoning": "unverified - carried over from a claude.ai batch that did not return confidence/reasoning"
+  },
+  {
+    "stock_code": "5238",
+    "company_name": "AirAsia X Berhad",
+    "ir_homepage_url": "https://airasiax-assistive.listedcompany.com/ar.html",
+    "confidence": "none",
+    "reasoning": "unverified - carried over from a claude.ai batch that did not return confidence/reasoning"
+  },
+  {
+    "stock_code": "5115",
+    "company_name": "Alam Maritim Resources Berhad",
+    "ir_homepage_url": "https://www.alam-maritim.com.my/investor/annual-report/",
+    "confidence": "none",
+    "reasoning": "unverified - carried over from a claude.ai batch that did not return confidence/reasoning"
+  }
+]

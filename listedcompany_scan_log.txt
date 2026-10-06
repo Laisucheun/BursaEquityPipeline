@@ -1,0 +1,428 @@
+[1/411] 1155 Malayan Banking Berhad    -> NOT_FOUND
+[2/411] 4707 Nestle (Malaysia) Berhad  -> NOT_FOUND
+[3/411] 2445 Kuala Lumpur Kepong Berha -> NOT_FOUND
+[4/411] 1163 Allianz Malaysia Berhad   -> NOT_FOUND
+[5/411] 5114 Al-Aqar Healthcare REIT   -> NOT_FOUND
+[6/411] 2651 Sunway Construction Group -> NOT_FOUND
+[7/411] 5379 Sunway Berhad             -> NOT_FOUND
+[8/411] 0149 Top Glove Corporation Ber -> NOT_FOUND
+[9/411] 0174 Pentastar Holdings Berhad -> FOUND
+[10/411] 1838 KLCC Property Holdings Be -> NOT_FOUND
+[11/411] 5206 Ranhill Utilities Berhad  -> NOT_FOUND
+[12/411] 5258 Lingkaran Trans Kota Hold -> NOT_FOUND
+[13/411] 5188 China Ouhua Winery Holdin -> NOT_FOUND
+[14/411] 5156 XiDeLang Holdings Ltd     -> NOT_FOUND
+[15/411] 0007 PUC Berhad                -> NOT_FOUND
+[16/411] 9431 Seni Jaya Corporation Ber -> NOT_FOUND
+[17/411] 7209 Cheetah Holdings Berhad   -> NOT_FOUND
+[18/411] 7087 Magni-Tech Industries Ber -> NOT_FOUND
+[19/411] 7139 Niche Capital Emas Holdin -> NOT_FOUND
+[20/411] 0049 Oceancash Pacific Berhad  -> NOT_FOUND
+[21/411] 5080 Poh Kong Holdings Berhad  -> NOT_FOUND
+[22/411] 7130 Reneuco Berhad            -> NOT_FOUND
+[23/411] 8966 Techbase Industries Berha -> NOT_FOUND
+[24/411] 0250 YX Precious Metals Bhd    -> NOT_FOUND
+[25/411] 1619 DRB-HICOM Berhad          -> NOT_FOUND
+--- found=1 checked=24 ---
+[26/411] 5198 ABM Fujiya Berhad         -> NOT_FOUND
+[27/411] 5015 APM Automotive Holdings B -> NOT_FOUND
+[28/411] 9083 Kumpulan Jetson Berhad    -> NOT_FOUND
+[29/411] 7004 MCE Holdings Berhad       -> NOT_FOUND
+[30/411] 7060 New Hoong Fatt Holdings B -> NOT_FOUND
+[31/411] 5271 Pecca Group Berhad        -> NOT_FOUND
+[32/411] 7811 Sapura Industrial Berhad  -> NOT_FOUND
+[33/411] 7132 SMIS Corporation Berhad   -> NOT_FOUND
+[34/411] 1171 MBSB Berhad               -> NOT_FOUND
+[35/411] 7103 Spritzer Bhd              -> NOT_FOUND
+[36/411] 6399 Astro Malaysia Holdings B -> NOT_FOUND
+[37/411] 5274 Hong Leong Capital Berhad -> NOT_FOUND
+[38/411] 7082 M & A Equity Holdings Ber -> NOT_FOUND
+[39/411] 0100 ES Ceramics Technology Be -> NOT_FOUND
+[40/411] 03026 Fibromat (M) Berhad       -> NOT_FOUND
+[41/411] 9237 Sarawak Consolidated Indu -> NOT_FOUND
+[42/411] 7115 SKB Shutters Corporation  -> NOT_FOUND
+[43/411] 9296 Sorento Capital Berhad    -> NOT_FOUND
+[44/411] 7133 United U-LI Corporation B -> NOT_FOUND
+[45/411] 7025 Woodlandor Holdings Berha -> NOT_FOUND
+[46/411] 0248 Yew Lee Pacific Group Ber -> NOT_FOUND
+[47/411] 0167 MClean Technologies Berha -> NOT_FOUND
+[48/411] 0081 Rekatech Capital Berhad   -> NOT_FOUND
+[49/411] 0105 Asia Poly Holdings Berhad -> NOT_FOUND
+[50/411] 1899 Batu Kawan Berhad         -> NOT_FOUND
+--- found=1 checked=49 ---
+[51/411] 0054 Karyon Industries Berhad  -> NOT_FOUND
+[52/411] 5284 Lotte Chemical Titan Hold -> NOT_FOUND
+[53/411] 9954 RGT Berhad                -> NOT_FOUND
+[54/411] 4731 Scientex Berhad           -> NOT_FOUND
+[55/411] 5308 Seng Fong Holdings Berhad -> NOT_FOUND
+[56/411] 5134 Southern Acids (M) Berhad -> NOT_FOUND
+[57/411] 7200 Tek Seng Holdings Berhad  -> NOT_FOUND
+[58/411] 0301 Zantat Holdings Berhad    -> NOT_FOUND
+[59/411] 5151 Hextar Global Berhad      -> NOT_FOUND
+[60/411] 0055 Sersol Berhad             -> NOT_FOUND
+[61/411] 0306 Smart Asia Chemical Bhd   -> NOT_FOUND
+[62/411] 0175 HHRG Berhad               -> NOT_FOUND
+[63/411] 0038 Artroniq Berhad           -> NOT_FOUND
+[64/411] 0277 Cloudpoint Technology Ber -> NOT_FOUND
+[65/411] 03025 Crest Group Berhad        -> NOT_FOUND
+[66/411] 8338 Dataprep Holdings Bhd     -> NOT_FOUND
+[67/411] 0154 EA Holdings Berhad        -> NOT_FOUND
+[68/411] 9377 FSBM Holdings Berhad      -> NOT_FOUND
+[69/411] 0311 Go Hub Capital Berhad     -> NOT_FOUND
+[70/411] 0060 Harvest Miracle Capital B -> NOT_FOUND
+[71/411] 03038 ICT Zone Asia Berhad      -> NOT_FOUND
+[72/411] 0036 Key Alliance Group Berhad -> NOT_FOUND
+[73/411] 0249 LGMS Berhad               -> FOUND
+[74/411] 0075 LYC Healthcare Berhad     -> NOT_FOUND
+[75/411] 0156 ManagePay Systems Berhad  -> NOT_FOUND
+--- found=2 checked=73 ---
+[76/411] 0034 MMAG Holdings Berhad      -> NOT_FOUND
+[77/411] 9008 Omesti Berhad             -> NOT_FOUND
+[78/411] 0006 Pineapple Resources Berha -> NOT_FOUND
+[79/411] 0129 Silver Ridge Holdings Bhd -> NOT_FOUND
+[80/411] 0066 Vsolar Group Berhad       -> NOT_FOUND
+[81/411] 5162 VSTECS Berhad             -> NOT_FOUND
+[82/411] 0094 Zen Tech International Be -> NOT_FOUND
+[83/411] 5161 JCY International Berhad  -> NOT_FOUND
+[84/411] 7005 B.I.G. Industries Berhad  -> NOT_FOUND
+[85/411] 8133 Boustead Heavy Industries -> NOT_FOUND
+[86/411] 2852 Cahya Mata Sarawak Berhad -> NOT_FOUND
+[87/411] 5165 DFCITY Group Berhad       -> NOT_FOUND
+[88/411] 7229 Favelle Favco Berhad      -> NOT_FOUND
+[89/411] 3794 Malayan Cement Berhad     -> NOT_FOUND
+[90/411] 7140 OKA Corporation Bhd       -> NOT_FOUND
+[91/411] 7043 Xin Synergy Group Berhad  -> NOT_FOUND
+[92/411] 0068 Asdion Berhad             -> NOT_FOUND
+[93/411] 3395 Berjaya Corporation Berha -> NOT_FOUND
+[94/411] 3034 Hap Seng Consolidated Ber -> NOT_FOUND
+[95/411] 2607 Inch Kenneth Kajang Rubbe -> NOT_FOUND
+[96/411] 3891 Malayan United Industries -> NOT_FOUND
+[97/411] 8702 Texchem Resources Bhd     -> NOT_FOUND
+[98/411] 7090 Apex Healthcare Berhad    -> NOT_FOUND
+[99/411] 0002 Kotra Industries Berhad   -> NOT_FOUND
+[100/411] 7178 Y.S.P. Southeast Asia Hol -> NOT_FOUND
+--- found=2 checked=98 ---
+[101/411] 5204 AwanBiru Technology Berha -> NOT_FOUND
+[102/411] 5166 Cyberjaya Education Group -> NOT_FOUND
+[103/411] 0107 Eduspec Holdings Berhad   -> NOT_FOUND
+[104/411] 9792 SEG International Bhd     -> NOT_FOUND
+[105/411] 0117 SMRT Holdings Berhad      -> NOT_FOUND
+[106/411] 0295 Master Tec Group Berhad   -> NOT_FOUND
+[107/411] 6149 Metrod Holdings Berhad    -> NOT_FOUND
+[108/411] 0001 Supercomnet Technologies  -> NOT_FOUND
+[109/411] 0118 Trive Property Group Berh -> NOT_FOUND
+[110/411] 7227 UMS-Neiken Group Berhad   -> NOT_FOUND
+[111/411] 9172 Formosa Prosonic Industri -> NOT_FOUND
+[112/411] 03011 Amlex Holdings Berhad     -> NOT_FOUND
+[113/411] 3247 GUH Holdings Berhad       -> NOT_FOUND
+[114/411] 9393 Industronics Berhad       -> NOT_FOUND
+[115/411] 5107 IQ Group Holdings Berhad  -> NOT_FOUND
+[116/411] 0270 NationGate Holdings Berha -> NOT_FOUND
+[117/411] 0083 Notion VTec Berhad        -> NOT_FOUND
+[118/411] 0093 Solution Group Berhad     -> NOT_FOUND
+[119/411] 7100 Uchi Technologies Berhad  -> NOT_FOUND
+[120/411] 0102 Waja Konsortium Berhad    -> NOT_FOUND
+[121/411] 5281 Advancecon Holdings Berha -> NOT_FOUND
+[122/411] 7078 Ahmad Zaki Resources Berh -> NOT_FOUND
+[123/411] 7007 ARK Resources Holdings Be -> NOT_FOUND
+[124/411] 5190 Benalec Holdings Berhad   -> NOT_FOUND
+[125/411] 5932 Bina Puri Holdings Bhd    -> NOT_FOUND
+--- found=2 checked=123 ---
+[126/411] 8591 Crest Builder Holdings Be -> NOT_FOUND
+[127/411] 0291 Critical Holdings Berhad  -> NOT_FOUND
+[128/411] 0059 Ecobuilt Holdings Berhad  -> NOT_FOUND
+[129/411] 5253 Econpile Holdings Berhad  -> NOT_FOUND
+[130/411] 8877 Ekovest Berhad            -> NOT_FOUND
+[131/411] 7197 Geohan Corporation Berhad -> NOT_FOUND
+[132/411] 0185 HSS Engineers Berhad      -> NOT_FOUND
+[133/411] 5178 Ingenieur Gudang Berhad   -> NOT_FOUND
+[134/411] 9466 KKB Engineering Berhad    -> NOT_FOUND
+[135/411] 1651 Malaysian Resources Corpo -> NOT_FOUND
+[136/411] 5129 Melati Ehsan Holdings Ber -> NOT_FOUND
+[137/411] 8192 Mercury Industries Berhad -> NOT_FOUND
+[138/411] 7595 MGB Berhad                -> NOT_FOUND
+[139/411] 0245 MN Holdings Berhad        -> NOT_FOUND
+[140/411] 5703 Muhibbah Engineering (M)  -> NOT_FOUND
+[141/411] 0233 Pekat Group Berhad        -> NOT_FOUND
+[142/411] 7163 PJBumi Berhad             -> NOT_FOUND
+[143/411] 5172 Sinaran Advance Group Ber -> NOT_FOUND
+[144/411] 0045 Southern Score Builders B -> NOT_FOUND
+[145/411] 5263 Sunway Construction Group -> NOT_FOUND
+[146/411] 03033 Supergenics Berhad        -> NOT_FOUND
+[147/411] 5042 TSR Capital Berhad        -> NOT_FOUND
+[148/411] 0310 UUE Holdings Berhad       -> NOT_FOUND
+[149/411] 5006 Varia Berhad              -> NOT_FOUND
+[150/411] 0069 Vinvest Capital Holdings  -> NOT_FOUND
+--- found=2 checked=148 ---
+[151/411] 0011 Brite-Tech Berhad         -> NOT_FOUND
+[152/411] 5184 Cypark Resources Berhad   -> NOT_FOUND
+[153/411] 0039 GFM Services Berhad       -> NOT_FOUND
+[154/411] 0160 Hiap Huat Holdings Berhad -> NOT_FOUND
+[155/411] 0089 Tex Cycle Technology (M)  -> NOT_FOUND
+[156/411] 5069 BLD Plantation Bhd.       -> NOT_FOUND
+[157/411] 1929 Chin Teck Plantations Ber -> NOT_FOUND
+[158/411] 2291 Genting Plantations Berha -> NOT_FOUND
+[159/411] 2135 Gopeng Berhad             -> NOT_FOUND
+[160/411] 0136 Greenyield Berhad         -> NOT_FOUND
+[161/411] 2453 Kluang Rubber Company (Ma -> NOT_FOUND
+[162/411] 1996 Kretam Holdings Berhad    -> NOT_FOUND
+[163/411] 0189 Matang Berhad             -> NOT_FOUND
+[164/411] 2038 Negri Sembilan Oil Palms  -> NOT_FOUND
+[165/411] 1902 Pinehill Pacific Berhad   -> NOT_FOUND
+[166/411] 9695 PLS Plantations Berhad    -> NOT_FOUND
+[167/411] 5113 Rimbunan Sawit Berhad     -> NOT_FOUND
+[168/411] 2542 Riverview Rubber Estates, -> NOT_FOUND
+[169/411] 2569 Sungei Bagan Rubber Compa -> NOT_FOUND
+[170/411] 5112 TH Plantations Berhad     -> NOT_FOUND
+[171/411] 2089 United Plantations Berhad -> NOT_FOUND
+[172/411] 2658 Ajinomoto (Malaysia) Berh -> NOT_FOUND
+[173/411] 5024 Hup Seng Industries Berha -> NOT_FOUND
+[174/411] 8478 Hwa Tai Industries Berhad -> NOT_FOUND
+[175/411] 7216 Kawan Food Berhad         -> NOT_FOUND
+--- found=2 checked=173 ---
+[176/411] 9385 Lay Hong Berhad           -> NOT_FOUND
+[177/411] 6633 Leong Hup International B -> NOT_FOUND
+[178/411] 0095 MAG Holdings Berhad       -> NOT_FOUND
+[179/411] 0280 MYMBN Berhad              -> NOT_FOUND
+[180/411] 5533 OCB Berhad                -> NOT_FOUND
+[181/411] 0252 Orgabio Holdings Berhad   -> NOT_FOUND
+[182/411] 7134 PWF Corporation Bhd.      -> NOT_FOUND
+[183/411] 9776 Sinmah Capital Berhad     -> NOT_FOUND
+[184/411] 7439 Teck Guan Perdana Berhad  -> NOT_FOUND
+[185/411] 3948 DutaLand Berhad           -> NOT_FOUND
+[186/411] 0074 Green Ocean Corporation B -> NOT_FOUND
+[187/411] 03018 Supreme Consolidated Reso -> NOT_FOUND
+[188/411] 0271 Wellspire Holdings Berhad -> NOT_FOUND
+[189/411] 7198 DPS Resources Berhad      -> NOT_FOUND
+[190/411] 2984 FACB Industries Incorpora -> NOT_FOUND
+[191/411] 8605 Federal International Hol -> NOT_FOUND
+[192/411] 5160 Homeritz Corporation Berh -> NOT_FOUND
+[193/411] 7062 Khind Holdings Berhad     -> NOT_FOUND
+[194/411] 7089 Lii Hen Industries Bhd    -> NOT_FOUND
+[195/411] 3719 Panasonic Manufacturing M -> NOT_FOUND
+[196/411] 9997 Pensonic Holdings Berhad  -> NOT_FOUND
+[197/411] 7088 Poh Huat Resources Holdin -> NOT_FOUND
+[198/411] 7246 Signature International B -> NOT_FOUND
+[199/411] 7186 SWS Capital Berhad        -> NOT_FOUND
+[200/411] 2127 Comfort Gloves Berhad     -> NOT_FOUND
+--- found=2 checked=198 ---
+[201/411] 7153 Kossan Rubber Industries  -> NOT_FOUND
+[202/411] 0182 LKL International Berhad  -> NOT_FOUND
+[203/411] 7113 Top Glove Corporation Bhd -> NOT_FOUND
+[204/411] 0283 DC Healthcare Holdings Be -> NOT_FOUND
+[205/411] 0041 Hong Seng Consolidated Be -> NOT_FOUND
+[206/411] 03005 Metro Healthcare Berhad   -> NOT_FOUND
+[207/411] 0222 Optimax Holdings Berhad   -> NOT_FOUND
+[208/411] 03013 Topvision Eye Specialist  -> NOT_FOUND
+[209/411] 03057 Sancy Berhad              -> NOT_FOUND
+[210/411] 0005 UCrest Berhad             -> NOT_FOUND
+[211/411] 0237 Haily Group Berhad        -> NOT_FOUND
+[212/411] 8885 Avillion Berhad           -> NOT_FOUND
+[213/411] 3239 Berjaya Assets Berhad     -> NOT_FOUND
+[214/411] 4219 Berjaya Land Berhad       -> NOT_FOUND
+[215/411] 0152 DGB Asia Berhad           -> NOT_FOUND
+[216/411] 1643 Landmarks Berhad          -> NOT_FOUND
+[217/411] 3859 Magnum Berhad             -> NOT_FOUND
+[218/411] 3018 Olympia Industries Berhad -> NOT_FOUND
+[219/411] 0022 Parlo Berhad              -> NOT_FOUND
+[220/411] 0037 RGB International Bhd.    -> NOT_FOUND
+[221/411] 9091 Emico Holdings Berhad     -> NOT_FOUND
+[222/411] 7803 Hextar Healthcare Berhad  -> NOT_FOUND
+[223/411] 5022 Paos Holdings Berhad      -> NOT_FOUND
+[224/411] 03048 Vanzo Holdings Berhad     -> NOT_FOUND
+[225/411] 0281 Daythree Digital Berhad   -> NOT_FOUND
+--- found=2 checked=223 ---
+[226/411] 0064 Efficient E-Solutions Ber -> NOT_FOUND
+[227/411] 6139 Syarikat Takaful Malaysia -> NOT_FOUND
+[228/411] 5230 Tune Protect Group Berhad -> NOT_FOUND
+[229/411] 1058 Manulife Holdings Berhad  -> NOT_FOUND
+[230/411] 8621 LPI Capital Bhd           -> NOT_FOUND
+[231/411] 2186 Kuchai Development Berhad -> NOT_FOUND
+[232/411] 0209 Aimflex Berhad            -> NOT_FOUND
+[233/411] 7076 CB Industrial Product Hol -> NOT_FOUND
+[234/411] 5007 Chin Well Holdings Berhad -> NOT_FOUND
+[235/411] 0113 MMS Ventures Berhad       -> NOT_FOUND
+[236/411] 7091 Unimech Group Berhad      -> NOT_FOUND
+[237/411] 7050 Wong Engineering Corporat -> NOT_FOUND
+[238/411] 0240 Coraza Integrated Technol -> NOT_FOUND
+[239/411] 9326 LB Aluminium Berhad       -> NOT_FOUND
+[240/411] 7225 P.A. Resources Berhad     -> NOT_FOUND
+[241/411] 7172 PMB Technology Berhad     -> NOT_FOUND
+[242/411] 0298 Wentel Engineering Holdin -> NOT_FOUND
+[243/411] 9423 CWG Holdings Berhad       -> NOT_FOUND
+[244/411] 7208 Euro Holdings Berhad      -> NOT_FOUND
+[245/411] 7223 Jadi Imaging Holdings Ber -> NOT_FOUND
+[246/411] 5231 PBS Berhad                -> NOT_FOUND
+[247/411] 7211 TAFI Industries Berhad    -> NOT_FOUND
+[248/411] 0257 Unique Fire Holdings Berh -> NOT_FOUND
+[249/411] 5199 Hibiscus Petroleum Berhad -> NOT_FOUND
+[250/411] 0080 Straits Energy Resources  -> NOT_FOUND
+--- found=2 checked=248 ---
+[251/411] 7277 Dialog Group Berhad       -> NOT_FOUND
+[252/411] 0084 Fast Energy Holdings Berh -> NOT_FOUND
+[253/411] 7253 Handal Energy Berhad      -> NOT_FOUND
+[254/411] 4324 Hengyuan Refining Company -> NOT_FOUND
+[255/411] 7108 Perdana Petroleum Berhad  -> NOT_FOUND
+[256/411] 03049 Steel Hawk Berhad         -> NOT_FOUND
+[257/411] 6297 Box-Pak (Malaysia) Bhd.   -> NOT_FOUND
+[258/411] 9938 Bright Packaging Industry -> NOT_FOUND
+[259/411] 5105 Can-One Berhad            -> NOT_FOUND
+[260/411] 7157 CYL Corporation Berhad    -> NOT_FOUND
+[261/411] 7114 D'nonce Technology Bhd.   -> NOT_FOUND
+[262/411] 8362 KYM Holdings Bhd          -> NOT_FOUND
+[263/411] 0268 L&P Global Berhad         -> NOT_FOUND
+[264/411] 7029 Master-Pack Group Berhad  -> NOT_FOUND
+[265/411] 3883 Muda Holdings Berhad      -> NOT_FOUND
+[266/411] 8273 Public Packages Holdings  -> NOT_FOUND
+[267/411] 7498 Ralco Corporation Berhad  -> NOT_FOUND
+[268/411] 7247 SCGM Bhd                  -> NOT_FOUND
+[269/411] 8125 Scientex Packaging (Ayer  -> NOT_FOUND
+[270/411] 5025 Auro Holdings Berhad      -> NOT_FOUND
+[271/411] 9016 Eksons Corporation Berhad -> NOT_FOUND
+[272/411] 5095 HeveaBoard Berhad         -> NOT_FOUND
+[273/411] 7202 Hextar Retail Berhad      -> NOT_FOUND
+[274/411] 7123 Maxland Berhad            -> NOT_FOUND
+[275/411] 5001 Mieco Chipboard Berhad    -> NOT_FOUND
+--- found=2 checked=273 ---
+[276/411] 5576 Minho (M) Berhad          -> NOT_FOUND
+[277/411] 7854 Timberwell Berhad         -> NOT_FOUND
+[278/411] 7757 UPA Corporation Berhad    -> NOT_FOUND
+[279/411] 4243 W T K Holdings Berhad     -> NOT_FOUND
+[280/411] 5264 Malakoff Corporation Berh -> NOT_FOUND
+[281/411] 8044 Computer Forms (Malaysia) -> NOT_FOUND
+[282/411] 6084 Star Media Group Berhad   -> NOT_FOUND
+[283/411] 5120 AmFirst Real Estate Inves -> NOT_FOUND
+[284/411] 5130 Atrium Real Estate Invest -> NOT_FOUND
+[285/411] 5106 Axis Real Estate Investme -> NOT_FOUND
+[286/411] 5109 YTL Hospitality REIT      -> NOT_FOUND
+[287/411] 7120 Axteria Group Berhad      -> NOT_FOUND
+[288/411] 2305 AYER Holdings Berhad      -> NOT_FOUND
+[289/411] 6602 BCB Berhad                -> NOT_FOUND
+[290/411] 9814 Bertam Alliance Berhad    -> NOT_FOUND
+[291/411] 6718 Crescendo Corporation Ber -> NOT_FOUND
+[292/411] 8206 Eco World Development Gro -> NOT_FOUND
+[293/411] 7382 Golden Land Berhad        -> NOT_FOUND
+[294/411] 5062 Hua Yang Berhad           -> NOT_FOUND
+[295/411] 9687 Ideal Capital Berhad      -> NOT_FOUND
+[296/411] 1589 Iskandar Waterfront City  -> NOT_FOUND
+[297/411] 6769 JKG Land Berhad           -> NOT_FOUND
+[298/411] 7323 Ken Holdings Berhad       -> NOT_FOUND
+[299/411] 7077 Kerjaya Prospek Property  -> NOT_FOUND
+[300/411] 5038 KSL Holdings Berhad       -> NOT_FOUND
+--- found=2 checked=298 ---
+[301/411] 7617 Magna Prima Berhad        -> NOT_FOUND
+[302/411] 8583 Mah Sing Group Berhad     -> NOT_FOUND
+[303/411] 4022 Maxim Global Berhad       -> NOT_FOUND
+[304/411] 5040 Meridian Berhad           -> NOT_FOUND
+[305/411] 9539 Multi-Usage Holdings Berh -> NOT_FOUND
+[306/411] 5827 Oriental Interest Berhad  -> NOT_FOUND
+[307/411] 8664 S P Setia Berhad          -> NOT_FOUND
+[308/411] 2259 Talam Transform Berhad    -> NOT_FOUND
+[309/411] 0230 Teladan Group Berhad      -> NOT_FOUND
+[310/411] 7889 Thriven Global Berhad     -> NOT_FOUND
+[311/411] 5239 Titijaya Land Berhad      -> NOT_FOUND
+[312/411] 5401 Tropicana Corporation Ber -> NOT_FOUND
+[313/411] 5148 UEM Sunrise Berhad        -> NOT_FOUND
+[314/411] 5200 UOA Development Bhd       -> NOT_FOUND
+[315/411] 7066 Yong Tai Berhad           -> NOT_FOUND
+[316/411] 3417 Eastern & Oriental Berhad -> NOT_FOUND
+[317/411] 7105 HCK Capital Group Berhad  -> NOT_FOUND
+[318/411] 1724 Paramount Corporation Ber -> NOT_FOUND
+[319/411] 4286 Seal Incorporated Berhad  -> NOT_FOUND
+[320/411] 6017 SHL Consolidated Bhd.     -> NOT_FOUND
+[321/411] 7765 Rapid Synergy Berhad      -> NOT_FOUND
+[322/411] 4596 Sapura Resources Berhad   -> NOT_FOUND
+[323/411] 5260 Only World Group Holdings -> NOT_FOUND
+[324/411] 5196 Berjaya Food Berhad       -> NOT_FOUND
+[325/411] 0116 Focus Dynamics Group Berh -> NOT_FOUND
+--- found=2 checked=323 ---
+[326/411] 4006 Oriental Kopi Holdings Be -> NOT_FOUND
+[327/411] 0153 Oversea Enterprise Berhad -> NOT_FOUND
+[328/411] 2739 Techna-X Berhad           -> NOT_FOUND
+[329/411] 7137 BMS Holdings Berhad       -> NOT_FOUND
+[330/411] 03047 Lim Seong Hai Capital Ber -> NOT_FOUND
+[331/411] 5296 Mr D.I.Y. Group (M) Berha -> NOT_FOUND
+[332/411] 0287 SSF Home Group Berhad     -> NOT_FOUND
+[333/411] 7722 Asia Brands Berhad        -> NOT_FOUND
+[334/411] 7016 Chuan Huat Resources Berh -> NOT_FOUND
+[335/411] 5037 Compugates Holdings Berha -> NOT_FOUND
+[336/411] 0261 Cosmos Technology Interna -> NOT_FOUND
+[337/411] 03053 CUCKOO International (MAL -> NOT_FOUND
+[338/411] 5908 DKSH Holdings (Malaysia)  -> NOT_FOUND
+[339/411] 5056 Engtex Group Berhad       -> NOT_FOUND
+[340/411] 2755 FCW Holdings Berhad       -> NOT_FOUND
+[341/411] 6939 Fiamma Holdings Berhad    -> NOT_FOUND
+[342/411] 0161 Hextar Industries Berhad  -> NOT_FOUND
+[343/411] 5673 Jentayu Sustainables Berh -> NOT_FOUND
+[344/411] 7096 Joe Holding Berhad        -> NOT_FOUND
+[345/411] 5035 Knusford Berhad           -> NOT_FOUND
+[346/411] 9121 KPS Consortium Berhad     -> NOT_FOUND
+[347/411] 8486 Lion Posim Berhad         -> NOT_FOUND
+[348/411] 3514 Marco Holdings Berhad     -> NOT_FOUND
+[349/411] 8419 Pansar Berhad             -> NOT_FOUND
+[350/411] 3611 Paragon Globe Berhad      -> NOT_FOUND
+--- found=2 checked=348 ---
+[351/411] 7010 PTT Synergy Group Berhad  -> NOT_FOUND
+[352/411] 5147 Samchem Holdings Berhad   -> NOT_FOUND
+[353/411] 6599 Aeon Co. (M) Bhd.         -> NOT_FOUND
+[354/411] 7668 Beshom Holdings Berhad    -> NOT_FOUND
+[355/411] 5121 Hektar Real Estate Invest -> NOT_FOUND
+[356/411] 5227 IGB Real Estate Investmen -> NOT_FOUND
+[357/411] 5176 Sunway Real Estate Invest -> NOT_FOUND
+[358/411] 6351 Amway (Malaysia) Holdings -> NOT_FOUND
+[359/411] 9288 Bonia Corporation Berhad  -> NOT_FOUND
+[360/411] 03016 Carlo Rino Group Berhad   -> NOT_FOUND
+[361/411] 8672 Kamdar Group (M) Berhad   -> NOT_FOUND
+[362/411] 0210 Kim Hin Joo (Malaysia) Be -> NOT_FOUND
+[363/411] 7052 Padini Holdings Berhad    -> NOT_FOUND
+[364/411] 5305 Senheng New Retail Berhad -> NOT_FOUND
+[365/411] 9369 Teo Guan Lee Corporation  -> NOT_FOUND
+[366/411] 7230 Tomei Consolidated Berhad -> NOT_FOUND
+[367/411] 0190 Eversafe Rubber Berhad    -> NOT_FOUND
+[368/411] 0278 Edelteq Holdings Berhad   -> NOT_FOUND
+[369/411] 0166 Inari Amertron Berhad     -> NOT_FOUND
+[370/411] 0275 Oppstar Berhad            -> NOT_FOUND
+[371/411] 5286 Mi Technovation Berhad    -> NOT_FOUND
+[372/411] 0272 TT Vision Holdings Berhad -> NOT_FOUND
+[373/411] 4359 Turiya Berhad             -> NOT_FOUND
+[374/411] 0097 ViTrox Corporation Berhad -> NOT_FOUND
+[375/411] 7013 Hubline Berhad            -> NOT_FOUND
+--- found=2 checked=373 ---
+[376/411] 6254 PDZ Holdings Bhd          -> NOT_FOUND
+[377/411] 8346 Perak Corporation Berhad  -> NOT_FOUND
+[378/411] 6521 Suria Capital Holdings Be -> NOT_FOUND
+[379/411] 0173 Catcha Digital Berhad     -> NOT_FOUND
+[380/411] 0058 JcbNext Berhad            -> NOT_FOUND
+[381/411] 0079 Aldrich Resources Berhad  -> NOT_FOUND
+[382/411] 5195 Censof Holdings Berhad    -> NOT_FOUND
+[383/411] 0043 Metronic Global Berhad    -> NOT_FOUND
+[384/411] 0126 Microlink Solutions Berha -> NOT_FOUND
+[385/411] 0108 N2N Connect Berhad        -> NOT_FOUND
+[386/411] 0020 NetX Holdings Berhad      -> NOT_FOUND
+[387/411] 0096 Nexgram Holdings Berhad   -> NOT_FOUND
+[388/411] 0106 Rexit Berhad              -> NOT_FOUND
+[389/411] 0145 TFP Solutions Berhad      -> NOT_FOUND
+[390/411] 6556 Ann Joo Resources Berhad  -> NOT_FOUND
+[391/411] 7020 ASTEEL Group Berhad       -> NOT_FOUND
+[392/411] 0313 BWYS Group Berhad         -> NOT_FOUND
+[393/411] 5797 Choo Bee Metal Industries -> NOT_FOUND
+[394/411] 0266 Leform Berhad             -> NOT_FOUND
+[395/411] 3778 Melewar Industrial Group  -> NOT_FOUND
+[396/411] 9873 Prestar Resources Berhad  -> NOT_FOUND
+[397/411] 5665 Southern Steel Berhad     -> NOT_FOUND
+[398/411] 0169 SMTrack Berhad            -> NOT_FOUND
+[399/411] 0178 Sedania Innovator Berhad  -> NOT_FOUND
+[400/411] 5031 TIME dotCom Berhad        -> NOT_FOUND
+--- found=2 checked=398 ---
+[401/411] 0299 AGX Group Berhad          -> NOT_FOUND
+[402/411] 7218 Arka Berhad               -> NOT_FOUND
+[403/411] 7117 CJ Century Logistics Hold -> NOT_FOUND
+[404/411] 0078 GDEX Berhad               -> NOT_FOUND
+[405/411] 7053 See Hup Consolidated Berh -> NOT_FOUND
+[406/411] 3565 WCE Holdings Berhad       -> NOT_FOUND
+[407/411] 0048 Ancom Logistics Berhad    -> NOT_FOUND
+[408/411] 0305 Sin-Kung Logistics Berhad -> NOT_FOUND
+[409/411] 6807 Puncak Niaga Holdings Ber -> NOT_FOUND
+[410/411] 5272 Ranhill Utilities Berhad  -> NOT_FOUND
+[411/411] 8524 Taliworks Corporation Ber -> NOT_FOUND
+Done: found=2 checked=409 total=411

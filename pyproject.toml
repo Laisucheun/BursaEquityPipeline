@@ -1,0 +1,79 @@
+[project]
+name = "bursa-equity-pipeline"
+version = "0.1.0"
+description = "Ingest Bursa Malaysia annual and quarterly reports, extract financial statement line items into a queryable fact database."
+requires-python = ">=3.12"
+dependencies = [
+    "sqlalchemy>=2.0.36",
+    "alembic>=1.14",
+    "pydantic>=2.10",
+    "pydantic-settings>=2.7",
+    "python-dotenv>=1.0",
+    "pymupdf>=1.25",
+    "anthropic>=0.69",
+    "fastapi>=0.115",
+    "uvicorn[standard]>=0.34",
+    "python-multipart>=0.0.20",
+    "typer>=0.15",
+    "rich>=13.9",
+    "httpx>=0.28",
+]
+
+[project.optional-dependencies]
+# Postgres driver. Not needed while DATABASE_URL points at SQLite.
+postgres = ["psycopg[binary]>=3.2"]
+# Docling pulls in torch and is a large install. Only needed for scanned PDFs
+# and for layout recovery on PDFs that PyMuPDF handles badly.
+docling = ["docling>=2.15"]
+# Cloudflare R2 (S3 API) blob storage and AWS Textract OCR fallback.
+aws = ["boto3>=1.35"]
+# Cross-validate extracted facts against Yahoo Finance.
+benchmark = ["yfinance>=0.2"]
+# Prefect is only needed to run the scheduled/observable flows. Every pipeline
+# stage is a plain function that works without it.
+orchestration = ["prefect>=3.1"]
+# The IR-site scraper (src/bursa/scrapers/). httpx is already a core dependency.
+scraping = ["beautifulsoup4>=4.12", "lxml>=5.3"]
+dev = [
+    "pytest>=8.3",
+    "pytest-cov>=6.0",
+    "ruff>=0.9",
+    "mypy>=1.14",
+]
+
+[project.scripts]
+bursa = "bursa.cli:app"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/bursa"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM", "RUF"]
+# Typographic quotes, en/em dashes and non-breaking spaces are the actual
+# subject matter here - they appear throughout real filings and the tests that
+# prove we normalise them. Flagging them as "ambiguous" is noise.
+ignore = ["RUF001", "RUF002", "RUF003"]
+
+[tool.ruff.lint.per-file-ignores]
+# Fixture data reads better aligned to the statements it mimics.
+"tests/fixtures/synthetic.py" = ["E501"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+filterwarnings = ["ignore::DeprecationWarning"]
+
+[tool.mypy]
+python_version = "3.12"
+packages = ["bursa"]
+mypy_path = "src"
+ignore_missing_imports = true
