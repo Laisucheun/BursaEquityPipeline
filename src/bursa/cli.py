@@ -14,7 +14,7 @@ from rich.table import Table
 from sqlalchemy import func, select
 
 from bursa.config import get_settings
-from bursa.db.enums import DocStatus, Market, ScrapeStatus, Statement
+from bursa.db.enums import DocSource, DocStatus, DocType, Market, ScrapeStatus, Statement
 from bursa.db.models import Base, Company, Concept, ConceptSynonym, Document, ScrapeAttempt
 from bursa.db.session import get_engine, session_scope
 from bursa.mapping.synonyms import seed_concepts
@@ -85,6 +85,119 @@ def ingest(
         f"[green]ingested[/] {created} new, "
         f"{len(results) - created} already present, from {target}"
     )
+
+
+@app.command("upload")
+def upload(
+    pdf_path: Annotated[
+        Path,
+        typer.Argument(help="Path to the PDF annual report file."),
+    ],
+    stock_code: Annotated[
+        str,
+        typer.Option("--company", "-c", help="Bursa 4-digit stock code."),
+    ],
+    skip_validation: Annotated[
+        bool,
+        typer.Option("--skip-validation", help="Skip accounting-identity validation."),
+    ] = False,
+) -> None:
+    """Upload a PDF annual report and run the full extraction pipeline.
+
+    Ingests the file, checks it contains financial statements, extracts
+    the three primary statements, writes Fact rows, derives missing facts,
+    and runs validation — all in one shot.
+
+    Example::
+
+        bursa upload "C:/Downloads/AnnualReport2024.pdf" --company 1295
+    """
+    from bursa.extract.statement_extract import extract_statements
+    from bursa.pipeline.derive import derive_facts_for_company
+    from bursa.pipeline.normalize import write_facts_for_company
+    from bursa.pipeline.validate import validate_company
+    from bursa.scrapers.content_filter import has_financial_statements
+
+    pdf_path = Path(pdf_path)
+    if not pdf_path.is_file():
+        console.print(f"[red]file not found:[/] {pdf_path}")
+        raise typer.Exit(code=1)
+    if pdf_path.suffix.lower() != ".pdf":
+        console.print(f"[red]not a PDF file:[/] {pdf_path}")
+        raise typer.Exit(code=1)
+
+    with session_scope() as session:
+        company = session.execute(
+            select(Company).where(Company.stock_code == stock_code)
+        ).scalar_one_or_none()
+        if company is None:
+            console.print(f"[red]no company with stock code {stock_code}[/]")
+            raise typer.Exit(code=1)
+
+        console.print(f"uploading for [bold]{stock_code}[/] {company.name}")
+
+        # 1. Ingest
+        from bursa.pipeline.ingest import ingest_file
+
+        doc, created = ingest_file(
+            session, pdf_path,
+            source=DocSource.UPLOAD,
+            company_id=company.id,
+            doc_type=DocType.ANNUAL_REPORT,
+        )
+        if not created:
+            console.print(f"[yellow]already ingested[/] (document {doc.id})")
+        else:
+            console.print(f"[green]ingested[/] as document {doc.id} ({doc.page_count} pages)")
+
+        # 2. Content check
+        storage = Path(doc.storage_path)
+        if not storage.is_file():
+            storage = pdf_path
+        if not has_financial_statements(storage):
+            console.print(
+                "[red]no financial statements detected[/] — this PDF may be a "
+                "narrative report, sustainability report, or chairman's statement. "
+                "The extraction will proceed but may yield no data."
+            )
+
+        # 3. Extract
+        console.print("extracting statements…")
+        result = extract_statements(session, doc.id, storage, company_id=company.id)
+        found = list(result.statements.keys())
+        if found:
+            labels = ", ".join(s.value for s in found)
+            console.print(f"[green]found:[/] {labels}")
+        else:
+            console.print("[yellow]no statements found in this document[/]")
+            raise typer.Exit(code=0)
+
+        # 4. Normalize
+        console.print("writing facts…")
+        norm = write_facts_for_company(session, company)
+        console.print(
+            f"[green]facts:[/] {norm.facts_written} written, "
+            f"{norm.facts_updated} updated, {norm.periods_created} periods"
+        )
+
+        # 5. Derive
+        derive = derive_facts_for_company(session, company)
+        if derive.derived:
+            console.print(f"[green]derived:[/] {derive.derived} facts from accounting identities")
+
+        # 6. Validate
+        if not skip_validation:
+            val = validate_company(session, company)
+            if val.rules_run:
+                style = "green" if val.rules_failed == 0 else "red"
+                console.print(
+                    f"[{style}]validation:[/] {val.rules_passed}/{val.rules_run} passed"
+                )
+                if val.rules_failed:
+                    for f in val.failures:
+                        console.print(f"  [red]✗[/] {f.rule_key}: {f.detail}")
+
+    console.print("[green]done[/]")
 
 
 @company_app.command("add")
