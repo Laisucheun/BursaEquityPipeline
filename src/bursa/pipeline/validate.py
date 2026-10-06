@@ -28,11 +28,12 @@ from collections import Counter
 from dataclasses import dataclass, field
 from decimal import Decimal
 
-from sqlalchemy import delete, select
+from sqlalchemy import delete, func, select
 from sqlalchemy.orm import Session
 
 from bursa.db.enums import Basis, Continuity, PeriodType
-from bursa.db.models import Company, Fact, Period, ValidationResult
+from bursa.db.models import Company, Document, Fact, Period, ValidationResult
+from bursa.validate.comparative import ComparativeSummary, compare_company as _compare_company
 from bursa.validate.rules import PeriodFacts, PeriodKey, RuleOutcome, magnitude_sanity, run_single_period_rules
 
 
@@ -42,6 +43,7 @@ class ValidateResult:
     rules_passed: int = 0
     rules_failed: int = 0
     failures: list[RuleOutcome] = field(default_factory=list)
+    comparative: ComparativeSummary | None = None
 
 
 @dataclass
@@ -142,5 +144,11 @@ def validate_company(session: Session, company: Company) -> ValidateResult:
             continue
         for outcome in magnitude_sanity(buckets[cur_key].facts, buckets[prev_key].facts):
             record(cur_key, outcome, _primary_run_id(buckets[cur_key]))
+
+    doc_count = session.scalar(
+        select(func.count(Document.id)).where(Document.company_id == company.id)
+    )
+    if doc_count and doc_count >= 2:
+        result.comparative = _compare_company(session, company)
 
     return result

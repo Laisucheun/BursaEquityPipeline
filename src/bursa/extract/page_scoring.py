@@ -93,6 +93,7 @@ START_CONCEPT: dict[Statement, tuple[str, ...]] = {
     Statement.INCOME_STATEMENT: ("is.revenue", "is.finance_income"),
     Statement.BALANCE_SHEET: ("bs.ppe", "bs.cash_and_equivalents"),
     Statement.CASH_FLOW: ("cf.profit_before_tax", "is.profit_for_period"),
+    Statement.EQUITY: ("eq.opening_balance",),
 }
 # A balance sheet's usual *end* line depends on which of two equally common
 # presentation formats the filer chose: "total assets = total equity and
@@ -110,6 +111,7 @@ END_CONCEPT: dict[Statement, tuple[str, ...]] = {
     Statement.INCOME_STATEMENT: ("is.profit_for_period",),
     Statement.BALANCE_SHEET: ("bs.total_equity_and_liabilities", "bs.total_equity"),
     Statement.CASH_FLOW: ("cf.cash_end",),
+    Statement.EQUITY: ("eq.closing_balance",),
 }
 
 
@@ -498,7 +500,7 @@ def _stage1_scan(pdf_path: Path, statement: Statement) -> list[PageCandidate]:
     return candidates[:MAX_CANDIDATES]
 
 
-_ALL_STATEMENTS = (Statement.INCOME_STATEMENT, Statement.BALANCE_SHEET, Statement.CASH_FLOW)
+_ALL_STATEMENTS = (Statement.INCOME_STATEMENT, Statement.BALANCE_SHEET, Statement.CASH_FLOW, Statement.EQUITY)
 
 
 def _other_statements(statement: Statement) -> list[Statement]:

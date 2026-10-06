@@ -196,6 +196,12 @@ def upload(
                 if val.rules_failed:
                     for f in val.failures:
                         console.print(f"  [red]✗[/] {f.rule_key}: {f.detail}")
+                if val.comparative and (val.comparative.rounding + val.comparative.restatement) > 0:
+                    console.print(
+                        f"[yellow]comparative:[/] {val.comparative.match} match, "
+                        f"{val.comparative.rounding} rounding, "
+                        f"{val.comparative.restatement} restatement"
+                    )
 
     console.print("[green]done[/]")
 
@@ -775,7 +781,7 @@ def extract_statements_cmd(
     # alongside a company's real reports), never worth a full 3-statement scan.
     MIN_CANDIDATE_PAGES = 10
 
-    summary = Table("Code", "Name", "IS", "BS", "CF")
+    summary = Table("Code", "Name", "IS", "BS", "CF", "EQ")
     report: list[dict] = []
 
     with session_scope() as session:
@@ -834,6 +840,7 @@ def extract_statements_cmd(
                 cell(Statement.INCOME_STATEMENT),
                 cell(Statement.BALANCE_SHEET),
                 cell(Statement.CASH_FLOW),
+                cell(Statement.EQUITY),
             )
 
             report.append(
@@ -1279,6 +1286,20 @@ def valuation_metrics_cmd(
                 )
             console.print(tbl)
             console.print()
+
+
+@app.command("serve")
+def serve(
+    host: Annotated[str, typer.Option(help="Bind address.")] = "127.0.0.1",
+    port: Annotated[int, typer.Option(help="Port number.")] = 8000,
+    reload: Annotated[bool, typer.Option(help="Auto-reload on code changes.")] = False,
+) -> None:
+    """Start the FastAPI development server."""
+    import uvicorn
+
+    console.print(f"[green]starting API server[/] at http://{host}:{port}")
+    console.print("[dim]API docs at /docs, OpenAPI schema at /openapi.json[/]")
+    uvicorn.run("bursa.api.app:app", host=host, port=port, reload=reload)
 
 
 if __name__ == "__main__":  # pragma: no cover

@@ -1169,7 +1169,100 @@ CASH_FLOW: list[ConceptSpec] = [
 ]
 
 
-ALL_CONCEPTS: list[ConceptSpec] = [*INCOME_STATEMENT, *BALANCE_SHEET, *CASH_FLOW]
+# --------------------------------------------------------------------------
+# Statement of changes in equity
+# --------------------------------------------------------------------------
+
+EQUITY: list[ConceptSpec] = [
+    ConceptSpec(
+        "eq.opening_balance", Statement.EQUITY, "Balance at beginning of year",
+        is_subtotal=True, is_instant=True,
+        identity="eq_opening",
+        description="Opening equity balance.",
+        synonyms=("balance at beginning of year", "balance at beginning of the year",
+                  "balance at beginning of the financial year",
+                  "at beginning of year", "at 1 january", "opening balance",
+                  "balance as at beginning of year", "as previously reported"),
+    ),
+    ConceptSpec(
+        "eq.closing_balance", Statement.EQUITY, "Balance at end of year",
+        is_subtotal=True, is_instant=True,
+        identity="eq_closing",
+        description="Closing equity balance.",
+        synonyms=("balance at end of year", "balance at end of the year",
+                  "balance at end of the financial year",
+                  "at end of year", "at 31 december", "closing balance",
+                  "balance as at end of year"),
+    ),
+    ConceptSpec(
+        "eq.profit_for_year", Statement.EQUITY, "Profit for the year",
+        identity="eq_profit",
+        description="Net profit recognised in equity.",
+        synonyms=("profit for the year", "profit for the financial year",
+                  "net profit for the year", "profit/(loss) for the year"),
+    ),
+    ConceptSpec(
+        "eq.other_comprehensive_income", Statement.EQUITY,
+        "Other comprehensive income", identity="eq_oci",
+        description="OCI recognised in equity.",
+        synonyms=("other comprehensive income", "other comprehensive income/(loss)",
+                  "other comprehensive income for the year"),
+    ),
+    ConceptSpec(
+        "eq.total_comprehensive_income", Statement.EQUITY,
+        "Total comprehensive income", is_subtotal=True,
+        identity="eq_tci",
+        description="Profit + OCI recognised in equity.",
+        synonyms=("total comprehensive income", "total comprehensive income for the year",
+                  "total comprehensive income/(loss)"),
+    ),
+    ConceptSpec(
+        "eq.dividends", Statement.EQUITY, "Dividends",
+        typical_sign=NEG, identity="eq_dividends",
+        description="Dividends declared or paid.",
+        synonyms=("dividends", "dividends paid", "dividends declared",
+                  "distribution to unitholders", "distributions to unitholders"),
+    ),
+    ConceptSpec(
+        "eq.issuance_of_shares", Statement.EQUITY, "Issuance of shares",
+        typical_sign=POS, identity="eq_issuance",
+        description="New shares issued.",
+        synonyms=("issuance of shares", "issuance of ordinary shares",
+                  "shares issued", "issuance of new units"),
+    ),
+    ConceptSpec(
+        "eq.share_buyback", Statement.EQUITY, "Share buyback",
+        typical_sign=NEG, identity="eq_buyback",
+        description="Treasury share purchases.",
+        synonyms=("share buyback", "purchase of treasury shares",
+                  "shares bought back", "acquisition of treasury shares"),
+    ),
+    ConceptSpec(
+        "eq.transfer_to_reserves", Statement.EQUITY, "Transfer to reserves",
+        identity="eq_transfer_reserves",
+        description="Transfers between equity components.",
+        synonyms=("transfer to reserves", "transfer to retained earnings",
+                  "transfer from reserves", "transfer to statutory reserve"),
+    ),
+    ConceptSpec(
+        "eq.changes_in_nci", Statement.EQUITY,
+        "Changes in ownership interests in subsidiaries",
+        identity="eq_nci_changes",
+        description="Transactions with NCI without loss of control.",
+        synonyms=("changes in ownership interests in subsidiaries",
+                  "acquisition of non-controlling interests",
+                  "disposal of interest in a subsidiary"),
+    ),
+    ConceptSpec(
+        "eq.share_based_payments", Statement.EQUITY, "Share-based payment transactions",
+        identity="eq_sbp",
+        description="ESOS/RSU expense recognised in equity.",
+        synonyms=("share-based payment", "share-based payment transactions",
+                  "share options", "employee share scheme", "esos"),
+    ),
+]
+
+ALL_CONCEPTS: list[ConceptSpec] = [*INCOME_STATEMENT, *BALANCE_SHEET, *CASH_FLOW, *EQUITY]
 
 CONCEPTS_BY_KEY: dict[str, ConceptSpec] = {c.key: c for c in ALL_CONCEPTS}
 

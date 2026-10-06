@@ -1,0 +1,44 @@
+"""FastAPI application for the Bursa Equity Pipeline."""
+
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+
+from bursa.api.routes import companies, facts, upload, validation, benchmark, valuation
+
+app = FastAPI(
+    title="Bursa Equity Pipeline",
+    description="Financial data extraction and analysis for Bursa Malaysia listed companies.",
+    version="0.1.0",
+)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:3000", "http://127.0.0.1:3000"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+app.include_router(companies.router, prefix="/api/companies", tags=["companies"])
+app.include_router(facts.router, prefix="/api/facts", tags=["facts"])
+app.include_router(upload.router, prefix="/api/upload", tags=["upload"])
+app.include_router(validation.router, prefix="/api/validation", tags=["validation"])
+app.include_router(benchmark.router, prefix="/api/benchmark", tags=["benchmark"])
+app.include_router(valuation.router, prefix="/api/valuation", tags=["valuation"])
+
+
+@app.get("/api/status")
+def pipeline_status():
+    """Pipeline health at a glance."""
+    from sqlalchemy import func, select
+
+    from bursa.db.models import Company, Concept, ConceptSynonym, Document
+    from bursa.db.session import session_scope
+
+    with session_scope() as session:
+        return {
+            "concepts": session.scalar(select(func.count(Concept.concept_key))) or 0,
+            "synonyms": session.scalar(select(func.count(ConceptSynonym.id))) or 0,
+            "companies": session.scalar(select(func.count(Company.id))) or 0,
+            "documents": session.scalar(select(func.count(Document.id))) or 0,
+        }

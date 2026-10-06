@@ -185,7 +185,7 @@ def extract_statements(
     result = DocumentExtraction(document_id=document_id, classification=classification)
 
     winners = select_statement_pages(pdf_path)
-    for statement in (Statement.INCOME_STATEMENT, Statement.BALANCE_SHEET, Statement.CASH_FLOW):
+    for statement in (Statement.INCOME_STATEMENT, Statement.BALANCE_SHEET, Statement.CASH_FLOW, Statement.EQUITY):
         scored = winners.get(statement)
         if scored is None:
             result.skipped_pages[statement] = (
