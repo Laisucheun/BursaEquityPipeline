@@ -10,7 +10,9 @@ from bursa.api.routes import (
     analysis,
     benchmark,
     companies,
+    dividends,
     facts,
+    fiveyear,
     peers,
     progress,
     upload,
@@ -41,6 +43,8 @@ app.include_router(valuation.router, prefix="/api/valuation", tags=["valuation"]
 app.include_router(analysis.router, prefix="/api/analysis", tags=["analysis"])
 app.include_router(progress.router, prefix="/api/progress", tags=["progress"])
 app.include_router(peers.router, prefix="/api/peers", tags=["peers"])
+app.include_router(dividends.router, prefix="/api/dividends", tags=["dividends"])
+app.include_router(fiveyear.router, prefix="/api/fiveyear", tags=["fiveyear"])
 
 DASHBOARD = Path(__file__).parent / "static" / "dashboard.html"
 
