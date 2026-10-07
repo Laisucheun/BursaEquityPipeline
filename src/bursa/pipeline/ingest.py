@@ -142,9 +142,14 @@ def ingest_file(
 
     hints = parse_filename(path.name)
 
-    if company_id is None and hints.stock_code:
+    # A folder named after a stock code (pdfs/<code>/report.pdf, the manual
+    # download convention) is an explicit choice and beats filename sniffing;
+    # downloaded reports rarely carry the code in their own name.
+    for candidate in (path.parent.name, hints.stock_code):
+        if company_id is not None or not candidate:
+            continue
         company_id = session.execute(
-            select(Company.id).where(Company.stock_code == hints.stock_code)
+            select(Company.id).where(Company.stock_code == candidate)
         ).scalar_one_or_none()
 
     key = content_key(sha256)

@@ -39,7 +39,7 @@ from pathlib import Path
 
 from sqlalchemy.orm import Session
 
-from bursa.db.enums import Statement
+from bursa.db.enums import Basis, Statement
 from bursa.extract.classify import DocumentClassification, classify_document
 from bursa.extract.layout import ExtractedTable
 from bursa.extract.page_scoring import select_statement_pages
@@ -101,6 +101,11 @@ class ColumnInfo:
     col_index: int
     header_text: str
     year: int | None
+    # A Note-reference column recognised by its content, not its header.
+    is_note: bool = False
+    # Set only when a "Group ... Company" header band assigns it positionally;
+    # otherwise normalize falls back to this column's own header text.
+    basis: Basis | None = None
 
 
 @dataclass
@@ -174,9 +179,75 @@ def _column_year(header_text: str, fallback_text: str) -> int | None:
     return None
 
 
+_NOTE_REF = re.compile(r"^\d{1,2}(\.\d{1,2})?$")
+_NOTE_TOKEN = re.compile(r"^notes?$", re.IGNORECASE)
+_NOTE_WORD = re.compile(r"\bnotes?\b", re.IGNORECASE)
+_GROUP_COMPANY_LINE = re.compile(r"^\s*(the\s+)?group\b.*\bcompany\s*$", re.IGNORECASE)
+
+
+def _is_note_column(col_index: int, rows: list[RowInfo], leftmost: int) -> bool:
+    """The leftmost column holding nothing but small reference numbers ("4",
+    "13.1") is a Note column even when its header is blank - confirmed real
+    on Ajinomoto and PPB, where a headerless Note column inherited the page's
+    year and wrote "4" as a year's revenue."""
+    if col_index != leftmost:
+        return False
+    values = [r.values[col_index] for r in rows if col_index in r.values]
+    return len(values) >= 2 and all(_NOTE_REF.match(v.strip()) for v in values)
+
+
+def _header_year_line(header_text: str, count: int) -> list[int] | None:
+    """A header line that is only years (optionally led by "Note") and
+    names exactly ``count`` of them - read left to right, it is the column
+    order. Per-column header cells are unreliable here: page titles and
+    running page numbers bleed into them ("REPORT 2021 INCOME 2021 2020",
+    "105"), giving a comparative column the current year."""
+    for line in header_text.splitlines():
+        tokens = [t for t in line.split() if not _NOTE_TOKEN.match(t)]
+        if len(tokens) == count and count >= 2 and all(_YEAR.fullmatch(t) for t in tokens):
+            return [int(t) for t in tokens]
+    return None
+
+
+def _has_group_company_band(header_text: str) -> bool:
+    return any(_GROUP_COMPANY_LINE.match(line) for line in header_text.splitlines())
+
+
+def _resolve_columns(table: ExtractedTable, rows: list[RowInfo]) -> list[ColumnInfo]:
+    columns = [
+        ColumnInfo(
+            col_index=col.index,
+            header_text=_column_header_text(table, col.index),
+            year=_column_year(_column_header_text(table, col.index), table.header_text),
+        )
+        for col in table.columns
+    ]
+    if not columns:
+        return columns
+
+    leftmost = min(c.col_index for c in columns)
+    for c in columns:
+        if _NOTE_WORD.search(c.header_text) or _is_note_column(c.col_index, rows, leftmost):
+            c.is_note = True
+            c.year = None
+
+    value_columns = [c for c in columns if not c.is_note]
+    years = _header_year_line(table.header_text, len(value_columns))
+    if years is not None:
+        for c, year in zip(value_columns, years):
+            c.year = year
+
+    if len(value_columns) >= 2 and len(value_columns) % 2 == 0 and _has_group_company_band(table.header_text):
+        half = len(value_columns) // 2
+        for i, c in enumerate(value_columns):
+            c.basis = Basis.CONSOLIDATED if i < half else Basis.COMPANY
+
+    return columns
+
+
 def extract_statements(
     session: Session, document_id: int, pdf_path: Path,
-    company_id: int | None = None,
+    company_id: int | None = None, *, ocr: bool = False,
 ) -> DocumentExtraction:
     """Locate and extract the three primary statements from one PDF."""
     # Still useful for doc_type / needs_ocr metadata, even though page
@@ -184,7 +255,7 @@ def extract_statements(
     classification = classify_document(pdf_path)
     result = DocumentExtraction(document_id=document_id, classification=classification)
 
-    winners = select_statement_pages(pdf_path)
+    winners = select_statement_pages(pdf_path, ocr=ocr)
     for statement in (Statement.INCOME_STATEMENT, Statement.BALANCE_SHEET, Statement.CASH_FLOW, Statement.EQUITY):
         scored = winners.get(statement)
         if scored is None:
@@ -195,14 +266,6 @@ def extract_statements(
 
         table = scored.table
         scale = detect_scale(table.header_text)
-        columns = [
-            ColumnInfo(
-                col_index=col.index,
-                header_text=_column_header_text(table, col.index),
-                year=_column_year(_column_header_text(table, col.index), table.header_text),
-            )
-            for col in table.columns
-        ]
 
         rows = []
         # Anchors (is.profit_for_period / is.total_comprehensive_income) seen
@@ -274,7 +337,7 @@ def extract_statements(
             row_keyword_hits=scored.row_keyword_hits,
             scale=scale,
             header_text=table.header_text,
-            columns=columns,
+            columns=_resolve_columns(table, rows),
             rows=rows,
             continuation_page_no=scored.continuation_page_no,
         )

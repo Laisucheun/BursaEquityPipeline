@@ -233,8 +233,13 @@ def resolve_duration_period_type(
     month transition-period filing), to be skipped rather than guessed -
     same discipline as everywhere else in this module.
     """
-    if duration_months is None or duration_months == 12:
+    if duration_months == 12:
         return PeriodType.FY
+    if duration_months is None:
+        # An unstated duration is only safely annual when it ends on the fiscal
+        # year end - AMMB's Dec-dated subsidiary interim (March FYE) was being
+        # written as a 9-month "FY".
+        return PeriodType.FY if period_end.month == fy_end_month else None
     if duration_months == 3:
         return quarter_type(period_end, fy_end_month)
     if duration_months == 6:

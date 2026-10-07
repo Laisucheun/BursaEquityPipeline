@@ -5,8 +5,9 @@ from pathlib import Path
 import pytest
 from sqlalchemy.orm import Session
 
-from bursa.db.enums import Statement
-from bursa.extract.statement_extract import _column_year, extract_statements
+from bursa.db.enums import Basis, Statement
+from bursa.extract.layout import Cell, ColumnBand, ExtractedRow, ExtractedTable
+from bursa.extract.statement_extract import RowInfo, _column_year, _resolve_columns, extract_statements
 from bursa.mapping.synonyms import seed_concepts
 from tests.fixtures.synthetic import (
     BALANCE_SHEET,
@@ -53,6 +54,71 @@ def test_column_year_never_falls_back_for_a_non_numeric_own_header() -> None:
     # into a dated one.
     assert _column_year("Note", "For the year ended 31 December 2024 (RM'000)") is None
     assert _column_year("BERHAD OR COMPREHENSIVE", "Statement for 2024") is None
+
+
+# --------------------------------------------------------------------------
+# _resolve_columns: whole-table column year/basis/note resolution
+# --------------------------------------------------------------------------
+
+
+def _table(head: str, headers: dict[int, str]) -> ExtractedTable:
+    header_row = ExtractedRow(
+        row_index=0, label="",
+        cells=[Cell(col_index=i, text=t, bbox=(0, 0, 0, 0)) for i, t in headers.items() if t],
+        bbox=(0, 0, 0, 0),
+    )
+    return ExtractedTable(
+        page_no=1, table_index=0, statement=Statement.INCOME_STATEMENT,
+        columns=[ColumnBand(index=i, x_min=0, x_max=0, support=1) for i in headers],
+        header_rows=[header_row], page_text_head=head,
+    )
+
+
+def _row(values: dict[int, str]) -> RowInfo:
+    return RowInfo(row_index=1, label="x", concept_key=None, indent_level=0, values=values)
+
+
+def test_headerless_note_column_is_recognised_by_its_content() -> None:
+    # Ajinomoto: blank Note header used to inherit the page year, writing "4" as revenue.
+    table = _table("FOR THE FINANCIAL YEAR ENDED 31 MARCH 2021", {0: "", 1: "2021 RM", 2: "2020 RM"})
+    rows = [_row({0: "4", 1: "443,119,251", 2: "461,689,082"}), _row({0: "13.1", 1: "(1,287)", 2: "(1,151)"})]
+
+    cols = _resolve_columns(table, rows)
+
+    assert cols[0].is_note and cols[0].year is None
+    assert [c.year for c in cols[1:]] == [2021, 2020]
+
+
+def test_a_value_column_of_small_numbers_is_not_a_note_column_unless_leftmost() -> None:
+    table = _table("2024 2023", {0: "2024", 1: "2023"})
+    cols = _resolve_columns(table, [_row({0: "1,000", 1: "2"}), _row({0: "3,000", 1: "4"})])
+    assert not any(c.is_note for c in cols)
+
+
+def test_header_year_line_overrides_page_title_bleed() -> None:
+    # Ajinomoto/Vitrox: "REPORT 2021 INCOME 2021 2020" and a page number "105"
+    # bled into the comparative column's own header.
+    table = _table("ANNUAL REPORT 2021\nNote 2021 2020", {0: "Note", 1: "2021", 2: "REPORT 2021 INCOME 2021 2020"})
+    cols = _resolve_columns(table, [_row({1: "1", 2: "2"})])
+    assert [c.year for c in cols] == [None, 2021, 2020]
+
+
+def test_group_company_band_assigns_basis_by_position() -> None:
+    # Three-A: "Group Company" on its own line above four year columns.
+    table = _table(
+        "Group Company\n2020 2019 2020 2019",
+        {0: "Note", 1: "2020", 2: "2020 2019", 3: "OTHER 2020", 4: "59 2019"},
+    )
+    cols = _resolve_columns(table, [_row({1: "1", 2: "2", 3: "3", 4: "4"})])
+    assert [c.year for c in cols[1:]] == [2020, 2019, 2020, 2019]
+    assert [c.basis for c in cols[1:]] == [Basis.CONSOLIDATED] * 2 + [Basis.COMPANY] * 2
+
+
+def test_no_year_line_keeps_per_column_years() -> None:
+    table = _table("As at 31 December 2024", {0: "31.12.2024", 1: "1.1.2024"})
+    cols = _resolve_columns(table, [_row({0: "1", 1: "2"})])
+    assert [c.year for c in cols] == [2024, 2024]
+    assert all(c.basis is None for c in cols)
 
 
 # --------------------------------------------------------------------------

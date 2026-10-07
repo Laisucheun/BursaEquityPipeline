@@ -764,3 +764,69 @@ def test_remap_leaves_an_already_aligned_continuation_page_unchanged() -> None:
         (0, "2,807,309"),
         (1, "2,702,789"),
     ]
+
+
+def test_consolidated_page_beats_a_higher_scoring_company_only_page(tmp_path: Path) -> None:
+    """Vitrox splits Group and Company statements onto separate pages; the
+    company page ("STATEMENT OF ...", no "Consolidated") won on score and
+    its RM 67m revenue was stored as the group's RM 750m."""
+    import dataclasses
+
+    from tests.fixtures.synthetic import INCOME_STATEMENT_WITH_DUPLICATE_OWNERS_SPLIT as base
+
+    company = dataclasses.replace(
+        base,
+        title="STATEMENT OF PROFIT OR LOSS AND OTHER COMPREHENSIVE INCOME",
+        column_headers=[["2024", "2023"]],
+        rows=[*base.rows, Row("Gross profit", ["1,000", "900"]), Row("Finance costs", ["(10)", "(9)"])],
+    )
+    group = dataclasses.replace(
+        base, title="CONSOLIDATED STATEMENT OF PROFIT OR LOSS AND OTHER COMPREHENSIVE INCOME"
+    )
+
+    combined = pymupdf.open()
+    for name, spec in (("company", company), ("group", group)):
+        part = pymupdf.open(build_statement_pdf(tmp_path / f"{name}.pdf", spec))
+        combined.insert_pdf(part)
+        part.close()
+    path = tmp_path / "combined.pdf"
+    combined.save(path)
+    combined.close()
+
+    winner = find_statement_page(path, Statement.INCOME_STATEMENT)
+
+    assert winner is not None
+    assert winner.page_no == 2
+
+
+def test_consolidated_note_page_does_not_displace_a_group_column_statement(tmp_path: Path) -> None:
+    """AMMB: the real statement is "Statements of profit or loss" with Group |
+    Bank columns; Note 54 (Islamic banking operations) carries a
+    "Consolidated statement of profit or loss" heading and must not win just
+    for saying "consolidated"."""
+    import dataclasses
+
+    from tests.fixtures.synthetic import INCOME_STATEMENT_WITH_DUPLICATE_OWNERS_SPLIT as base
+
+    real = base
+    # The note's own table is a subset of the full statement.
+    note = dataclasses.replace(
+        base,
+        title="54. OPERATIONS OF ISLAMIC BANKING - CONSOLIDATED STATEMENT OF PROFIT OR LOSS",
+        column_headers=[["2024", "2023"]],
+        rows=base.rows[: len(base.rows) // 2],
+    )
+
+    combined = pymupdf.open()
+    for name, spec in (("real", real), ("note", note)):
+        part = pymupdf.open(build_statement_pdf(tmp_path / f"{name}.pdf", spec))
+        combined.insert_pdf(part)
+        part.close()
+    path = tmp_path / "combined.pdf"
+    combined.save(path)
+    combined.close()
+
+    winner = find_statement_page(path, Statement.INCOME_STATEMENT)
+
+    assert winner is not None
+    assert winner.page_no == 1

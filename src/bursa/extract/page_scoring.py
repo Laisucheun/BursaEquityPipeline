@@ -165,6 +165,12 @@ STAGE2_ROW_RATIO_WEIGHT = 3.0
 
 MIN_FINAL_SCORE = 1.0  # below this, report not-found rather than guess
 
+_CONSOLIDATED_TITLE = re.compile(
+    r"\bconsolidated\s+(statements?\s+of|income\s+statements?|balance\s+sheets?)", re.IGNORECASE
+)
+# "Group" as a column label, not inside a company name ("PPB Group Berhad").
+_GROUP_WORD = re.compile(r"\bgroup\b(?!\s+(berhad|bhd|holdings|plc|limited)\b)", re.IGNORECASE)
+
 
 def _keywords_for(statement: Statement) -> list[list[str]]:
     """The anchor phrasings for one statement's subtotal concepts, grouped
@@ -361,7 +367,8 @@ def _remap_to_primary_columns(
 
 
 def _extend_for_continuation(
-    doc, statement: Statement, table: ExtractedTable, start_page_no: int
+    doc, statement: Statement, table: ExtractedTable, start_page_no: int,
+    *, ocr: bool = False, pdf_path: Path | None = None,
 ) -> tuple[ExtractedTable, int | None, float]:
     """If `table` has the statement's usual start line but not its usual end
     line, check the next page(s) for the end line and merge rows in - the
@@ -407,7 +414,7 @@ def _extend_for_continuation(
             # vocabulary looks - see the matching check in `_stage2_score`.
             continue
 
-        next_table = extract_page(next_page, next_page_no, statement)
+        next_table = extract_page(next_page, next_page_no, statement, ocr=ocr, pdf_path=pdf_path)
         if next_table is None or not next_table.rows:
             continue
 
@@ -470,7 +477,7 @@ class ScoredStatementPage:
     continuation_page_no: int | None = None
 
 
-def _stage1_scan(pdf_path: Path, statement: Statement) -> list[PageCandidate]:
+def _stage1_scan(pdf_path: Path, statement: Statement, *, ocr: bool = False) -> list[PageCandidate]:
     """Score every page cheaply from its raw text alone; no table
     extraction yet - that's layer 2, and only for the survivors here."""
     import pymupdf
@@ -482,6 +489,15 @@ def _stage1_scan(pdf_path: Path, statement: Statement) -> list[PageCandidate]:
         for index, page in enumerate(doc, start=1):
             text = page.get_text("text", sort=True)
             words = text.split()
+            if not words or (len(words) < 5 and ocr):
+                if not ocr:
+                    continue
+                from bursa.extract.ocr import ocr_page_words
+                ocr_words = ocr_page_words(pdf_path, index)
+                if not ocr_words:
+                    continue
+                text = " ".join(w.text for w in ocr_words)
+                words = text.split()
             if not words:
                 continue
             numeric = sum(1 for w in words if parse_number(w) is not None)
@@ -539,7 +555,8 @@ class _Qualifying:
 
 
 def _stage2_rank(
-    pdf_path: Path, statement: Statement, candidates: list[PageCandidate]
+    pdf_path: Path, statement: Statement, candidates: list[PageCandidate],
+    *, ocr: bool = False,
 ) -> list[ScoredStatementPage]:
     """Extract each stage-1 survivor's table and re-score from its actual
     row labels - the precise pass. Returns every candidate that clears
@@ -578,7 +595,7 @@ def _stage2_rank(
                 # real: a reconciliation table denser, row for row, than the
                 # genuine statement it discloses changes to).
                 continue
-            table = extract_page(page, candidate.page_no, statement)
+            table = extract_page(page, candidate.page_no, statement, ocr=ocr, pdf_path=pdf_path)
             if table is None or not table.rows:
                 continue
             if not _is_row_quality_ok(table.rows):
@@ -600,7 +617,8 @@ def _stage2_rank(
             has_start = start_concepts is not None and _matches_any_concept(label_blob, start_concepts)
             if has_start:
                 table, continuation_page_no, continuation_stage1_score = _extend_for_continuation(
-                    doc, statement, table, candidate.page_no
+                    doc, statement, table, candidate.page_no,
+                    ocr=ocr, pdf_path=pdf_path,
                 )
                 label_blob = " ".join(row.label for row in table.rows if row.label)
 
@@ -696,6 +714,19 @@ def _stage2_rank(
 
     heading_matched = [q for q in qualifying if q.has_heading]
     pool = heading_matched or qualifying  # prefer a real heading; fall back for recall
+    # Reports that split Group and Company statements onto separate pages
+    # title the group one "Consolidated statement of ..." and the company one
+    # plain "Statement of ..." with no "Group" column - confirmed real on
+    # Vitrox, where the company page won and its RM 67m revenue was stored as
+    # the group's. Only those entity-only pages are dropped: a combined
+    # "Group | Bank" page keeps competing on score, since a notes page can
+    # carry a "consolidated statement of" heading too (AMMB's Note 54,
+    # Islamic banking operations, otherwise displaced the real statement).
+    if any(_CONSOLIDATED_TITLE.search(q.table.raw_text) for q in pool):
+        pool = [
+            q for q in pool
+            if _CONSOLIDATED_TITLE.search(q.table.raw_text) or _GROUP_WORD.search(q.table.header_text)
+        ]
     ranked = sorted(pool, key=lambda q: q.score, reverse=True)
 
     return [
@@ -713,18 +744,22 @@ def _stage2_rank(
     ]
 
 
-def _ranked_statement_pages(pdf_path: Path, statement: Statement) -> list[ScoredStatementPage]:
+def _ranked_statement_pages(
+    pdf_path: Path, statement: Statement, *, ocr: bool = False,
+) -> list[ScoredStatementPage]:
     """Every qualifying page for one statement, best first - the full pool
     `find_statement_page` picks its single winner from."""
-    candidates = _stage1_scan(pdf_path, statement)
+    candidates = _stage1_scan(pdf_path, statement, ocr=ocr)
     if not candidates:
         return []
-    return _stage2_rank(pdf_path, statement, candidates)
+    return _stage2_rank(pdf_path, statement, candidates, ocr=ocr)
 
 
-def find_statement_page(pdf_path: Path, statement: Statement) -> ScoredStatementPage | None:
+def find_statement_page(
+    pdf_path: Path, statement: Statement, *, ocr: bool = False,
+) -> ScoredStatementPage | None:
     """The full two-layer selection for one statement. See module docstring."""
-    ranked = _ranked_statement_pages(pdf_path, statement)
+    ranked = _ranked_statement_pages(pdf_path, statement, ocr=ocr)
     return ranked[0] if ranked else None
 
 
@@ -760,7 +795,7 @@ def find_statement_page(pdf_path: Path, statement: Statement) -> ScoredStatement
 MAX_CLUSTER_DISTANCE = 20  # pages
 
 
-def select_statement_pages(pdf_path: Path) -> dict[Statement, ScoredStatementPage]:
+def select_statement_pages(pdf_path: Path, *, ocr: bool = False) -> dict[Statement, ScoredStatementPage]:
     """Find all three primary statements in one document, then apply the
     proximity cross-check described above. Confirmed real and not rare:
     Vitrox Corporation's "income statement" winner (page 22, a 5-Year
@@ -770,7 +805,7 @@ def select_statement_pages(pdf_path: Path) -> dict[Statement, ScoredStatementPag
     and RHB Bank (see the constant's own comment above) are further real,
     independently-confirmed cases of the identical bug, caught the same way.
     """
-    ranked = {statement: _ranked_statement_pages(pdf_path, statement) for statement in _ALL_STATEMENTS}
+    ranked = {statement: _ranked_statement_pages(pdf_path, statement, ocr=ocr) for statement in _ALL_STATEMENTS}
     winners = {
         statement: candidates[0] for statement, candidates in ranked.items() if candidates
     }

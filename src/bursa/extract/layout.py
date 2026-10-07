@@ -218,6 +218,21 @@ def words_from_page(page) -> list[Word]:  # type: ignore[no-untyped-def]
     ]
 
 
+def words_from_page_with_ocr(
+    page, pdf_path: Path, page_no: int,  # type: ignore[no-untyped-def]
+) -> tuple[list[Word], bool]:
+    """Like ``words_from_page``, but falls back to OCR for scanned pages.
+
+    Returns ``(words, used_ocr)``."""
+    words = words_from_page(page)
+    if len(words) >= 5:
+        return words, False
+
+    from bursa.extract.ocr import ocr_page_words
+    ocr_words = ocr_page_words(pdf_path, page_no)
+    return ocr_words, bool(ocr_words)
+
+
 def group_rows(words: list[Word]) -> list[list[Word]]:
     """Cluster words into visual rows by vertical overlap.
 
@@ -680,9 +695,15 @@ def extract_page(
     page_no: int,
     statement: Statement | None = None,
     table_index: int = 0,
+    *,
+    ocr: bool = False,
+    pdf_path: Path | None = None,
 ) -> ExtractedTable | None:
     """Extract one statement page. ``None`` when the page has no column structure."""
-    words = words_from_page(page)
+    if ocr and pdf_path is not None:
+        words, _ = words_from_page_with_ocr(page, pdf_path, page_no)
+    else:
+        words = words_from_page(page)
     if not words:
         return None
 
@@ -696,7 +717,7 @@ def extract_page(
 
 
 def extract_pages(
-    pdf_path: Path, page_numbers: dict[int, Statement | None]
+    pdf_path: Path, page_numbers: dict[int, Statement | None], *, ocr: bool = False,
 ) -> list[ExtractedTable]:
     """Extract the given 1-indexed pages from a PDF."""
     import pymupdf
@@ -706,7 +727,10 @@ def extract_pages(
         for page_no in sorted(page_numbers):
             if not 1 <= page_no <= doc.page_count:
                 continue
-            table = extract_page(doc[page_no - 1], page_no, page_numbers[page_no])
+            table = extract_page(
+                doc[page_no - 1], page_no, page_numbers[page_no],
+                ocr=ocr, pdf_path=pdf_path,
+            )
             if table is not None:
                 tables.append(table)
     return tables

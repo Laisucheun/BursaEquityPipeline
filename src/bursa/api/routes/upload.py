@@ -9,6 +9,7 @@ from sqlalchemy import select
 from bursa.db.enums import DocSource, DocType
 from bursa.db.models import Company
 from bursa.db.session import session_scope
+from bursa.storage import materialize
 
 router = APIRouter()
 
@@ -48,7 +49,7 @@ async def upload_pdf(
                 doc_type=DocType.ANNUAL_REPORT,
             )
 
-            storage = Path(doc.storage_path)
+            storage = materialize(doc)
             if not storage.is_file():
                 storage = tmp_path
 

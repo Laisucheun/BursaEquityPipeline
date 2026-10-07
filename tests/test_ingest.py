@@ -66,6 +66,23 @@ def test_ingest_links_to_company_by_stock_code(
     assert store.exists(f"{sha[:2]}/{sha[2:4]}/{sha}.pdf")
 
 
+def test_ingest_links_to_company_by_stock_code_folder(
+    session: Session, tmp_path: Path, store: LocalBlobStore
+) -> None:
+    """The manual-download convention: pdfs/<code>/<anything>.pdf. The
+    folder wins even when the filename contains a different 4-digit number."""
+    company = Company(stock_code="1155", name="Malayan Banking Berhad")
+    other = Company(stock_code="4321", name="Other Bhd")
+    session.add_all([company, other])
+    session.flush()
+    folder = tmp_path / "pdfs" / "1155"
+    folder.mkdir(parents=True)
+
+    document, _ = ingest_file(session, make_pdf(folder / "Maybank_IAR_4321_2024.pdf"))
+
+    assert document.company_id == company.id
+
+
 def test_reingesting_the_same_content_is_a_no_op(
     session: Session, tmp_path: Path, store: LocalBlobStore
 ) -> None:

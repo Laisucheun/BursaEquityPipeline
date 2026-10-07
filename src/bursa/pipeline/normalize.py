@@ -84,6 +84,7 @@ from bursa.normalize.periods import (
     resolve_duration_period_type,
     same_month_day,
 )
+from bursa.storage import materialize
 
 # Below this many pages a document is almost certainly a standalone
 # chairman/MD statement, not a full annual report - same floor
@@ -186,6 +187,22 @@ def write_facts_for_company(session: Session, company: Company) -> FactWriteResu
     must be kept - keying only by `Statement` would silently keep just the
     single best-scoring year's document and discard every other year.
     """
+    return write_company_extraction(session, company, extract_company(session, company))
+
+
+@dataclass
+class CompanyExtraction:
+    """Phase 1 of `write_facts_for_company`: the best-scoring statement per
+    (statement, filing period) across a company's documents. Read-only, and
+    picklable, so it can run in a worker process while one process writes."""
+
+    best: dict[tuple[Statement, object], tuple[float, StatementExtraction, int]] = field(
+        default_factory=dict
+    )
+    skipped_statements: dict[Statement, str] = field(default_factory=dict)
+
+
+def extract_company(session: Session, company: Company) -> CompanyExtraction:
     docs = list(
         session.scalars(
             select(Document)
@@ -194,32 +211,52 @@ def write_facts_for_company(session: Session, company: Company) -> FactWriteResu
         )
     )
     docs = [
-        d for d in docs if (d.page_count or 0) >= MIN_CANDIDATE_PAGES and Path(d.storage_path).is_file()
+        d for d in docs if (d.page_count or 0) >= MIN_CANDIDATE_PAGES and materialize(d).is_file()
     ]
 
-    result = FactWriteResult()
-    if not docs:
-        return result
-
-    concepts = {c.concept_key: c for c in session.scalars(select(Concept))}
-    # Keyed by (statement, this candidate's own parsed period end) - None
-    # when the subtitle couldn't be parsed at all, which never competes with
-    # anything (every unparseable candidate is kept, exactly as
-    # `_write_statement_facts` would skip it on its own anyway).
-    best: dict[tuple[Statement, object], tuple[float, StatementExtraction, int]] = {}
-
+    out = CompanyExtraction()
+    # Keyed by (statement, this candidate's own parsed period end) - an
+    # unparseable subtitle gets a unique key instead, so it never competes
+    # with anything (`_write_statement_facts` skips it on its own anyway).
+    unparsed = 0
     for doc in docs:
-        extraction = extract_statements(session, doc.id, Path(doc.storage_path), company_id=company.id)
+        extraction = extract_statements(session, doc.id, materialize(doc), company_id=company.id)
         for statement, extracted in extraction.statements.items():
             instant = statement == Statement.BALANCE_SHEET
             stated = parse_stated_period_end(extracted.header_text, instant=instant)
-            key = (statement, stated) if stated is not None else (statement, id(extracted))
-            current = best.get(key)
+            if stated is None:
+                unparsed += 1
+                key: tuple[Statement, object] = (statement, f"unparsed-{unparsed}")
+            else:
+                key = (statement, stated)
+            current = out.best.get(key)
             if current is None or extracted.final_score > current[0]:
-                best[key] = (extracted.final_score, extracted, doc.id)
+                out.best[key] = (extracted.final_score, extracted, doc.id)
         for statement, why in extraction.skipped_pages.items():
-            if not any(k[0] == statement for k in best):
-                result.skipped_statements.setdefault(statement, why)
+            if not any(k[0] == statement for k in out.best):
+                out.skipped_statements.setdefault(statement, why)
+    return out
+
+
+def extract_company_by_id(company_id: int) -> CompanyExtraction:
+    """Worker-process entry point: own engine/session, read-only."""
+    from bursa.db.session import session_scope
+
+    with session_scope() as session:
+        return extract_company(session, session.get(Company, company_id))
+
+
+def write_company_extraction(
+    session: Session, company: Company, extracted_company: CompanyExtraction
+) -> FactWriteResult:
+    """Phase 2 of `write_facts_for_company`: write the selected statements."""
+    result = FactWriteResult()
+    result.skipped_statements.update(extracted_company.skipped_statements)
+    best = extracted_company.best
+    if not best:
+        return result
+
+    concepts = {c.concept_key: c for c in session.scalars(select(Concept))}
 
     # Process annual-looking statements first, regardless of the dict's own
     # insertion order: `_write_statement_facts` needs `company.fy_end_month`
@@ -309,7 +346,7 @@ def _resolve_columns(
     seen_keys: set[tuple] = set()
 
     for column in extracted.columns:
-        if _NOTE_WORD.search(column.header_text):
+        if column.is_note or _NOTE_WORD.search(column.header_text):
             # A "Note" column's own header carries no year, so `_column_year`
             # falls back to the table-wide header text and still finds one -
             # confirmed real on several bank/utility filings (Alliance Bank,
@@ -345,7 +382,10 @@ def _resolve_columns(
             period_type = resolved_type
 
         bounds = period_bounds(period_end, period_type, fy_end_month)
-        basis = Basis.COMPANY if _COMPANY_BASIS.search(column.header_text) else Basis.CONSOLIDATED
+        if column.basis is not None:
+            basis = column.basis
+        else:
+            basis = Basis.COMPANY if _COMPANY_BASIS.search(column.header_text) else Basis.CONSOLIDATED
         key = (bounds.period_start, bounds.period_end, bounds.period_type, basis)
         if key in seen_keys:
             result.skipped_columns.append(
