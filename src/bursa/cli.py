@@ -25,6 +25,7 @@ from bursa.mapping.synonyms import seed_concepts
 from bursa.pipeline.ingest import scan_inbox
 from bursa.storage import is_remote, materialize
 from bursa.storage.migrate import app as storage_app
+from bursa.validate.five_year_cli import app as fiveyear_app
 
 app = typer.Typer(help="Bursa Malaysia equity pipeline.", no_args_is_help=True)
 company_app = typer.Typer(help="Manage the company watchlist.", no_args_is_help=True)
@@ -47,6 +48,7 @@ app.add_typer(db_app, name="db")
 app.add_typer(export_app, name="export")
 app.add_typer(peers_app, name="peers")
 app.add_typer(storage_app, name="storage")
+app.add_typer(fiveyear_app, name="fiveyear")
 
 console = Console()
 logging.basicConfig(level=logging.INFO, format="%(levelname)s %(name)s: %(message)s")
