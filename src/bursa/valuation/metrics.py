@@ -22,11 +22,10 @@ import logging
 from dataclasses import dataclass, field
 from decimal import Decimal
 
-from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-from bursa.db.enums import Basis, PeriodType
-from bursa.db.models import Company, Fact, Period
+from bursa.analysis.facts import load_annual_facts
+from bursa.db.models import Company
 
 log = logging.getLogger(__name__)
 
@@ -170,34 +169,15 @@ def compute_valuation(
 ) -> ValuationResult:
     result = ValuationResult(stock_code=company.stock_code, name=company.name)
 
-    rows = session.execute(
-        select(
-            Fact.concept_key, Fact.value,
-            Period.period_end, Period.fiscal_year, Period.period_type,
-        )
-        .join(Period, Fact.period_id == Period.id)
-        .where(
-            Fact.company_id == company.id,
-            Fact.basis == Basis.CONSOLIDATED,
-            Fact.confidence >= 0.9,
-        )
-        .order_by(Period.fiscal_year)
-    ).all()
-
-    # Group by (fiscal_year, period_type)
     fy_data: dict[int, dict[str, dict[str, Decimal]]] = {}
     fy_pe: dict[int, str] = {}
-
-    for concept_key, value, period_end, fy, ptype in rows:
-        if fy not in fy_data:
-            fy_data[fy] = {"is": {}, "bs": {}, "cf": {}}
-            fy_pe[fy] = str(period_end)
-
-        prefix = concept_key.split(".")[0]
-        if prefix in ("is", "bs", "cf"):
-            bucket = fy_data[fy][prefix]
-            if concept_key not in bucket:
-                bucket[concept_key] = value
+    for fy, annual in load_annual_facts(session, company).items():
+        fy_data[fy] = {"is": {}, "bs": {}, "cf": {}}
+        fy_pe[fy] = str(annual.period_end)
+        for concept_key, value in annual.values.items():
+            prefix = concept_key.split(".")[0]
+            if prefix in fy_data[fy]:
+                fy_data[fy][prefix][concept_key] = value
 
     sorted_fys = sorted(fy_data.keys())
     for i, fy in enumerate(sorted_fys):
