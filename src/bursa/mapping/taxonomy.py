@@ -156,6 +156,11 @@ INCOME_STATEMENT: list[ConceptSpec] = [
         description="Pre-tax profit. Banks may include zakat.",
         synonyms=("profit before tax", "profit before taxation", "profit/(loss) before tax",
                   "profit/(loss) before taxation", "loss before taxation",
+                  # Loss-making years print the loss wording only - without
+                  # these a loss-maker's real statement never qualified and a
+                  # highlights page won instead (Watta).
+                  "loss before tax", "loss before income tax",
+                  "(loss)/profit before tax", "(loss)/profit before taxation",
                   "untung sebelum cukai", "pbt", "profit before income tax",
                   "profit before taxation and zakat", "profit before zakat and taxation"),
     ),
@@ -195,6 +200,10 @@ INCOME_STATEMENT: list[ConceptSpec] = [
                   "profit/(loss) for the period", "profit/(loss) for the year",
                   "profit/(loss) for the financial year",
                   "net profit", "net profit for the period", "loss for the period",
+                  "loss for the year", "loss for the financial year", "loss for the financial period",
+                  "net loss for the year", "net loss for the financial year", "net loss for the period",
+                  "(loss)/profit for the year", "(loss)/profit for the financial year",
+                  "loss after tax", "loss after taxation",
                   "untung bersih", "profit after tax", "profit after taxation"),
     ),
     ConceptSpec(
@@ -275,7 +284,16 @@ INCOME_STATEMENT: list[ConceptSpec] = [
         synonyms=("basic earnings per share", "basic earnings per share (sen)",
                   "basic eps", "earnings per share - basic",
                   "basic earnings/(loss) per share",
-                  "basic earnings per unit", "basic earnings per unit (sen)"),
+                  "basic earnings per unit", "basic earnings per unit (sen)",
+                  # Full one-line labels seen unmapped on real faces. The bare
+                  # "basic" sub-row under an EPS header is resolved by context
+                  # in bursa.extract.statement_extract, never by a synonym.
+                  "basic earnings per ordinary share",
+                  "basic earnings per ordinary share (sen)",
+                  "basic loss per share", "basic loss per share (sen)",
+                  "basic loss per ordinary share (sen)",
+                  "earnings per share - basic (sen)", "earnings per share (sen) - basic",
+                  "basic loss per unit (sen)"),
     ),
     ConceptSpec(
         "is.eps_diluted", Statement.INCOME_STATEMENT, "Diluted earnings per share (sen)",
@@ -284,7 +302,14 @@ INCOME_STATEMENT: list[ConceptSpec] = [
         description="Diluted EPS in sen.",
         synonyms=("diluted earnings per share", "diluted eps",
                   "earnings per share - diluted", "diluted earnings/(loss) per share",
-                  "diluted earnings per unit", "diluted earnings per unit (sen)"),
+                  "diluted earnings per unit", "diluted earnings per unit (sen)",
+                  "diluted earnings per share (sen)",
+                  "diluted earnings per ordinary share",
+                  "diluted earnings per ordinary share (sen)",
+                  "diluted loss per share", "diluted loss per share (sen)",
+                  "diluted loss per ordinary share (sen)",
+                  "earnings per share - diluted (sen)", "earnings per share (sen) - diluted",
+                  "diluted loss per unit (sen)"),
     ),
     ConceptSpec(
         "is.weighted_avg_shares", Statement.INCOME_STATEMENT,

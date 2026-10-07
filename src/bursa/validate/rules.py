@@ -365,6 +365,55 @@ def cf_cash_roll(facts: PeriodFacts, tolerance: Decimal) -> RuleOutcome | None:
     )
 
 
+# --------------------------------------------------------------------------
+# Statement of changes in equity
+# --------------------------------------------------------------------------
+
+
+def eq_closing_matches_bs(facts: PeriodFacts, tolerance: Decimal) -> RuleOutcome | None:
+    """The equity statement's closing total equity is the balance sheet's
+    total equity at the same year end - two statements, one figure."""
+    parts = facts.all_of("eq.closing_balance", "bs.total_equity")
+    if parts is None:
+        return None
+    closing, total_equity = parts
+    return _outcome(
+        "eq_closing_matches_bs",
+        expected=total_equity,
+        actual=closing,
+        tolerance=tolerance,
+        detail="equity statement closing balance vs balance sheet total equity",
+        facts=facts,
+        severity=80,
+    )
+
+
+def eq_roll_forward(
+    opening: Decimal,
+    closing: Decimal,
+    movements: Iterable[Decimal],
+    tolerance: Decimal = Decimal(1),
+    period_end: date | None = None,
+) -> RuleOutcome:
+    """Closing = opening + the year's movements, for one equity-statement
+    year-block. Spans an INSTANT pair and an FY period, so it is not a
+    single-period rule: the caller supplies the block's own figures (every
+    movement row, not just the mapped ones - an unmapped row would otherwise
+    read as a false failure)."""
+    expected = opening + sum(movements, ZERO)
+    delta = closing - expected
+    return RuleOutcome(
+        rule_key="eq_roll_forward",
+        passed=abs(delta) <= tolerance,
+        detail="equity closing balance vs opening + movements",
+        expected=expected,
+        actual=closing,
+        delta=delta,
+        severity=70,
+        period_end=period_end,
+    )
+
+
 SINGLE_PERIOD_RULES: tuple[Rule, ...] = (
     bs_balances,
     bs_footing,
@@ -377,6 +426,7 @@ SINGLE_PERIOD_RULES: tuple[Rule, ...] = (
     eps_consistency,
     cf_net_change,
     cf_cash_roll,
+    eq_closing_matches_bs,
 )
 
 

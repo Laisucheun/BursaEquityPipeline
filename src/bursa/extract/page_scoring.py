@@ -118,6 +118,103 @@ END_CONCEPT: dict[Statement, tuple[str, ...]] = {
 def _matches_any_concept(label_blob: str, concept_keys: tuple[str, ...]) -> bool:
     return any(_matches_concept(label_blob, key) for key in concept_keys)
 
+
+# --------------------------------------------------------------------------
+# Statement of changes in equity only. Its opening/closing rows carry their
+# own date ("At 1 January 2023", "At 31 December 2023"), and the day number
+# routinely defeats plain synonym matching: right-aligned "1"/"31" tokens
+# stacked down the label area form a column band of their own in layout.py,
+# so the extracted label reads "January 2023" (or "Balance as January 2023")
+# with "At 1" parked in a cell - confirmed real on Hong Leong Industries and
+# Gamuda. And only December year-ends were ever covered ("at 1 january" /
+# "at 31 december" synonyms); a June or July year-end matched nothing. Both
+# are handled here, for EQUITY only, so IS/BS/CF scoring is untouched:
+# a row's non-numeric cells are rejoined to its label, and a dated balance
+# row is recognised by its date shape, then credited to the opening/closing
+# concepts by appending their canonical phrasing to the blob.
+# --------------------------------------------------------------------------
+
+_EQ_MONTHS = (
+    "january|february|march|april|may|june|july|august|september|october|november|december"
+    "|jan|feb|mar|apr|jun|jul|aug|sept|sep|oct|nov|dec"
+)
+_EQ_MONTH_NO = {
+    name: i
+    for i, names in enumerate(
+        (("january", "jan"), ("february", "feb"), ("march", "mar"), ("april", "apr"), ("may",),
+         ("june", "jun"), ("july", "jul"), ("august", "aug"), ("september", "sep", "sept"),
+         ("october", "oct"), ("november", "nov"), ("december", "dec")),
+        start=1,
+    )
+    for name in names
+}
+_EQ_BALANCE_DATE = re.compile(
+    r"^\s*(?:(?:balances?|net\s+assets(?:\s+value)?)\s+)?(?:as\s+)?(?:(?:at|of)\s+)?"
+    rf"(?:(?:(?P<d>\d{{1,2}})\s+)?(?P<m>{_EQ_MONTHS})\.?,?\s+(?P<y>(?:19|20)\d\d)\b"
+    r"|(?P<nd>\d{1,2})[./](?P<nm>\d{1,2})[./](?P<ny>(?:19|20)\d\d)\b)",
+    re.IGNORECASE,
+)
+_EQ_OPENING_PHRASE = " balance at beginning of year"
+_EQ_CLOSING_PHRASE = " balance at end of year"
+
+
+def _eq_row_text(row: ExtractedRow) -> str:
+    """A row's label with any word-bearing, non-figure cells rejoined in
+    front of it, in left-to-right order ("At 1" + "January 2023")."""
+    lead = [
+        c.text.strip()
+        for c in sorted(row.cells, key=lambda c: c.bbox[0])
+        if c.text.strip() and parse_number(c.text) is None and any(ch.isalpha() for ch in c.text)
+    ]
+    return " ".join([*lead, row.label or ""]).strip()
+
+
+def _eq_boundary_phrases(lines: list[str]) -> str:
+    """Opening/closing evidence from dated balance rows. Day 1 is an
+    opening, a month-end day a closing; where the extractor dropped the day,
+    two dated rows in adjacent months (December then January, June then
+    July) are the closing/opening pair of an equity roll-forward."""
+    opening = closing = False
+    day_less: set[int] = set()
+    for line in lines:
+        m = _EQ_BALANCE_DATE.search(line)
+        if m is None:
+            continue
+        if m.group("m"):
+            month = _EQ_MONTH_NO[m.group("m").lower()]
+            day = int(m.group("d")) if m.group("d") else None
+        else:
+            month, day = int(m.group("nm")), int(m.group("nd"))
+        if day == 1:
+            opening = True
+        elif day is not None and day >= 28:
+            closing = True
+        elif day is None and 1 <= month <= 12:
+            day_less.add(month)
+        # A combined "31 December 2023/1 January 2024" row carries both.
+        rest = line[m.end():]
+        if re.match(r"\s*/\s*(1\s|1\.)", rest):
+            opening = True
+    if any((m % 12) + 1 in day_less for m in day_less):
+        opening = closing = True
+    return (_EQ_OPENING_PHRASE if opening else "") + (_EQ_CLOSING_PHRASE if closing else "")
+
+
+def _rows_blob(rows: list[ExtractedRow], statement: Statement) -> str:
+    """The text keyword/start/end checks run on: the row labels - plus, for
+    the equity statement only, the rejoined/date-derived evidence above."""
+    if statement != Statement.EQUITY:
+        return " ".join(row.label for row in rows if row.label)
+    lines = [_eq_row_text(row) for row in rows]
+    lines = [line for line in lines if line]
+    return " ".join(lines) + _eq_boundary_phrases(lines)
+
+
+def _page_text_for_scoring(text: str, statement: Statement | None) -> str:
+    if statement != Statement.EQUITY:
+        return text
+    return text + _eq_boundary_phrases(text.splitlines())
+
 # A statement whose start line is found but whose end line isn't usually
 # continues onto the very next page, rarely a second - real Malaysian
 # annual reports checked so far run at most one page long for a primary
@@ -392,7 +489,7 @@ def _extend_for_continuation(
     if end_concepts is None:
         return table, None, 0.0
 
-    label_blob = " ".join(row.label for row in table.rows if row.label)
+    label_blob = _rows_blob(table.rows, statement)
     if _matches_any_concept(label_blob, end_concepts):
         return table, None, 0.0  # already complete on this page - nothing to extend
 
@@ -418,7 +515,7 @@ def _extend_for_continuation(
         if next_table is None or not next_table.rows:
             continue
 
-        next_blob = " ".join(row.label for row in next_table.rows if row.label)
+        next_blob = _rows_blob(next_table.rows, statement)
         if not _matches_any_concept(next_blob, end_concepts):
             continue
 
@@ -452,7 +549,9 @@ def _extend_for_continuation(
         for row in remapped_rows:
             row.row_index += offset_base
         table.rows = [*table.rows, *remapped_rows]
-        continuation_score = _stage1_style_score(next_page.get_text("text", sort=True), keywords)
+        continuation_score = _stage1_style_score(
+            _page_text_for_scoring(next_page.get_text("text", sort=True), statement), keywords
+        )
         return table, next_page_no, continuation_score
 
     return table, None, 0.0
@@ -504,7 +603,7 @@ def _stage1_scan(pdf_path: Path, statement: Statement, *, ocr: bool = False) -> 
             if numeric < MIN_PAGE_NUMERIC_TOKENS:
                 continue
 
-            score = _stage1_style_score(text, keywords)
+            score = _stage1_style_score(_page_text_for_scoring(text, statement), keywords)
 
             candidates.append(
                 PageCandidate(
@@ -607,7 +706,7 @@ def _stage2_rank(
                 # a balance sheet with an adjacent OCI/narrative column.
                 continue
 
-            label_blob = " ".join(row.label for row in table.rows if row.label)
+            label_blob = _rows_blob(table.rows, statement)
 
             # Found the usual start line but not the usual end line on this
             # page? It very likely continues onto the next page (rarely a
@@ -623,7 +722,7 @@ def _stage2_rank(
                     doc, statement, table, candidate.page_no,
                     ocr=ocr, pdf_path=pdf_path,
                 )
-                label_blob = " ".join(row.label for row in table.rows if row.label)
+                label_blob = _rows_blob(table.rows, statement)
 
             end_concepts = END_CONCEPT.get(statement)
             has_end = end_concepts is not None and _matches_any_concept(label_blob, end_concepts)

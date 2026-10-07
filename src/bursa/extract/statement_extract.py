@@ -34,9 +34,11 @@ the same discipline as this module, when it can't.
 from __future__ import annotations
 
 import re
+import unicodedata
 from dataclasses import dataclass, field
 from decimal import Decimal
 from pathlib import Path
+from typing import TYPE_CHECKING
 
 from sqlalchemy.orm import Session
 
@@ -47,6 +49,9 @@ from bursa.extract.page_scoring import select_statement_pages
 from bursa.mapping.synonyms import lookup
 from bursa.normalize.numbers import parse_number
 from bursa.normalize.scale import ScaleInfo, detect_scale
+
+if TYPE_CHECKING:
+    from bursa.extract.eps_note import EpsNote
 
 _YEAR = re.compile(r"\b(19[89]\d|20[0-4]\d)\b")
 
@@ -84,6 +89,7 @@ _SECTION_REMAP: dict[str, str | None] = {
     "is.pat_nci": "is.tci_nci",
     "is.pat_perpetual_bond": None,
 }
+_PROFIT_SECTION = _SECTION_ANCHORS | _ATTRIBUTABLE | {"is.tci_owners", "is.tci_nci"}
 _CONT_DISC_SUBROW = re.compile(
     r"^[\s\-–—]*(from\s+)?(continuing|discontinu(ed|ing))\s+operations?\b", re.IGNORECASE
 )
@@ -159,6 +165,175 @@ _TCI_TAIL_PATTERN = re.compile(
     re.IGNORECASE,
 )
 
+# Earnings per share. The common face layout is a valueless header -
+# "Earnings per share attributable to owners of the Company (sen):", often
+# wrapped over two or three lines - followed by "- Basic" / "- Diluted" value
+# rows. The sub-row labels alone ("basic", "basic (sen)") are meaningless, so
+# they are mapped only inside a block opened by an EPS header after PAT, never
+# by a global synonym. A wrapped header can also leave its tail fragment as
+# the value row ("Basic/diluted earnings per" / "share (sen)  2.78  3.75").
+_EPS_KEYS = ("is.eps_basic", "is.eps_diluted")
+_EPS_HEADER = re.compile(
+    r"\b(earnings|loss(es)?|profits?)\s*(/\s*\(?\s*(loss|earnings|profit)\s*\)?\s*)?"
+    r"per\s+(ordinary\s+|stapled\s+)?(share|unit|security)s?\b"
+    r"|\b(earnings|loss)\s*(/\s*\(?\s*(loss|earnings)\s*\)?\s*)?per\s*$"
+    r"|\beps\b",
+    re.IGNORECASE,
+)
+_EPS_SUBROW = re.compile(r"^[\s\-–—•·*:]*(\(?[a-z]{1,2}\)\s*)?(basic|diluted)\b", re.IGNORECASE)
+# What a wrapped header's tail fragment looks like ("share (sen)", "the
+# company (sen):-", "to owners of the parent (sen)").
+_EPS_TAIL = re.compile(
+    r"\b(sen|cents?|shares?|units?|company|parent|bank|group|owners?|holders?|"
+    r"unitholders|shareholders|attributable|rm)\b",
+    re.IGNORECASE,
+)
+_EPS_NOT_TOTAL = re.compile(
+    r"realis|distribut|dividend|net\s+assets|before|adjusted|normali[sz]ed|core", re.IGNORECASE
+)
+_EPS_CONTINUING = re.compile(r"\bcontinuing\b", re.IGNORECASE)
+_EPS_DISCONTINUED = re.compile(r"discontinu", re.IGNORECASE)
+_EPS_RM_UNIT = re.compile(r"\(\s*rm\s*\)", re.IGNORECASE)
+_EPS_SEN_UNIT = re.compile(r"\b(sen|cents?)\b", re.IGNORECASE)
+_NOTE_ONLY_VALUE = re.compile(r"^\d{1,2}(\.\d{1,2})?[a-z]?$", re.IGNORECASE)
+
+
+def _eps_values(values: dict[int, str]) -> dict[int, str]:
+    """A header line carrying only its Note reference ("Earnings per share
+    28") has no EPS figure of its own - treat it as valueless."""
+    if len(values) == 1 and _NOTE_ONLY_VALUE.match(next(iter(values.values())).strip()):
+        return {}
+    return values
+
+
+class _EpsBlock:
+    """An EPS header and the basic/diluted rows printed under it."""
+
+    def __init__(self) -> None:
+        self.text: str | None = None
+        self.consumed = False  # a value row has been taken from this block
+        self.fragments = 0
+
+    @property
+    def active(self) -> bool:
+        return self.text is not None
+
+    def start(self, label: str, *, consumed: bool = False) -> None:
+        self.text, self.consumed, self.fragments = label, consumed, 1
+
+    def extend(self, label: str) -> None:
+        self.text = f"{self.text} {label}"
+        self.fragments += 1
+
+    def end(self) -> None:
+        self.text, self.consumed, self.fragments = None, False, 0
+
+    def kinds(self, label: str) -> tuple[list[str], int]:
+        """Concept keys for a value row, and its priority (0 = total EPS,
+        1 = continuing operations only - kept only if nothing better)."""
+        header = self.text or ""
+        context = f"{header} {label}"
+        if _EPS_DISCONTINUED.search(label) or _EPS_NOT_TOTAL.search(context):
+            return [], 0
+        if _EPS_DISCONTINUED.search(header) and not _EPS_CONTINUING.search(header):
+            return [], 0
+        if _EPS_CONTINUING.search(label) and not _EPS_SUBROW.match(label):
+            return [], 0  # "- from continuing operations" under a "Basic" header
+        own = label.lower()
+        source = own if ("basic" in own or "dilut" in own) else header.lower()
+        keys = []
+        if "basic" in source or "dilut" not in source:
+            keys.append("is.eps_basic")
+        if "dilut" in source:
+            keys.append("is.eps_diluted")
+        return keys, (1 if _EPS_CONTINUING.search(context) else 0)
+
+    def scaled(self, label: str, values: dict[int, str]) -> dict[int, str]:
+        """EPS is stored in sen; a block printed "(RM)" is converted."""
+        context = f"{self.text or ''} {label}"
+        if not _EPS_RM_UNIT.search(context) or _EPS_SEN_UNIT.search(context):
+            return values
+        out = {}
+        for col, text in values.items():
+            number = parse_number(text)
+            out[col] = str(number * 100) if number is not None else text
+        return out
+
+
+# A line that starts a different section, never an EPS header's continuation.
+_EPS_FOREIGN = re.compile(
+    r"\b(total|comprehensive|income|revenue|tax(ation)?|expenses?|weighted|number\s+of|dividends?)\b",
+    re.IGNORECASE,
+)
+_MAX_EPS_HEADER_FRAGMENTS = 4
+_EPS_PROFIT_TAIL = re.compile(
+    r"^[\s\-–—]*\(?(profit|loss)\)?(\s*/\s*\(?(profit|loss)\)?)?\s+for\s+the\s+"
+    r"(financial\s+)?(year|period)\s*:?$",
+    re.IGNORECASE,
+)
+# A valueless profit line ("Profit for the financial year,", "Profit
+# attributable to:") - EPS may follow from here on.
+_VALUELESS_PROFIT = re.compile(
+    r"^[\s\-–—]*(net\s+)?\(?(profit|loss)\)?(\s*/\s*\(?(profit|loss)\)?)?\s+"
+    r"(for\s+the\s+(financial\s+)?(year|period)|attributable\s+to|after\s+tax)",
+    re.IGNORECASE,
+)
+
+
+def _eps_row(eps: _EpsBlock, label: str, values: dict[int, str]) -> tuple[list[str], int] | None:
+    """Advance the EPS block over one row. ``None`` = not part of an EPS
+    block, the ordinary loop handles it; otherwise the row's EPS concept keys
+    (empty for a header line, which carries no figures)."""
+    label = unicodedata.normalize("NFKC", label)  # "Proﬁt" ligatures
+    is_header = bool(_EPS_HEADER.search(label))
+    if not values:
+        if (eps.active and not eps.consumed and eps.fragments < _MAX_EPS_HEADER_FRAGMENTS
+                and not _EPS_FOREIGN.search(label)):
+            eps.extend(label)  # a wrapped header's next line
+            return [], 0
+        if is_header:
+            eps.start(label)
+            return [], 0
+        eps.end()
+        return None
+
+    if eps.active:
+        if _EPS_SUBROW.match(label):
+            eps.consumed = True
+            return eps.kinds(label)
+        if not eps.consumed and not is_header and (
+            (_EPS_TAIL.search(label) and not _EPS_FOREIGN.search(label))
+            # "Earnings per share (sen) based on:" / "Profit for the
+            # financial year  82.30  25.55" (Country View).
+            or _EPS_PROFIT_TAIL.match(label)
+        ):
+            eps.consumed = True
+            return eps.kinds(label)
+    if is_header:
+        eps.start(label, consumed=True)
+        return eps.kinds(label)
+    eps.end()
+    return None
+
+
+def _same_figures(a: dict[int, str], b: dict[int, str]) -> bool:
+    parsed_a = {c: parse_number(t) for c, t in a.items()}
+    parsed_b = {c: parse_number(t) for c, t in b.items()}
+    return bool(parsed_a) and parsed_a == parsed_b
+
+
+def _keep_first_eps(rows: list[RowInfo], priority: dict[int, int]) -> None:
+    """One EPS row per concept: the first total-EPS row wins over later
+    repeats and over a continuing-operations-only row."""
+    for key in _EPS_KEYS:
+        indexes = [i for i, r in enumerate(rows) if r.concept_key == key]
+        if len(indexes) < 2:
+            continue
+        best = min(indexes, key=lambda i: (priority.get(i, 0), i))
+        for i in indexes:
+            if i != best:
+                rows[i].concept_key = None
+
 
 @dataclass
 class ColumnInfo:
@@ -200,6 +375,9 @@ class StatementExtraction:
     # end line, and a continuation page supplied the end line instead - see
     # bursa.extract.page_scoring._extend_for_continuation.
     continuation_page_no: int | None = None
+    # Income statement only: the EPS note's weighted share count etc. - see
+    # bursa.extract.eps_note (written by its write_weighted_shares_facts).
+    eps_note: EpsNote | None = None
 
     @property
     def mapped_row_count(self) -> int:
@@ -335,6 +513,12 @@ def extract_statements(
         sections = _AttributionSections()
         seen_pat = False
         first_pat_row_index: int | None = None
+        eps = _EpsBlock()
+        eps_priority: dict[int, int] = {}
+        # EPS is read only below the profit line. A wrapped "Profit for the
+        # year, representing total comprehensive income ..." can map to TCI
+        # (or only its owners split) without ever setting seen_pat.
+        after_profit = False
         for row in table.rows:
             if not row.label:
                 continue
@@ -343,9 +527,27 @@ def extract_statements(
                 for cell in row.cells
                 if parse_number(cell.text) is not None or cell.text.strip() in ("-", "–", "—")
             }
+            if statement == Statement.INCOME_STATEMENT and (seen_pat or after_profit):
+                eps_keys = _eps_row(eps, row.label, _eps_values(values))
+                if eps_keys is not None:
+                    rows.extend(sections.flush())
+                    keys, priority = eps_keys
+                    if not keys and _eps_values(values):
+                        keys = [None]  # inside the block but not total EPS: kept unmapped
+                    for key in keys:
+                        eps_priority[len(rows)] = priority
+                        rows.append(RowInfo(
+                            row_index=row.row_index, label=row.label, concept_key=key,
+                            indent_level=row.indent_level, values=eps.scaled(row.label, values),
+                        ))
+                    continue
             if sections.absorb_subrow(row.label, values):
                 continue
             if not values:
+                if statement == Statement.INCOME_STATEMENT and not after_profit and _VALUELESS_PROFIT.search(
+                    unicodedata.normalize("NFKC", row.label)
+                ):
+                    after_profit = True
                 # A valueless "Owners of the Company" line whose figure is
                 # printed on "- from continuing / discontinued operations"
                 # sub-rows below it (S P Setia) - summed by absorb_subrow.
@@ -364,7 +566,17 @@ def extract_statements(
                 concept_key = "is.total_comprehensive_income"
             if concept_key in _SECTION_ANCHORS:
                 if concept_key == "is.profit_for_period":
-                    if seen_pat and first_pat_row_index is not None:
+                    if seen_pat and first_pat_row_index is not None and (
+                        "is.total_comprehensive_income" in sections.anchors
+                        or _same_figures(rows[first_pat_row_index].values, values)
+                    ):
+                        # Not a second PAT: either a row inside the EPS
+                        # section after TCI (Country View prints "Profit for
+                        # the financial year" with per-share figures there),
+                        # or PAT repeated at the top of a separate OCI
+                        # statement. Neither may demote the real PAT.
+                        concept_key = None
+                    elif seen_pat and first_pat_row_index is not None:
                         # Second is.profit_for_period: the first was actually
                         # continuing-operations profit (before discontinued
                         # ops), not the all-in PAT. Remap it - and don't queue
@@ -384,6 +596,8 @@ def extract_statements(
                     sections.anchors.append(concept_key)
             elif concept_key in _ATTRIBUTABLE:
                 concept_key = sections.assign(concept_key)
+            if concept_key in _PROFIT_SECTION:
+                after_profit = True
             if concept_key == "is.profit_for_period" and first_pat_row_index is None:
                 first_pat_row_index = len(rows)
             rows.append(
@@ -396,6 +610,7 @@ def extract_statements(
                 )
             )
         rows.extend(sections.flush())
+        _keep_first_eps(rows, eps_priority)
 
         result.statements[statement] = StatementExtraction(
             statement=statement,
@@ -408,5 +623,21 @@ def extract_statements(
             rows=rows,
             continuation_page_no=scored.continuation_page_no,
         )
+        if statement == Statement.INCOME_STATEMENT:
+            extracted = result.statements[statement]
+            extracted.eps_note = _read_eps_note(pdf_path, extracted)
 
     return result
+
+
+def _read_eps_note(pdf_path: Path, extracted: StatementExtraction) -> EpsNote | None:
+    from bursa.extract.eps_note import extract_eps_note, face_patami_by_year
+
+    try:
+        return extract_eps_note(
+            pdf_path, after_page=extracted.page_no,
+            fallback_multiplier=extracted.scale.multiplier,
+            face_patami=face_patami_by_year(extracted),
+        )
+    except Exception:  # noqa: BLE001 - a note-parsing bug must never cost the statements
+        return None

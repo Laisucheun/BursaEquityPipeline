@@ -257,6 +257,7 @@ def write_company_extraction(
         return result
 
     concepts = {c.concept_key: c for c in session.scalars(select(Concept))}
+    _reconcile_fy_end_month(company, best, result)
 
     # Process annual-looking statements first, regardless of the dict's own
     # insertion order: `_write_statement_facts` needs `company.fy_end_month`
@@ -294,6 +295,37 @@ def write_company_extraction(
 
     _backfill_fy_end_month(company, result)
     return result
+
+
+def _reconcile_fy_end_month(
+    company: Company,
+    best: dict[tuple[Statement, object], tuple[float, StatementExtraction, int]],
+    result: FactWriteResult,
+) -> None:
+    """Re-derive the fiscal year end from this company's explicitly 12-month
+    statements on every run. It used to be set once, from whichever statement
+    came first, and never revisited - one misread (TNB stored August for a
+    December year end) then shifted every fiscal year it labelled."""
+    votes: dict[int, int] = {}
+    for (statement, _), (_, extracted, _) in best.items():
+        if statement == Statement.BALANCE_SHEET:
+            continue
+        if parse_statement_duration_months(extracted.header_text) != 12:
+            continue
+        stated = parse_stated_period_end(extracted.header_text, instant=False)
+        if stated is not None:
+            votes[stated.month] = votes.get(stated.month, 0) + 1
+    if not votes:
+        return
+    month, count = max(votes.items(), key=lambda kv: kv[1])
+    if count >= 2 and count * 2 > sum(votes.values()) and company.fy_end_month != month:
+        if company.fy_end_month is not None:
+            result.skipped_columns.append(
+                f"fy_end_month corrected {company.fy_end_month} -> {month} "
+                f"({count} of {sum(votes.values())} annual statements)"
+            )
+        company.fy_end_month = month
+        result.derived_fy_end_months.append(month)
 
 
 def _create_run(session: Session, document_id: int) -> int:
@@ -417,6 +449,11 @@ def _write_statement_facts(
     result: FactWriteResult,
     touched_fact_ids: set[int],
 ) -> None:
+    if statement == Statement.EQUITY:  # a component x movement matrix, not year columns
+        from bursa.pipeline.equity import write_equity_facts
+
+        write_equity_facts(session, company, document_id, run_id, concepts, extracted, result, touched_fact_ids)
+        return
     instant_statement = statement == Statement.BALANCE_SHEET
     stated = parse_stated_period_end(extracted.header_text, instant=instant_statement)
     if stated is None:
@@ -492,6 +529,15 @@ def _write_statement_facts(
                 result=result,
             )
             touched_fact_ids.add(fact_id)
+
+    if statement == Statement.INCOME_STATEMENT:
+        # Weighted share counts live in the EPS note, not on the face; anchored
+        # to the periods the face facts above were just written to.
+        from bursa.extract.eps_note import write_weighted_shares_facts
+
+        touched_fact_ids |= write_weighted_shares_facts(
+            session, company.id, document_id, run_id, extracted, result
+        )
 
 
 def _cf_boundary_bounds(concept_key: str, fy_bounds: PeriodBounds, fy_end_month: int) -> PeriodBounds | None:

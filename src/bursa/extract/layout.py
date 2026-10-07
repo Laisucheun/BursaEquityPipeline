@@ -430,16 +430,49 @@ def group_rows_by_block(words: list[Word]) -> list[list[Word]]:
     return grouped
 
 
-def detect_columns(rows: list[list[Word]]) -> list[ColumnBand]:
+_MONTH_WORD = re.compile(
+    r"^(january|february|march|april|may|june|july|august|september|october|november|december"
+    r"|jan|feb|mar|apr|jun|jul|aug|sept?|oct|nov|dec)\.?,?$",
+    re.IGNORECASE,
+)
+_DAY_WORD = re.compile(r"^\d{1,2}$")
+_YEAR_WORD = re.compile(r"^(19|20)\d\d[,/]?$")
+
+
+def _label_date_words(rows: list[list[Word]]) -> set[int]:
+    """ids of the day/year tokens of a date written inside a row label
+    ("At 1 January 2023", "31 December 2023/1 January 2024"). Used for the
+    statement of changes in equity only, where every opening/closing row
+    carries one: the day numbers ("1", "31") stacked down the label area are
+    right-aligned figures as far as `detect_columns` can tell, form a column
+    band of their own, and cut "At 1" off the label - confirmed real on Hong
+    Leong Industries ("Balance as January 2023") and Gamuda."""
+    out: set[int] = set()
+    for row in rows:
+        ordered = sorted(row, key=lambda w: w.x0)
+        for i, word in enumerate(ordered):
+            prev_word = ordered[i - 1].text if i > 0 else ""
+            next_word = ordered[i + 1].text if i + 1 < len(ordered) else ""
+            if _DAY_WORD.match(word.text) and _MONTH_WORD.match(next_word):
+                out.add(id(word))
+            elif _YEAR_WORD.match(word.text) and _MONTH_WORD.match(prev_word):
+                out.add(id(word))
+    return out
+
+
+def detect_columns(rows: list[list[Word]], ignore: set[int] | None = None) -> list[ColumnBand]:
     """Find the numeric columns by clustering right edges.
 
     Right edges, not centres: financial figures are right-aligned, so the right
     edge is stable across values of wildly different width while the centre is
-    not.
+    not. ``ignore`` holds ids of words that are text despite parsing as
+    numbers (see `_label_date_words`).
     """
     edges: list[float] = []
     for row in rows:
         for word in row:
+            if ignore and id(word) in ignore:
+                continue
             if parse_number(word.text) is not None:
                 edges.append(word.x1)
 
@@ -607,7 +640,8 @@ def _extract_from_words(
         return None
 
     row_groups = group_rows_by_block(words)
-    columns = detect_columns(row_groups)
+    ignore = _label_date_words(row_groups) if statement == Statement.EQUITY else None
+    columns = detect_columns(row_groups, ignore)
     if not columns:
         return None
 
