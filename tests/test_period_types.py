@@ -1,7 +1,32 @@
 from datetime import date
 
 from bursa.db.enums import PeriodType
-from bursa.normalize.periods import resolve_duration_period_type
+import pytest
+
+from bursa.normalize.periods import (
+    parse_dotted_date,
+    parse_stated_period_end,
+    resolve_duration_period_type,
+)
+
+
+@pytest.mark.parametrize("text, instant, expected", [
+    ("FOR THE FINANCIAL YEAR ENDED 31 DECEMBER 2024", False, date(2024, 12, 31)),
+    ("FOR THE YEAR ENDED DECEMBER 31, 2023", False, date(2023, 12, 31)),  # CSC Steel
+    ("Financial Year Ended\n31/12/2024 31/12/2023#", False, date(2024, 12, 31)),
+    ("AS AT 31.3.2026", True, date(2026, 3, 31)),
+    ("as at 30 Sept. 2024", True, date(2024, 9, 30)),
+    ("as at 30 Septembre 2024", True, None),  # unknown month word - no guess
+    ("Statement of Financial Position", True, None),
+])
+def test_stated_period_end_forms(text: str, instant: bool, expected: date | None) -> None:
+    assert parse_stated_period_end(text, instant=instant) == expected
+
+
+def test_dotted_date_range_reads_the_end_date() -> None:
+    assert parse_dotted_date("1.4.2025 to 31.3.2026 RM'000") == date(2026, 3, 31)
+    assert parse_dotted_date("31.12.2024") == date(2024, 12, 31)
+    assert parse_dotted_date("Restated 1.1.2024") == date(2024, 1, 1)
 
 
 def test_stated_twelve_months_is_fy() -> None:

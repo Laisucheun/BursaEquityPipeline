@@ -82,7 +82,15 @@ _NOT_A_STATEMENT = re.compile(
     # Confirmed on two separate real documents (Tenaga Nasional, Public
     # Bank) whose restatement notes both reproduced the primary statement's
     # own heading text as a sub-heading, passing every other check.
-    r"|as\s+previously\s+(reported|stated)",
+    r"|as\s+previously\s+(reported|stated)"
+    # Narrative summaries that tabulate the same headline figures. When a
+    # document's real statements live in a separate volume, these won by
+    # default - and their prose ("revenue of RM614.4 million") set a
+    # 1,000,000x scale on RM'000 figures (Txcd, HLT, JAG).
+    r"|management(\s*['’]?\s*s)?\s+discussion|\bmd\s*&\s*a\b"
+    r"|financial\s+highlights|(five|5)[\s-]+year\s+(financial\s+)?(highlights|summary|record|review)"
+    # Axiata / KPS: a "Financial Review" section tabulates summary statements.
+    r"|\bfinancial\s+review\b",
     re.IGNORECASE,
 )
 

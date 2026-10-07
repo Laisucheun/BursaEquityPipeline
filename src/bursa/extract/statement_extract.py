@@ -35,6 +35,7 @@ from __future__ import annotations
 
 import re
 from dataclasses import dataclass, field
+from decimal import Decimal
 from pathlib import Path
 
 from sqlalchemy.orm import Session
@@ -75,7 +76,70 @@ _YEAR = re.compile(r"\b(19[89]\d|20[0-4]\d)\b")
 # is always stated before its own breakdown, whether or not another
 # subtotal's breakdown is interleaved in between).
 _SECTION_ANCHORS = frozenset({"is.profit_for_period", "is.total_comprehensive_income"})
-_SECTION_REMAP = {"is.pat_owners": "is.tci_owners", "is.pat_nci": "is.tci_nci"}
+_ATTRIBUTABLE = frozenset({"is.pat_owners", "is.pat_nci", "is.pat_perpetual_bond"})
+# Under a total-comprehensive-income anchor. No TCI concept exists for the
+# perpetual-holder share, so it is dropped rather than overwriting the PAT one.
+_SECTION_REMAP: dict[str, str | None] = {
+    "is.pat_owners": "is.tci_owners",
+    "is.pat_nci": "is.tci_nci",
+    "is.pat_perpetual_bond": None,
+}
+_CONT_DISC_SUBROW = re.compile(
+    r"^[\s\-–—]*(from\s+)?(continuing|discontinu(ed|ing))\s+operations?\b", re.IGNORECASE
+)
+
+
+class _AttributionSections:
+    """Assign "attributable to" rows to their subtotal.
+
+    A breakdown block is a run of owners / NCI / perpetual-holder rows. A new
+    block starts when a holder already seen in the current block appears
+    again - so the block's internal order doesn't matter. S P Setia prints
+    "perpetual, NCI, owners"; the old rule (a block starts at an owners row)
+    let the TCI block's NCI row overwrite the profit NCI. Block N belongs to
+    the Nth anchor in encounter order (see the comment above
+    `_SECTION_ANCHORS` for why occurrence order, not "most recent").
+    """
+
+    def __init__(self) -> None:
+        self.anchors: list[str] = []
+        self._block = 0
+        self._seen: set[str] = set()
+        self._sum_concept: str | None = None
+        self._sum_row = None
+        self._sums: dict[int, Decimal] = {}
+
+    def assign(self, concept_key: str) -> str | None:
+        if concept_key in self._seen:
+            self._block += 1
+            self._seen = set()
+        self._seen.add(concept_key)
+        anchor = self.anchors[self._block] if self._block < len(self.anchors) else None
+        if anchor == "is.total_comprehensive_income":
+            return _SECTION_REMAP[concept_key]
+        return concept_key
+
+    def start_sum(self, concept_key: str | None, row) -> None:  # type: ignore[no-untyped-def]
+        self._sum_concept, self._sum_row, self._sums = concept_key, row, {}
+
+    def absorb_subrow(self, label: str, values: dict[int, str]) -> bool:
+        if self._sum_row is None or not _CONT_DISC_SUBROW.match(label):
+            return False
+        for col, text in values.items():
+            number = parse_number(text)
+            if number is not None:
+                self._sums[col] = self._sums.get(col, Decimal(0)) + number
+        return True
+
+    def flush(self) -> list[RowInfo]:
+        row, concept_key, sums = self._sum_row, self._sum_concept, self._sums
+        self._sum_row, self._sum_concept, self._sums = None, None, {}
+        if row is None or concept_key is None or not sums:
+            return []
+        return [RowInfo(
+            row_index=row.row_index, label=row.label, concept_key=concept_key,
+            indent_level=row.indent_level, values={c: str(v) for c, v in sorted(sums.items())},
+        )]
 # Concepts that belong strictly before PAT in an income statement. When one
 # of these maps after is.profit_for_period has already been seen, the label
 # is an OCI line item whose text happens to collide with an IS synonym (e.g.
@@ -267,19 +331,32 @@ def extract_statements(
         table = scored.table
         scale = detect_scale(table.header_text)
 
-        rows = []
-        # Anchors (is.profit_for_period / is.total_comprehensive_income) seen
-        # so far, in encounter order, and how many owners/NCI breakdown
-        # blocks have been consumed against that queue - see _SECTION_REMAP
-        # above for why this has to be occurrence-order, not "most recent".
-        section_queue: list[str] = []
-        breakdown_index = 0
-        pending_remap: str | None = None  # set on an owners row, applied to its nci row
+        rows: list[RowInfo] = []
+        sections = _AttributionSections()
         seen_pat = False
         first_pat_row_index: int | None = None
         for row in table.rows:
-            if not row.label or not row.cells:
+            if not row.label:
                 continue
+            values = {
+                cell.col_index: cell.text
+                for cell in row.cells
+                if parse_number(cell.text) is not None or cell.text.strip() in ("-", "–", "—")
+            }
+            if sections.absorb_subrow(row.label, values):
+                continue
+            if not values:
+                # A valueless "Owners of the Company" line whose figure is
+                # printed on "- from continuing / discontinued operations"
+                # sub-rows below it (S P Setia) - summed by absorb_subrow.
+                if seen_pat:
+                    concept_key = lookup(session, row.label, statement, company_id=company_id)
+                    if concept_key in _ATTRIBUTABLE:
+                        rows.extend(sections.flush())
+                        sections.start_sum(sections.assign(concept_key), row)
+                continue
+            rows.extend(sections.flush())
+
             concept_key = lookup(session, row.label, statement, company_id=company_id)
             if seen_pat and concept_key in _PRE_PAT_ONLY:
                 concept_key = None
@@ -290,7 +367,9 @@ def extract_statements(
                     if seen_pat and first_pat_row_index is not None:
                         # Second is.profit_for_period: the first was actually
                         # continuing-operations profit (before discontinued
-                        # ops), not the all-in PAT. Remap it.
+                        # ops), not the all-in PAT. Remap it - and don't queue
+                        # a second PAT anchor, which would shift every later
+                        # breakdown block onto the wrong subtotal.
                         rows[first_pat_row_index] = RowInfo(
                             row_index=rows[first_pat_row_index].row_index,
                             label=rows[first_pat_row_index].label,
@@ -300,24 +379,11 @@ def extract_statements(
                         )
                     else:
                         seen_pat = True
-                section_queue.append(concept_key)
-            elif concept_key == "is.pat_owners":
-                target = section_queue[breakdown_index] if breakdown_index < len(section_queue) else None
-                breakdown_index += 1
-                if target == "is.total_comprehensive_income":
-                    concept_key = _SECTION_REMAP[concept_key]
-                pending_remap = concept_key
-            elif concept_key == "is.pat_nci":
-                if pending_remap == "is.tci_owners":
-                    concept_key = _SECTION_REMAP[concept_key]
-                pending_remap = None
-            values = {
-                cell.col_index: cell.text
-                for cell in row.cells
-                if parse_number(cell.text) is not None or cell.text.strip() in ("-", "–", "—")
-            }
-            if not values:
-                continue
+                        sections.anchors.append(concept_key)
+                else:
+                    sections.anchors.append(concept_key)
+            elif concept_key in _ATTRIBUTABLE:
+                concept_key = sections.assign(concept_key)
             if concept_key == "is.profit_for_period" and first_pat_row_index is None:
                 first_pat_row_index = len(rows)
             rows.append(
@@ -329,6 +395,7 @@ def extract_statements(
                     values=values,
                 )
             )
+        rows.extend(sections.flush())
 
         result.statements[statement] = StatementExtraction(
             statement=statement,

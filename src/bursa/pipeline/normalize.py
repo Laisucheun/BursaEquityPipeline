@@ -382,6 +382,12 @@ def _resolve_columns(
             period_type = resolved_type
 
         bounds = period_bounds(period_end, period_type, fy_end_month)
+        if bounds.period_start is not None and bounds.period_start >= bounds.period_end:
+            result.skipped_columns.append(
+                f"col{column.col_index}: resolved to an empty period "
+                f"{bounds.period_start}..{bounds.period_end} - not written"
+            )
+            continue
         if column.basis is not None:
             basis = column.basis
         else:

@@ -151,13 +151,22 @@ def _check_month(fy_end_month: int) -> None:
 _MONTHS: dict[str, int] = {
     **{name.lower(): i for i, name in enumerate(calendar.month_name) if name},
     **{abbr.lower(): i for i, abbr in enumerate(calendar.month_abbr) if abbr},
+    "sept": 9,
 }
 
 # Confirmed real phrasing this project has read directly off filings: "for
 # the financial year ended 31 December 2024" (duration statements - income
 # statement, cash flow) and "as at 30 September 2024" (balance sheet).
-_DURATION_ENDED = re.compile(r"\bended\s+(\d{1,2})\s+([A-Za-z]+)\.?\s+(\d{4})", re.IGNORECASE)
-_INSTANT_AS_AT = re.compile(r"\bas\s+at\s+(\d{1,2})\s+([A-Za-z]+)\.?\s+(\d{4})", re.IGNORECASE)
+# Each lead-in ("ended" / "as at") is followed by one of three date forms:
+# "31 December 2024", "December 31, 2023" (CSC Steel), or "31/12/2024" /
+# "31.12.2024" - possibly on the next line, hence \s+ throughout.
+_DATE_FORMS = (
+    (r"(?P<d>\d{1,2})\s+(?P<m>[A-Za-z]+)\.?,?\s+(?P<y>\d{4})"),
+    (r"(?P<m>[A-Za-z]+)\.?\s+(?P<d>\d{1,2}),?\s+(?P<y>\d{4})"),
+    (r"(?P<d>\d{1,2})[./](?P<m>\d{1,2})[./](?P<y>\d{4})"),
+)
+_DURATION_ENDED = tuple(re.compile(r"\bended\s+" + f, re.IGNORECASE) for f in _DATE_FORMS)
+_INSTANT_AS_AT = tuple(re.compile(r"\bas\s+at\s+" + f, re.IGNORECASE) for f in _DATE_FORMS)
 
 
 def parse_stated_period_end(text: str, *, instant: bool) -> date | None:
@@ -170,19 +179,18 @@ def parse_stated_period_end(text: str, *, instant: bool) -> date | None:
     calendar date - matching the rest of this module and
     ``bursa.extract.statement_extract``'s "report raw, don't fabricate" rule.
     """
-    patterns = (_INSTANT_AS_AT, _DURATION_ENDED) if instant else (_DURATION_ENDED, _INSTANT_AS_AT)
-    for pattern in patterns:
-        match = pattern.search(text)
-        if not match:
-            continue
-        day, month_name, year = match.groups()
-        month = _MONTHS.get(month_name.lower())
-        if month is None:
-            continue
-        try:
-            return date(int(year), month, int(day))
-        except ValueError:
-            continue
+    groups = (_INSTANT_AS_AT, _DURATION_ENDED) if instant else (_DURATION_ENDED, _INSTANT_AS_AT)
+    for patterns in groups:
+        for pattern in patterns:
+            for match in pattern.finditer(text):
+                m = match.group("m")
+                month = int(m) if m.isdigit() else _MONTHS.get(m.lower())
+                if month is None:
+                    continue
+                try:
+                    return date(int(match.group("y")), month, int(match.group("d")))
+                except ValueError:
+                    continue
     return None
 
 
@@ -266,11 +274,15 @@ _DOTTED_DATE = re.compile(r"\b(\d{1,2})\.(\d{1,2})\.(\d{4})\b")
 
 
 def parse_dotted_date(text: str) -> date | None:
-    """A column's own DD.MM.YYYY date, if its header states one explicitly."""
-    match = _DOTTED_DATE.search(text)
-    if not match:
+    """A column's own DD.MM.YYYY end date, if its header states one explicitly.
+
+    The *last* date wins: a duration column is often headed with its range,
+    "1.4.2025 to 31.3.2026" (IRIS), whose first date is the start - reading
+    that as the end made one-day "fiscal years" a year early."""
+    matches = list(_DOTTED_DATE.finditer(text))
+    if not matches:
         return None
-    day, month, year = (int(g) for g in match.groups())
+    day, month, year = (int(g) for g in matches[-1].groups())
     try:
         return date(year, month, day)
     except ValueError:

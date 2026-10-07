@@ -528,7 +528,10 @@ def test_scorer_works_for_the_income_statement_too(tmp_path: Path) -> None:
 # correctly found, and out-scoring the real, sparser income statement page
 # on raw keyword/ratio terms alone.
 _ISOLATED_HIGHLIGHTS_DECOY = StatementSpec(
-    title="5-YEAR FINANCIAL SUMMARY",
+    # A summary page *not* caught by is_excluded_page's heading list (a
+    # "5-year financial summary" now is), so the proximity cross-check
+    # below is still what has to reject it.
+    title="GROUP PERFORMANCE AT A GLANCE",
     subtitle="(RM'000)",
     column_headers=[["2024", "2023", "2022", "2021"]],
     rows=[
@@ -764,6 +767,16 @@ def test_remap_leaves_an_already_aligned_continuation_page_unchanged() -> None:
         (0, "2,807,309"),
         (1, "2,702,789"),
     ]
+
+
+def test_md_and_a_and_highlights_pages_are_excluded() -> None:
+    from bursa.extract.classify import is_excluded_page
+
+    assert is_excluded_page("Management Discussion and Analysis\nRevenue 614,372 RM'000")
+    assert is_excluded_page("MANAGEMENT'S DISCUSSION & ANALYSIS\n...")
+    assert is_excluded_page("MD&A (CONT'D)\nFinancial highlights")
+    assert is_excluded_page("5-Year Financial Highlights\n2025 2024 2023")
+    assert not is_excluded_page("CONSOLIDATED STATEMENT OF PROFIT OR LOSS\nFor the year ended")
 
 
 def test_consolidated_page_beats_a_higher_scoring_company_only_page(tmp_path: Path) -> None:

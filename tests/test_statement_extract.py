@@ -7,7 +7,13 @@ from sqlalchemy.orm import Session
 
 from bursa.db.enums import Basis, Statement
 from bursa.extract.layout import Cell, ColumnBand, ExtractedRow, ExtractedTable
-from bursa.extract.statement_extract import RowInfo, _column_year, _resolve_columns, extract_statements
+from bursa.extract.statement_extract import (
+    RowInfo,
+    _AttributionSections,
+    _column_year,
+    _resolve_columns,
+    extract_statements,
+)
 from bursa.mapping.synonyms import seed_concepts
 from tests.fixtures.synthetic import (
     BALANCE_SHEET,
@@ -119,6 +125,45 @@ def test_no_year_line_keeps_per_column_years() -> None:
     cols = _resolve_columns(table, [_row({0: "1", 1: "2"})])
     assert [c.year for c in cols] == [2024, 2024]
     assert all(c.basis is None for c in cols)
+
+
+# --------------------------------------------------------------------------
+# _AttributionSections: "attributable to" rows -> PAT vs TCI split
+# --------------------------------------------------------------------------
+
+
+def test_holder_order_within_a_block_does_not_matter() -> None:
+    # S P Setia: perpetual, NCI, owners - under PAT, then again under TCI.
+    s = _AttributionSections()
+    s.anchors += ["is.profit_for_period", "is.total_comprehensive_income"]
+    order = ["is.pat_perpetual_bond", "is.pat_nci", "is.pat_owners"] * 2
+    assert [s.assign(k) for k in order] == [
+        "is.pat_perpetual_bond", "is.pat_nci", "is.pat_owners",
+        None, "is.tci_nci", "is.tci_owners",
+    ]
+
+
+def test_block_without_nci_still_advances_on_repeat() -> None:
+    s = _AttributionSections()
+    s.anchors += ["is.profit_for_period", "is.total_comprehensive_income"]
+    assert [s.assign(k) for k in ["is.pat_owners", "is.pat_owners", "is.pat_nci"]] == [
+        "is.pat_owners", "is.tci_owners", "is.tci_nci",
+    ]
+
+
+def test_valueless_owners_row_sums_its_continuing_and_discontinued_subrows() -> None:
+    header = ExtractedRow(row_index=7, label="Owners of the Company", cells=[], bbox=(0, 0, 0, 0))
+    s = _AttributionSections()
+    s.start_sum("is.pat_owners", header)
+    assert s.absorb_subrow("- from continuing operations", {1: "670,959", 2: "904,118"})
+    assert s.absorb_subrow("– from discontinued operations", {1: "-", 2: "89,585"})
+    assert not s.absorb_subrow("Holders of Perpetual bond", {1: "34,449"})
+
+    [row] = s.flush()
+
+    assert row.concept_key == "is.pat_owners"
+    assert row.values == {1: "670959", 2: "993703"}
+    assert s.flush() == []
 
 
 # --------------------------------------------------------------------------

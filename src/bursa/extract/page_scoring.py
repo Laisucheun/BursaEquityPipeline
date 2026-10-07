@@ -552,6 +552,9 @@ class _Qualifying:
     has_heading: bool
     score: float
     continuation_page_no: int | None = None
+    # Judged on the whole page: on a two-page spread the selected half's own
+    # text can lack the title (Gamuda's consolidated balance sheet).
+    consolidated: bool = False
 
 
 def _stage2_rank(
@@ -706,6 +709,7 @@ def _stage2_rank(
                 _Qualifying(
                     candidate.page_no, table, row_hits, row_ratio, has_heading, score,
                     continuation_page_no,
+                    consolidated=bool(_CONSOLIDATED_TITLE.search(page.get_text("text", sort=True))),
                 )
             )
 
@@ -722,11 +726,8 @@ def _stage2_rank(
     # "Group | Bank" page keeps competing on score, since a notes page can
     # carry a "consolidated statement of" heading too (AMMB's Note 54,
     # Islamic banking operations, otherwise displaced the real statement).
-    if any(_CONSOLIDATED_TITLE.search(q.table.raw_text) for q in pool):
-        pool = [
-            q for q in pool
-            if _CONSOLIDATED_TITLE.search(q.table.raw_text) or _GROUP_WORD.search(q.table.header_text)
-        ]
+    if any(q.consolidated for q in pool):
+        pool = [q for q in pool if q.consolidated or _GROUP_WORD.search(q.table.header_text)]
     ranked = sorted(pool, key=lambda q: q.score, reverse=True)
 
     return [
