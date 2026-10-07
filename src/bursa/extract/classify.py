@@ -94,6 +94,8 @@ _NOT_A_STATEMENT = re.compile(
     re.IGNORECASE,
 )
 
+_NUMBERED_NOTE_TITLE = re.compile(r"^\d{1,3}\.\s+[A-Za-z(]")
+
 _MIN_NUMERIC_TOKENS = 8
 _HEAD_FRACTION = 0.35  # a statement heading sits in the top third of its page
 
@@ -160,7 +162,15 @@ def is_excluded_page(text: str) -> bool:
     heading-match preference. A page classify.py already knows for certain
     is not a statement should never be eligible to win by density.
     """
-    return bool(_NOT_A_STATEMENT.search(_head_blob(text)))
+    head = _head_blob(text)
+    if _NOT_A_STATEMENT.search(head):
+        return True
+    # A numbered note title opening the page ("9.  Profit/(Loss) before
+    # taxation (Cont'd)") - a note's continuation page often doesn't repeat
+    # "notes to the financial statements" (Hong Leong-style, 4081). Page
+    # numbers ("84  WATTA Holding Berhad") carry no dot, so they don't match.
+    first = head.split("\n", 1)[0] if head else ""
+    return bool(_NUMBERED_NOTE_TITLE.match(first))
 
 
 def classify_page_text(

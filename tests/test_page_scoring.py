@@ -777,6 +777,10 @@ def test_md_and_a_and_highlights_pages_are_excluded() -> None:
     assert is_excluded_page("MD&A (CONT'D)\nFinancial highlights")
     assert is_excluded_page("5-Year Financial Highlights\n2025 2024 2023")
     assert not is_excluded_page("CONSOLIDATED STATEMENT OF PROFIT OR LOSS\nFor the year ended")
+    # A note's continuation page, titled only by its own number.
+    assert is_excluded_page("9.    Profit/(Loss) before taxation (Cont'd)\nGroup Company\n2025 2024")
+    # A page number is not a note number.
+    assert not is_excluded_page("84   WATTA Holding Berhad\nSTATEMENTS OF PROFIT OR LOSS")
 
 
 def test_consolidated_page_beats_a_higher_scoring_company_only_page(tmp_path: Path) -> None:
