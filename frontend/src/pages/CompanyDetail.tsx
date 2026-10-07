@@ -9,6 +9,7 @@ import {
   type ValuationYear,
 } from "../api";
 import { ErrorBox, LineChart, Loading, Section } from "../components";
+import { DividendsTab, FiveYearTab, PeersTab } from "./CompanyTabs";
 import { money, num, percent, ratio, useAsync } from "../lib";
 
 const TABS = [
@@ -20,6 +21,9 @@ const TABS = [
   ["dupont", "DuPont"],
   ["growth", "Growth"],
   ["prices", "Prices"],
+  ["dividends", "Dividends"],
+  ["fiveyear", "5-year check"],
+  ["peers", "Peers"],
 ] as const;
 type Tab = (typeof TABS)[number][0];
 
@@ -225,6 +229,10 @@ export default function CompanyDetail() {
             </Section>
           )
         )}
+        {/* Self-loading tabs stay mounted once visited so their data survives tab switches. */}
+        {seen("dividends") && <div hidden={tab !== "dividends"}><DividendsTab key={code} code={code} /></div>}
+        {seen("fiveyear") && <div hidden={tab !== "fiveyear"}><FiveYearTab key={code} code={code} /></div>}
+        {seen("peers") && <div hidden={tab !== "peers"}><PeersTab key={code} code={code} /></div>}
       </div>
     </>
   );

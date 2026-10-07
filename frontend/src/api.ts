@@ -104,6 +104,23 @@ export interface Progress {
   activity: { active: boolean; runs_last_10_min: number; recent: RecentRun[] };
   roadmap: RoadmapSection[];
   companies: CoverageRow[];
+  /** Companies whose annual reports must be downloaded by hand (manual_downloads.txt). */
+  manual_downloads?: ManualDownload[];
+}
+
+export type ManualTier = "LARGE" | "MID" | "SMALL" | "UNKNOWN";
+
+export interface ManualDownload {
+  tier: ManualTier | string;
+  stock_code: string;
+  name: string;
+  market_cap_bn: number | null;
+  reason: string; // e.g. "unreachable", "no PDF found", "robots blocked", "never tried"
+  url: string | null;
+  /** The scraper's IR URL looks wrong (e.g. a wa.me link); search manually. */
+  url_suspect: boolean;
+  documents: number;
+  facts: number;
 }
 
 // ------------------------------------------------------------- /api/companies
@@ -304,15 +321,19 @@ export interface UploadResult {
   comparative: { match: number; rounding: number; restatement: number } | null;
 }
 
-// ---------------------------------------------------- /api/review (PROPOSED)
-// No backend endpoint exposes ReviewItem (src/bursa/db/models.py) yet. The
-// Concept Review page is built against this proposed contract and shows an
-// "endpoint not available" state while the backend returns 404.
-//
-//   GET  /api/review?status=open|resolved|all&reason=&stock_code=&limit=&offset=
-//        -> ReviewList
+// ------------------------------------------------- /api/review, /api/concepts
+// src/bursa/api/routes/review.py
+//   GET  /api/review?status=open|resolved|all&reason=&stock_code=&limit=&offset= -> ReviewList
 //   POST /api/review/{id}/resolve   body: ReviewResolveRequest -> ReviewItem
-//   GET  /api/concepts?statement=is|bs|cf -> ConceptOption[]   (concept picker)
+//        (422 when map has no/unknown concept_key or the concept's statement differs from the row's)
+//   GET  /api/concepts?statement=is|bs|cf -> ConceptOption[]
+
+export interface ReviewResolution {
+  action: "map" | "ignore" | "reject";
+  concept_key?: string;
+  synonym?: { normalized: string | null; company_scoped: boolean };
+  note?: string;
+}
 
 export interface ReviewItem {
   id: number;
@@ -323,19 +344,20 @@ export interface ReviewItem {
   company_name: string | null;
   raw_row_id: number | null;
   fact_id: number | null;
-  reason: string; // e.g. "UNMAPPED_LABEL", "LOW_CONFIDENCE", "VALIDATION_FAIL"
+  reason: string; // e.g. "UNMAPPED_LABEL"
+  /** Raw JSON string ({label, statement, page_no, values, ...}). */
   detail: string | null;
   severity: number;
-  created_at: string;
+  created_at: string | null;
   resolved_at: string | null;
   resolved_by: string | null;
-  resolution: Record<string, unknown> | null;
-  // Joined from raw_rows when raw_row_id is set.
+  resolution: ReviewResolution | null;
+  // Parsed from `detail`.
   raw_label: string | null;
   page_no: number | null;
   statement: StatementPrefix | null;
   cells: { col_index: number; text: string }[] | null;
-  // Optional mapper suggestion(s), best first.
+  /** Mapper suggestions for UNMAPPED_LABEL items, best first. */
   suggestions: { concept_key: string; label: string; score: number }[] | null;
 }
 
@@ -357,6 +379,123 @@ export interface ConceptOption {
   concept_key: string;
   statement: string;
   label: string;
+}
+
+// ------------------------------------------------------------- /api/dividends
+// src/bursa/analysis/dividends.py (DividendHistory / YearDividend via asdict)
+export interface YearDividend {
+  fiscal_year: number;
+  period_end: string;
+  dividends: number | null; // RM, positive
+  dividends_basis: "cash" | "equity" | string | null;
+  shares: number | null;
+  patami: number | null;
+  eps_sen: number | null;
+  dps_sen: number | null;
+  payout_ratio: number | null; // fraction
+  dividend_cover: number | null; // x
+  dps_growth: number | null; // fraction
+  price: number | null; // RM, only with ?prices=true
+  dividend_yield: number | null; // fraction, only with ?prices=true
+  /** null = no dividend information this year. */
+  paid: boolean | null;
+  /** field name -> where the figure came from */
+  sources: Record<string, string>;
+  flags: string[];
+}
+
+export interface DividendHistory {
+  stock_code: string;
+  name: string;
+  is_reit: boolean;
+  years: YearDividend[];
+  streak: number;
+  streak_end: number | null;
+  longest_streak: number;
+  median_payout: number | null;
+  notes: string[];
+}
+
+// -------------------------------------------------------------- /api/fiveyear
+// src/bursa/api/routes/fiveyear.py
+export type FiveYearClass = "MATCH" | "CLOSE" | "MISMATCH" | "SCALE_ERROR" | "ONLY_IN_SUMMARY";
+
+export interface FiveYearCheck {
+  fiscal_year: number;
+  concept_key: string;
+  summary_value: number | null;
+  our_value: number | null;
+  /** Fraction (0.0007 = 0.07%), unlike /api/benchmark which reports percent. */
+  deviation_pct: number | null;
+  classification: FiveYearClass | string;
+  detail: string;
+  page_no: number;
+  document_id: number | null;
+  restated: boolean;
+}
+
+export interface FiveYearResult {
+  stock_code: string;
+  name: string;
+  documents_scanned: number;
+  documents_with_summary: number;
+  documents: { document_id: number; report_year: number; summary_pages: number[]; error: string | null }[];
+  summary_pages: number[];
+  counts: Record<FiveYearClass, number>;
+  /** MATCH share among comparable checks (fraction), null when nothing comparable. */
+  agreement: number | null;
+  /** +1/-1 when the summary years line up with our facts one fiscal year off. */
+  year_shift: number | null;
+  fact_years: number[];
+  checks: FiveYearCheck[];
+}
+
+// ----------------------------------------------------------------- /api/peers
+// src/bursa/analysis/peers.py (PeerComparison via asdict)
+export interface PeerSector {
+  sector: string;
+  companies: number;
+  with_facts: number;
+}
+
+export interface PeerSnapshot {
+  stock_code: string;
+  name: string;
+  sector: string | null;
+  industry: string | null;
+  profile: "general" | "bank" | "insurance" | "reit" | string;
+  fiscal_year: number | null;
+  period_end: string | null;
+  metrics: Record<string, number | null>;
+  not_applicable: string[];
+  /** metric -> why the value was flagged implausible (excluded from stats). */
+  flags: Record<string, string>;
+  /** metric -> percentile 0..100 within the comparison set. */
+  percentiles: Record<string, number | null>;
+  warnings: string[];
+}
+
+export interface PeerMetricStats {
+  metric: string;
+  n: number;
+  n_flagged: number;
+  median: number | null;
+  q1: number | null;
+  q3: number | null;
+  min: number | null;
+  max: number | null;
+}
+
+export interface PeerComparison {
+  title: string;
+  sector: string | null;
+  requested_fy: number | null;
+  rows: PeerSnapshot[];
+  stats: Record<string, PeerMetricStats>;
+  /** fiscal year -> number of companies whose snapshot is that year (JSON keys are strings). */
+  fiscal_years: Record<string, number>;
+  missing: string[];
+  notes: string[];
 }
 
 // ------------------------------------------------------------------ client
@@ -393,6 +532,23 @@ export const api = {
       body: JSON.stringify(body),
     }),
   concepts: (statement?: string) => request<ConceptOption[]>(`/api/concepts${qs({ statement })}`),
+
+  /** prices=true fetches closing prices (network, several seconds) to compute yield. */
+  dividends: (code: string, prices = false) =>
+    request<DividendHistory>(`/api/dividends/${enc(code)}${qs({ prices: prices ? "true" : "false" })}`),
+  /** Parses the annual report PDFs on the fly; can take several seconds. */
+  fiveYear: (code: string, years = 1) => request<FiveYearResult>(`/api/fiveyear/${enc(code)}${qs({ years })}`),
+
+  peerSectors: () => request<PeerSector[]>("/api/peers/sectors"),
+  sectorPeers: (sector: string, fy?: number) =>
+    request<PeerComparison>(`/api/peers/sector/${enc(sector)}${qs({ fy })}`),
+  companyPeers: (code: string, peers: string[] = [], fy?: number) => {
+    const p = new URLSearchParams();
+    for (const c of peers) if (c.trim()) p.append("peers", c.trim());
+    if (fy) p.set("fy", String(fy));
+    const s = p.toString();
+    return request<PeerComparison>(`/api/peers/${enc(code)}${s ? `?${s}` : ""}`);
+  },
 };
 
 /**

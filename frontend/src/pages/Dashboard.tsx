@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { api, type CoverageRow, type Progress } from "../api";
+import { api, type CoverageRow, type ManualDownload, type Progress } from "../api";
 import { Bar, CoverageCells, InlineCode } from "../components";
 import { ago, dur, fmt, pct } from "../lib";
 
@@ -94,6 +94,7 @@ export default function Dashboard() {
             <div className="panel"><h2>Pipeline funnel</h2><Funnel d={data} /></div>
           </section>
           <section className="grid"><CoverageTable rows={data.companies} /></section>
+          <section className="grid"><ManualDownloads rows={data.manual_downloads} /></section>
           <section className="grid two">
             <div className="panel"><h2>Recent extraction runs</h2><Runs d={data} /></div>
             <div className="panel"><h2>Roadmap</h2><Roadmap d={data} /></div>
@@ -257,6 +258,108 @@ function CoverageTable({ rows }: { rows: CoverageRow[] }) {
         </table>
       </div>
       <div className="muted" style={{ marginTop: 8, fontSize: 12 }}>{shown.length} of {rows.length} companies</div>
+    </div>
+  );
+}
+
+// ------------------------------------------------------- manual downloads
+const TIER_ORDER: Record<string, number> = { LARGE: 0, MID: 1, SMALL: 2, UNKNOWN: 3 };
+const tierRank = (t: string) => TIER_ORDER[t] ?? 9;
+
+/** Only plain http(s) URLs the scraper didn't mark suspect become links. */
+function safeUrl(r: ManualDownload): string | null {
+  if (r.url_suspect || !r.url) return null;
+  try {
+    const u = new URL(r.url);
+    return u.protocol === "http:" || u.protocol === "https:" ? u.href : null;
+  } catch {
+    return null;
+  }
+}
+
+function ManualDownloads({ rows }: { rows: ManualDownload[] | undefined }) {
+  const [q, setQ] = useState("");
+  const [tier, setTier] = useState("");
+  const [pending, setPending] = useState(true);
+  const all = useMemo(() => rows ?? [], [rows]);
+
+  const summary = useMemo(() => {
+    const by: Record<string, { total: number; pending: number }> = {};
+    for (const r of all) {
+      by[r.tier] ??= { total: 0, pending: 0 };
+      by[r.tier].total++;
+      if (!r.documents) by[r.tier].pending++;
+    }
+    return Object.entries(by).sort(([a], [b]) => tierRank(a) - tierRank(b));
+  }, [all]);
+  const pendingTotal = all.filter((r) => !r.documents).length;
+
+  const shown = useMemo(() => {
+    const needle = q.trim().toLowerCase();
+    return all
+      .filter((r) => (!pending || !r.documents) && (!tier || r.tier === tier) &&
+        (!needle || r.stock_code.toLowerCase().includes(needle) || r.name.toLowerCase().includes(needle)))
+      .sort((a, b) => tierRank(a.tier) - tierRank(b.tier) || (b.market_cap_bn ?? -1) - (a.market_cap_bn ?? -1));
+  }, [all, q, tier, pending]);
+
+  return (
+    <div className="panel">
+      <h2>Manual downloads needed</h2>
+      {rows === undefined ? (
+        <div className="empty">This backend's <code>/api/progress</code> has no <code>manual_downloads</code> field.</div>
+      ) : !all.length ? (
+        <div className="empty">manual_downloads.txt not found, or nothing needs a manual download.</div>
+      ) : (
+        <>
+          <div className="muted" style={{ marginBottom: 10 }}>
+            {fmt(pendingTotal)} pending of {fmt(all.length)}
+            {summary.map(([t, v]) => ` · ${t.toLowerCase()} ${v.pending}/${v.total}`).join("")}
+          </div>
+          <div className="toolbar">
+            <input type="search" placeholder="Filter by code or name" value={q} onChange={(e) => setQ(e.target.value)} />
+            <select value={tier} onChange={(e) => setTier(e.target.value)}>
+              <option value="">All tiers</option>
+              {summary.map(([t]) => <option key={t} value={t}>{t}</option>)}
+            </select>
+            <label className="chk"><input type="checkbox" checked={pending} onChange={(e) => setPending(e.target.checked)} /> Pending only</label>
+          </div>
+          <div className="tablewrap" style={{ maxHeight: 480, overflowY: "auto" }}>
+            <table>
+              <thead><tr><th>Tier</th><th>Code</th><th>Name</th><th className="num">MCap (RM bn)</th><th>Why manual</th><th>Status</th><th>IR page</th></tr></thead>
+              <tbody>
+                {shown.map((r) => {
+                  const href = safeUrl(r);
+                  return (
+                    <tr key={r.stock_code}>
+                      <td>{r.tier.toLowerCase()}</td>
+                      <td><Link to={`/company/${r.stock_code}`}>{r.stock_code}</Link></td>
+                      <td className="name" title={r.name}>{r.name}</td>
+                      <td className="num">{r.market_cap_bn != null ? r.market_cap_bn.toFixed(1) : "–"}</td>
+                      <td className="muted">{r.reason}</td>
+                      <td>
+                        {r.documents
+                          ? <span className="ok">✓ {r.documents} doc{r.documents > 1 ? "s" : ""}{r.facts ? "" : " · no facts yet"}</span>
+                          : <span className="warn">pending</span>}
+                      </td>
+                      <td className="name">
+                        {href
+                          ? <a href={href} target="_blank" rel="noopener noreferrer" title={href}>{href.replace(/^https?:\/\/(www\.)?/, "").slice(0, 48)}</a>
+                          : <span className="bad" title={r.url ?? ""}>bad URL – search manually</span>}
+                      </td>
+                    </tr>
+                  );
+                })}
+                {!shown.length && <tr><td colSpan={7} className="empty">Nothing matches.</td></tr>}
+              </tbody>
+            </table>
+          </div>
+          <div className="muted" style={{ marginTop: 10, fontSize: 12 }}>
+            {shown.length} shown. Save each annual report PDF to <code>pdfs/&lt;stock code&gt;/</code>, then run{" "}
+            <code>.venv\Scripts\python -m bursa.cli ingest pdfs/</code> and{" "}
+            <code>.venv\Scripts\python -m bursa.cli normalize facts --only-without-facts</code>.
+          </div>
+        </>
+      )}
     </div>
   );
 }

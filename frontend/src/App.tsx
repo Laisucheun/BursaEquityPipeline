@@ -4,6 +4,7 @@ import Companies from "./pages/Companies";
 import CompanyDetail from "./pages/CompanyDetail";
 import Upload from "./pages/Upload";
 import Review from "./pages/Review";
+import Peers from "./pages/Peers";
 
 export default function App() {
   return (
@@ -13,6 +14,7 @@ export default function App() {
           <span className="brand">Bursa Equity Pipeline</span>
           <NavLink to="/" end>Dashboard</NavLink>
           <NavLink to="/companies">Companies</NavLink>
+          <NavLink to="/peers">Peers</NavLink>
           <NavLink to="/upload">Upload</NavLink>
           <NavLink to="/review">Concept review</NavLink>
         </div>
@@ -24,6 +26,7 @@ export default function App() {
           <Route path="/company/:code" element={<CompanyDetail />} />
           <Route path="/upload" element={<Upload />} />
           <Route path="/review" element={<Review />} />
+          <Route path="/peers" element={<Peers />} />
           <Route path="*" element={<div className="panel empty">Page not found.</div>} />
         </Routes>
       </main>

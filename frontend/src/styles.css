@@ -150,3 +150,42 @@ ul.road li.done::before { background: var(--ok); border-color: var(--ok); }
 .cards { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
 .review-item { border-top: 1px solid var(--line); padding: 12px 0; display: grid; gap: 6px; }
 .review-item:first-child { border-top: 0; }
+button.chip { padding: 1px 8px; font-size: 12px; font-weight: 500; border-radius: 99px; margin-right: 4px; }
+ul.notes { margin: 10px 0 0; padding-left: 18px; color: var(--muted); font-size: 12px; }
+ul.notes li { margin: 2px 0; }
+
+/* spinner */
+.spin { display: inline-block; width: 12px; height: 12px; border: 2px solid var(--line);
+  border-top-color: var(--accent); border-radius: 50%; animation: spin .8s linear infinite;
+  vertical-align: -2px; margin-right: 4px; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* DPS bar chart */
+.chart .barmark { fill: var(--accent); }
+.chart .barmark.flagged { fill: var(--warn); }
+.chart .hit { fill: transparent; }
+.chart .hit:hover { fill: var(--hover); }
+.chart .nodata { fill: var(--muted); }
+.swatch-accent { background: var(--accent); width: 12px; height: 12px; }
+.swatch-warn { background: var(--warn); width: 12px; height: 12px; }
+
+/* 5-year check grid */
+.fy5 { display: inline-block; min-width: 26px; text-align: center; font-size: 12px; font-weight: 650;
+  padding: 1px 6px; border-radius: 5px; border: 1px solid var(--line); color: var(--muted); cursor: default; }
+.fy5.MATCH { color: var(--ok); border-color: var(--ok); background: color-mix(in srgb, var(--ok) 12%, transparent); }
+.fy5.CLOSE { color: var(--warn); border-color: var(--warn); background: color-mix(in srgb, var(--warn) 12%, transparent); }
+.fy5.MISMATCH, .fy5.SCALE_ERROR { color: var(--bad); border-color: var(--bad); background: color-mix(in srgb, var(--bad) 14%, transparent); }
+.fy5.ONLY_IN_SUMMARY { border-style: dashed; }
+.legend .fy5 { margin-right: 2px; }
+table.fy5grid td { vertical-align: top; }
+
+/* peers */
+table.peers tr.hl td { background: var(--hover); font-weight: 600; }
+table.peers tfoot td { border-top: 2px solid var(--line); color: var(--muted); font-size: 12px; font-weight: 600; }
+.pq4 { background: color-mix(in srgb, var(--ok) 26%, transparent); }
+.pq3 { background: color-mix(in srgb, var(--ok) 10%, transparent); }
+.pq2 { background: color-mix(in srgb, var(--bad) 10%, transparent); }
+.pq1 { background: color-mix(in srgb, var(--bad) 24%, transparent); }
+.pn4 { background: color-mix(in srgb, var(--accent) 28%, transparent); }
+.pn3 { background: color-mix(in srgb, var(--accent) 16%, transparent); }
+.pn2 { background: color-mix(in srgb, var(--accent) 7%, transparent); }

@@ -23,6 +23,7 @@ from bursa.db.migrate import app as db_app
 from bursa.db.models import Company, Concept, ConceptSynonym, Document, Fact, ScrapeAttempt
 from bursa.db.session import get_engine, session_scope
 from bursa.export.cli import app as export_app
+from bursa.hygiene import app as hygiene_app
 from bursa.mapping.synonyms import seed_concepts
 from bursa.pipeline.ingest import scan_inbox
 from bursa.storage import is_remote, materialize
@@ -52,6 +53,7 @@ app.add_typer(peers_app, name="peers")
 app.add_typer(storage_app, name="storage")
 app.add_typer(fiveyear_app, name="fiveyear")
 app.add_typer(dividends_app, name="dividends")
+app.add_typer(hygiene_app, name="hygiene")
 
 console = Console()
 logging.basicConfig(level=logging.INFO, format="%(levelname)s %(name)s: %(message)s")
