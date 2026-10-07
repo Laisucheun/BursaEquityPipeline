@@ -1,9 +1,22 @@
 """FastAPI application for the Bursa Equity Pipeline."""
 
+from pathlib import Path
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse
 
-from bursa.api.routes import companies, facts, upload, validation, benchmark, valuation
+from bursa.api.routes import (
+    analysis,
+    benchmark,
+    companies,
+    facts,
+    peers,
+    progress,
+    upload,
+    validation,
+    valuation,
+)
 
 app = FastAPI(
     title="Bursa Equity Pipeline",
@@ -25,6 +38,16 @@ app.include_router(upload.router, prefix="/api/upload", tags=["upload"])
 app.include_router(validation.router, prefix="/api/validation", tags=["validation"])
 app.include_router(benchmark.router, prefix="/api/benchmark", tags=["benchmark"])
 app.include_router(valuation.router, prefix="/api/valuation", tags=["valuation"])
+app.include_router(analysis.router, prefix="/api/analysis", tags=["analysis"])
+app.include_router(progress.router, prefix="/api/progress", tags=["progress"])
+app.include_router(peers.router, prefix="/api/peers", tags=["peers"])
+
+DASHBOARD = Path(__file__).parent / "static" / "dashboard.html"
+
+
+@app.get("/", include_in_schema=False)
+def dashboard():
+    return FileResponse(DASHBOARD)
 
 
 @app.get("/api/status")

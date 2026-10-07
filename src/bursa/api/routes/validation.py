@@ -1,7 +1,7 @@
 """Validation result endpoints."""
 
 from fastapi import APIRouter, HTTPException, Query
-from sqlalchemy import func, select
+from sqlalchemy import Integer, cast, func, select
 
 from bursa.db.models import Company, Period, ValidationResult
 from bursa.db.session import session_scope
@@ -20,7 +20,7 @@ def validation_summary(
                 Company.stock_code,
                 Company.name,
                 func.count(ValidationResult.id).label("total"),
-                func.sum(ValidationResult.passed.cast(int)).label("passed"),
+                func.sum(cast(ValidationResult.passed, Integer)).label("passed"),
             )
             .join(ValidationResult, ValidationResult.run_id.isnot(None))
             .join(Period, ValidationResult.period_id == Period.id)

@@ -5,6 +5,7 @@ from __future__ import annotations
 import asyncio
 import json
 import logging
+import os
 from pathlib import Path
 from typing import Annotated
 
@@ -13,12 +14,17 @@ from rich.console import Console
 from rich.table import Table
 from sqlalchemy import func, select
 
+from bursa.analysis.peers_cli import app as peers_app
 from bursa.config import get_settings
 from bursa.db.enums import DocSource, DocStatus, DocType, Market, ScrapeStatus, Statement
-from bursa.db.models import Base, Company, Concept, ConceptSynonym, Document, ScrapeAttempt
+from bursa.db.migrate import app as db_app
+from bursa.db.models import Company, Concept, ConceptSynonym, Document, Fact, ScrapeAttempt
 from bursa.db.session import get_engine, session_scope
+from bursa.export.cli import app as export_app
 from bursa.mapping.synonyms import seed_concepts
 from bursa.pipeline.ingest import scan_inbox
+from bursa.storage import is_remote, materialize
+from bursa.storage.migrate import app as storage_app
 
 app = typer.Typer(help="Bursa Malaysia equity pipeline.", no_args_is_help=True)
 company_app = typer.Typer(help="Manage the company watchlist.", no_args_is_help=True)
@@ -35,6 +41,12 @@ app.add_typer(normalize_app, name="normalize")
 app.add_typer(validate_app, name="validate")
 app.add_typer(benchmark_app, name="benchmark")
 app.add_typer(valuation_app, name="valuation")
+analysis_app = typer.Typer(help="DuPont, growth, and market-price ratios.", no_args_is_help=True)
+app.add_typer(analysis_app, name="analysis")
+app.add_typer(db_app, name="db")
+app.add_typer(export_app, name="export")
+app.add_typer(peers_app, name="peers")
+app.add_typer(storage_app, name="storage")
 
 console = Console()
 logging.basicConfig(level=logging.INFO, format="%(levelname)s %(name)s: %(message)s")
@@ -44,13 +56,20 @@ logging.basicConfig(level=logging.INFO, format="%(levelname)s %(name)s: %(messag
 def init_db(
     seed: Annotated[bool, typer.Option(help="Also seed the concept taxonomy.")] = True,
 ) -> None:
-    """Create all tables directly from the models.
+    """Bring the schema to the latest Alembic revision.
 
-    Convenience for a fresh development database. Use Alembic once you have
-    facts you care about - `alembic upgrade head`.
+    A fresh database is migrated from scratch; one built earlier by
+    ``create_all`` (never stamped) is adopted via ``bursa db stamp`` logic.
     """
-    Base.metadata.create_all(get_engine())
-    console.print(f"[green]schema created[/] at {get_settings().database_url}")
+    from sqlalchemy import inspect
+
+    from bursa.db.migrate import current_revision, stamp_existing_db, upgrade_to_head
+
+    if current_revision() is None and inspect(get_engine()).has_table("companies"):
+        console.print(stamp_existing_db())
+    else:
+        upgrade_to_head()
+    console.print(f"[green]schema at head[/] for {get_settings().database_url}")
     if seed:
         seed_taxonomy()
 
@@ -100,6 +119,10 @@ def upload(
     skip_validation: Annotated[
         bool,
         typer.Option("--skip-validation", help="Skip accounting-identity validation."),
+    ] = False,
+    ocr: Annotated[
+        bool,
+        typer.Option("--ocr", help="Enable OCR fallback for scanned pages (requires Tesseract + Poppler)."),
     ] = False,
 ) -> None:
     """Upload a PDF annual report and run the full extraction pipeline.
@@ -151,7 +174,7 @@ def upload(
             console.print(f"[green]ingested[/] as document {doc.id} ({doc.page_count} pages)")
 
         # 2. Content check
-        storage = Path(doc.storage_path)
+        storage = materialize(doc)
         if not storage.is_file():
             storage = pdf_path
         if not has_financial_statements(storage):
@@ -163,7 +186,7 @@ def upload(
 
         # 3. Extract
         console.print("extracting statements…")
-        result = extract_statements(session, doc.id, storage, company_id=company.id)
+        result = extract_statements(session, doc.id, storage, company_id=company.id, ocr=ocr)
         found = list(result.statements.keys())
         if found:
             labels = ", ".join(s.value for s in found)
@@ -669,7 +692,7 @@ def scrape_prune(
 
             relevant, irrelevant = [], []
             for doc in docs:
-                path = Path(doc.storage_path)
+                path = materialize(doc)
                 if path.is_file() and has_financial_statements(path):
                     relevant.append(doc)
                 else:
@@ -713,7 +736,8 @@ def scrape_prune(
 
         for _company, doc in to_delete:
             try:
-                Path(doc.storage_path).unlink(missing_ok=True)
+                if not is_remote(doc):
+                    Path(doc.storage_path).unlink(missing_ok=True)
             except OSError as exc:
                 console.print(f"[red]could not delete file for document {doc.id}: {exc}[/]")
             session.delete(doc)
@@ -753,6 +777,10 @@ def extract_statements_cmd(
     out: Annotated[
         Path, typer.Option(help="Where to write the full extraction as JSON.")
     ] = Path("statement_extraction.json"),
+    ocr: Annotated[
+        bool,
+        typer.Option("--ocr", help="Enable OCR fallback for scanned pages (requires Tesseract + Poppler)."),
+    ] = False,
 ) -> None:
     """Extract the three primary statements from each company's ingested
     documents - deterministic only, no LLM call, no API credentials needed.
@@ -807,14 +835,14 @@ def extract_statements_cmd(
             tried_any = False
 
             for doc in docs:
-                pdf_path = Path(doc.storage_path)
+                pdf_path = materialize(doc)
                 if not pdf_path.is_file():
                     console.print(f"[red]missing file for {company.stock_code}[/]: {pdf_path}")
                     continue
 
                 tried_any = True
                 console.print(f"extracting {company.stock_code} {company.name} ({pdf_path.name})...")
-                result = extract_statements(session, doc.id, pdf_path, company_id=company.id)
+                result = extract_statements(session, doc.id, pdf_path, company_id=company.id, ocr=ocr)
 
                 for stmt, s in result.statements.items():
                     current = best.get(stmt)
@@ -889,6 +917,13 @@ def normalize_facts_cmd(
         list[str] | None,
         typer.Option("--company", help="Limit to these stock codes. Default: every company."),
     ] = None,
+    only_without_facts: Annotated[
+        bool, typer.Option("--only-without-facts", help="Skip companies that already have facts."),
+    ] = False,
+    workers: Annotated[
+        int,
+        typer.Option(help="Extraction processes. 1 = sequential. Default: CPU count - 2."),
+    ] = max(1, (os.cpu_count() or 2) - 2),
 ) -> None:
     """Write `Fact` rows from each company's ingested documents.
 
@@ -899,43 +934,92 @@ def normalize_facts_cmd(
     that can't be resolved this way (quarterly column semantics, a label the
     synonym table doesn't recognise) is skipped and reported, not guessed -
     see `src/bursa/pipeline/normalize.py`.
+
+    PDF extraction (the slow, CPU-bound part) runs in ``--workers`` processes;
+    this process alone writes, one transaction per company, because SQLite
+    allows a single writer. A company that fails is reported and skipped.
     """
-    from bursa.pipeline.normalize import write_facts_for_company
+    from concurrent.futures import ProcessPoolExecutor, as_completed
+
+    from bursa.pipeline.jobs import track_job
+    from bursa.pipeline.normalize import (
+        CompanyExtraction,
+        extract_company,
+        extract_company_by_id,
+        write_company_extraction,
+    )
 
     table = Table("Code", "Name", "Written", "Updated", "Deleted", "Periods", "Skipped")
-    total_written = total_updated = total_deleted = total_stale_runs = 0
+    totals = {"written": 0, "updated": 0, "deleted": 0, "stale_runs": 0}
 
     with session_scope() as session:
-        query = select(Company)
+        query = (
+            select(Company.id, Company.stock_code, Company.name)
+            .where(Company.id.in_(select(Document.company_id)))
+            .order_by(Company.stock_code)
+        )
         if stock_codes:
             query = query.where(Company.stock_code.in_(stock_codes))
-        companies = list(session.scalars(query))
+        if only_without_facts:
+            query = query.where(Company.id.not_in(select(Fact.company_id)))
+        targets = session.execute(query).all()
+    names = {cid: (code, name) for cid, code, name in targets}
 
-        for company in companies:
-            result = write_facts_for_company(session, company)
-            if not result.documents_used and not result.skipped_statements:
-                continue
+    def write(company_id: int, extracted: CompanyExtraction) -> None:
+        code, name = names[company_id]
+        with session_scope() as session:
+            result = write_company_extraction(session, session.get(Company, company_id), extracted)
+        if not result.documents_used and not result.skipped_statements:
+            return
+        totals["written"] += result.facts_written
+        totals["updated"] += result.facts_updated
+        totals["deleted"] += result.facts_deleted
+        totals["stale_runs"] += result.stale_runs_deleted
+        skipped_bits = [f"{s.value}: {why}" for s, why in result.skipped_statements.items()]
+        skipped_bits.extend(result.skipped_columns)
+        table.add_row(
+            code, name, str(result.facts_written), str(result.facts_updated),
+            str(result.facts_deleted) if result.facts_deleted else "-",
+            str(result.periods_created), "; ".join(skipped_bits)[:70] or "-",
+        )
 
-            total_written += result.facts_written
-            total_updated += result.facts_updated
-            total_deleted += result.facts_deleted
-            total_stale_runs += result.stale_runs_deleted
-            skipped_bits = [f"{s.value}: {why}" for s, why in result.skipped_statements.items()]
-            skipped_bits.extend(result.skipped_columns)
-            table.add_row(
-                company.stock_code,
-                company.name,
-                str(result.facts_written),
-                str(result.facts_updated),
-                str(result.facts_deleted) if result.facts_deleted else "-",
-                str(result.periods_created),
-                "; ".join(skipped_bits)[:70] or "-",
-            )
+    def fail(job, company_id: int, exc: BaseException) -> None:  # type: ignore[no-untyped-def]
+        code, name = names[company_id]
+        job.errors.append(f"{code}: {exc!r}"[:200])
+        console.print(f"[red]{code} {name} failed:[/] {exc!r}")
+
+    n = len(targets)
+    with track_job("normalize facts", n) as job:
+        if workers <= 1 or n <= 1:
+            for i, (company_id, code, name) in enumerate(targets):
+                job.step(i, f"{code} {name}")
+                console.print(f"[dim][{i + 1}/{n}][/] {code} {name}")
+                try:
+                    with session_scope() as session:
+                        extracted = extract_company(session, session.get(Company, company_id))
+                    write(company_id, extracted)
+                except Exception as exc:
+                    fail(job, company_id, exc)
+        else:
+            console.print(f"extracting {n} companies with {workers} worker processes")
+            job.step(0, f"starting {workers} workers")
+            with ProcessPoolExecutor(max_workers=workers) as pool:
+                futures = {pool.submit(extract_company_by_id, cid): cid for cid, _, _ in targets}
+                for done, future in enumerate(as_completed(futures), start=1):
+                    company_id = futures[future]
+                    code, name = names[company_id]
+                    try:
+                        write(company_id, future.result())
+                    except Exception as exc:
+                        fail(job, company_id, exc)
+                    job.step(done, f"{code} {name} (last finished)")
+                    console.print(f"[dim][{done}/{n}][/] {code} {name}")
 
     console.print(table)
     console.print(
-        f"[green]done[/] {total_written} facts written, {total_updated} updated, "
-        f"{total_deleted} stale fact(s) deleted, {total_stale_runs} stale extraction run(s) cleaned up"
+        f"[green]done[/] {totals['written']} facts written, {totals['updated']} updated, "
+        f"{totals['deleted']} stale fact(s) deleted, {totals['stale_runs']} stale extraction run(s) cleaned up"
+        + (f", [red]{len(job.errors)} company(ies) failed[/]" if job.errors else "")
     )
 
 
@@ -1286,6 +1370,106 @@ def valuation_metrics_cmd(
                 )
             console.print(tbl)
             console.print()
+
+
+CompanyFilter = Annotated[
+    list[str] | None,
+    typer.Option("--company", help="Limit to these stock codes."),
+]
+
+
+def _companies(session, stock_codes: list[str] | None) -> list[Company]:  # type: ignore[no-untyped-def]
+    query = select(Company).order_by(Company.stock_code)
+    if stock_codes:
+        query = query.where(Company.stock_code.in_(stock_codes))
+    return list(session.scalars(query))
+
+
+def _pct(v: float | None) -> str:
+    return "-" if v is None else f"{v * 100:.1f}%"
+
+
+def _x(v: float | None) -> str:
+    return "-" if v is None else f"{v:.2f}x"
+
+
+@analysis_app.command("dupont")
+def analysis_dupont_cmd(stock_codes: CompanyFilter = None) -> None:
+    """3- and 5-factor DuPont decomposition of ROE per fiscal year."""
+    from bursa.analysis.dupont import compute_dupont
+
+    with session_scope() as session:
+        for company in _companies(session, stock_codes):
+            result = compute_dupont(session, company)
+            if not result.three_factor:
+                continue
+            five = {d.fiscal_year: d for d in result.five_factor}
+            tbl = Table(title=f"{company.stock_code} {company.name}")
+            for col in ("FY", "ROE", "Net margin", "Asset turn", "Eq mult",
+                        "Tax burden", "Int burden", "Op margin"):
+                tbl.add_column(col, justify="right")
+            for d in result.three_factor:
+                d5 = five.get(d.fiscal_year)
+                tbl.add_row(
+                    str(d.fiscal_year), _pct(d.roe), _pct(d.net_margin),
+                    _x(d.asset_turnover), _x(d.equity_multiplier),
+                    _pct(d5.tax_burden if d5 else None),
+                    _pct(d5.interest_burden if d5 else None),
+                    _pct(d5.operating_margin if d5 else None),
+                )
+            console.print(tbl)
+
+
+@analysis_app.command("growth")
+def analysis_growth_cmd(stock_codes: CompanyFilter = None) -> None:
+    """Revenue / earnings / asset CAGR (3Y, 5Y) and ROE trend."""
+    from bursa.analysis.growth import compute_growth
+
+    tbl = Table(title="Growth (CAGR)")
+    for col in ("Code", "Name", "Rev 3Y", "Rev 5Y", "Earn 3Y", "Earn 5Y",
+                "Assets 3Y", "Assets 5Y", "ROE (latest)"):
+        tbl.add_column(col, justify="right" if col not in ("Code", "Name") else "left")
+
+    with session_scope() as session:
+        for company in _companies(session, stock_codes):
+            g = compute_growth(session, company)
+            metrics = (g.revenue_cagr_3y, g.revenue_cagr_5y, g.earnings_cagr_3y,
+                       g.earnings_cagr_5y, g.asset_cagr_3y, g.asset_cagr_5y)
+            if not any(metrics) and not g.roe_trend:
+                continue
+            latest_roe = g.roe_trend[-1] if g.roe_trend else None
+            tbl.add_row(
+                company.stock_code, company.name[:30],
+                *(_pct(m.cagr if m else None) for m in metrics),
+                f"{_pct(latest_roe.roe)} ({latest_roe.fiscal_year})" if latest_roe else "-",
+            )
+    console.print(tbl)
+
+
+@analysis_app.command("prices")
+def analysis_prices_cmd(stock_codes: CompanyFilter = None) -> None:
+    """P/E, P/B, EV/EBITDA, dividend yield at each FY-end close (Yahoo Finance)."""
+    from bursa.analysis.prices import compute_price_ratios
+
+    with session_scope() as session:
+        for company in _companies(session, stock_codes):
+            result = compute_price_ratios(session, company)
+            if not any(y.price is not None for y in result.years):
+                continue
+            current = f"{result.current_price:.2f}" if result.current_price is not None else "-"
+            tbl = Table(title=f"{company.stock_code} {company.name} ({result.ticker}, now RM {current})")
+            for col in ("FY", "Year end", "Price", "EPS (RM)", "Mkt cap (RM m)",
+                        "P/E", "P/B", "EV/EBITDA", "Div yield"):
+                tbl.add_column(col, justify="right")
+            for y in result.years:
+                tbl.add_row(
+                    str(y.fiscal_year), str(y.period_end),
+                    "-" if y.price is None else f"{y.price:.2f}",
+                    "-" if y.eps is None else f"{y.eps:.4f}",
+                    "-" if y.market_cap is None else f"{y.market_cap / 1e6:,.0f}",
+                    _x(y.pe_ratio), _x(y.pb_ratio), _x(y.ev_ebitda), _pct(y.dividend_yield),
+                )
+            console.print(tbl)
 
 
 @app.command("serve")

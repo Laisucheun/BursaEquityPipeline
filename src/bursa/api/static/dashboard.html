@@ -1,0 +1,337 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bursa Pipeline Progress</title>
+<style>
+  :root {
+    --bg: #f6f7f9; --panel: #ffffff; --ink: #16181d; --muted: #646b78; --line: #e3e6eb;
+    --accent: #2f6fed; --ok: #1f9d55; --warn: #d97706; --bad: #d64545;
+    --cov0: #eef0f3; --cov1: #cfe0fb; --cov2: #8db6f5; --cov3: #2f6fed;
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0f1115; --panel: #171a21; --ink: #e7e9ee; --muted: #9aa3b2; --line: #272b35;
+      --accent: #6b9bff; --ok: #3cc47c; --warn: #f0a63a; --bad: #f06a6a;
+      --cov0: #1f232c; --cov1: #23365c; --cov2: #2f5bb0; --cov3: #6b9bff;
+      color-scheme: dark;
+    }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink);
+         font: 14px/1.45 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  .wrap { max-width: 1280px; margin: 0 auto; padding: 24px 20px 48px; }
+  header { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+  h1 { font-size: 20px; margin: 0; letter-spacing: -0.01em; }
+  h2 { font-size: 13px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted);
+       margin: 0 0 12px; font-weight: 600; }
+  .status { color: var(--muted); font-size: 12px; display: flex; align-items: center; gap: 8px; }
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--muted); }
+  .dot.live { background: var(--ok); box-shadow: 0 0 0 0 var(--ok); animation: pulse 1.6s infinite; }
+  .dot.err { background: var(--bad); }
+  @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(31,157,85,.5);} 100% { box-shadow: 0 0 0 8px rgba(31,157,85,0);} }
+  .panel { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 16px 18px; }
+  .grid { display: grid; gap: 16px; margin-top: 16px; }
+  .kpis { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); }
+  .two { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  @media (max-width: 860px) { .two { grid-template-columns: 1fr; } }
+  .kpi .v { font-size: 26px; font-weight: 650; font-variant-numeric: tabular-nums; letter-spacing: -0.02em; }
+  .kpi .l { color: var(--muted); font-size: 12px; }
+  .kpi .s { color: var(--muted); font-size: 12px; margin-top: 2px; }
+  .bar { height: 8px; background: var(--cov0); border-radius: 99px; overflow: hidden; }
+  .bar > span { display: block; height: 100%; background: var(--accent); border-radius: 99px; transition: width .4s; }
+  .bar.big { height: 12px; }
+  .job { padding: 12px 0; border-top: 1px solid var(--line); }
+  .job:first-of-type { border-top: 0; padding-top: 0; }
+  .job .row1 { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: 8px; }
+  .job .meta { color: var(--muted); font-size: 12px; font-variant-numeric: tabular-nums; }
+  .pill { display: inline-block; font-size: 11px; font-weight: 600; padding: 1px 8px; border-radius: 99px;
+          border: 1px solid currentColor; }
+  .pill.RUNNING { color: var(--accent); } .pill.SUCCEEDED { color: var(--ok); }
+  .pill.FAILED, .pill.STALLED { color: var(--bad); }
+  .funnel .f { display: grid; grid-template-columns: 130px 1fr 52px; align-items: center; gap: 10px; margin: 7px 0; }
+  .funnel .f .n { text-align: right; font-variant-numeric: tabular-nums; }
+  .muted { color: var(--muted); }
+  .empty { color: var(--muted); font-style: italic; }
+  .toolbar { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-bottom: 12px; }
+  select { padding: 7px 10px; border: 1px solid var(--line); border-radius: 7px; background: var(--bg); color: var(--ink); font: inherit; }
+  a { color: var(--accent); }
+  input[type=search] { flex: 1 1 220px; padding: 7px 10px; border: 1px solid var(--line); border-radius: 7px;
+          background: var(--bg); color: var(--ink); font: inherit; }
+  label.chk { display: flex; gap: 6px; align-items: center; color: var(--muted); font-size: 13px; }
+  .tablewrap { overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; font-variant-numeric: tabular-nums; }
+  th, td { padding: 6px 8px; border-bottom: 1px solid var(--line); text-align: left; white-space: nowrap; }
+  th { font-size: 12px; color: var(--muted); font-weight: 600; cursor: pointer; user-select: none; }
+  th.num, td.num { text-align: right; }
+  td.name { max-width: 260px; overflow: hidden; text-overflow: ellipsis; }
+  .cov { display: inline-block; width: 16px; height: 16px; border-radius: 3px; margin-right: 2px; vertical-align: middle; }
+  .c0 { background: var(--cov0); } .c1 { background: var(--cov1); } .c2 { background: var(--cov2); } .c3 { background: var(--cov3); }
+  .legend { display: flex; gap: 12px; align-items: center; font-size: 12px; color: var(--muted); flex-wrap: wrap; }
+  .ok { color: var(--ok); } .bad { color: var(--bad); } .warn { color: var(--warn); }
+  ul.road { list-style: none; padding: 0; margin: 6px 0 14px; }
+  ul.road li { padding: 3px 0 3px 22px; position: relative; font-size: 13px; }
+  ul.road li::before { content: ""; position: absolute; left: 2px; top: 7px; width: 11px; height: 11px;
+          border: 1.5px solid var(--muted); border-radius: 3px; }
+  ul.road li.done { color: var(--muted); }
+  ul.road li.done::before { background: var(--ok); border-color: var(--ok); }
+  .rsec { display: flex; justify-content: space-between; font-weight: 600; font-size: 13px; margin-bottom: 4px; }
+  .runs td { font-size: 13px; }
+  .err-box { color: var(--bad); font-size: 12px; margin-top: 6px; white-space: pre-wrap; word-break: break-word; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Bursa Equity Pipeline</h1>
+    <div class="status"><span id="dot" class="dot"></span><span id="updated">loading…</span></div>
+  </header>
+
+  <section class="grid kpis" id="kpis"></section>
+
+  <section class="grid two">
+    <div class="panel"><h2>Jobs</h2><div id="jobs"></div></div>
+    <div class="panel"><h2>Pipeline funnel</h2><div class="funnel" id="funnel"></div></div>
+  </section>
+
+  <section class="grid"><div class="panel">
+    <h2>Company coverage</h2>
+    <div class="toolbar">
+      <input type="search" id="q" placeholder="Filter by code or name">
+      <label class="chk"><input type="checkbox" id="onlyFacts" checked> Only companies with facts</label>
+      <div class="legend">
+        <span>Statements per year:</span>
+        <span><i class="cov c0"></i>0</span><span><i class="cov c1"></i>1</span>
+        <span><i class="cov c2"></i>2</span><span><i class="cov c3"></i>IS+BS+CF</span>
+      </div>
+    </div>
+    <div class="tablewrap"><table id="cos"><thead></thead><tbody></tbody></table></div>
+    <div class="muted" id="cosCount" style="margin-top:8px;font-size:12px"></div>
+  </div></section>
+
+  <section class="grid"><div class="panel">
+    <h2>Manual downloads needed</h2>
+    <div class="muted" id="mdSummary" style="margin-bottom:10px"></div>
+    <div class="toolbar">
+      <input type="search" id="mdQ" placeholder="Filter by code or name">
+      <select id="mdTier"><option value="">All tiers</option><option>LARGE</option><option>MID</option>
+        <option>SMALL</option><option>UNKNOWN</option></select>
+      <label class="chk"><input type="checkbox" id="mdPending" checked> Pending only</label>
+    </div>
+    <div class="tablewrap"><table id="md"><thead><tr>
+      <th>Tier</th><th>Code</th><th>Name</th><th class="num">MCap (RM bn)</th><th>Why manual</th>
+      <th>Status</th><th>IR page</th></tr></thead><tbody></tbody></table></div>
+    <div class="muted" style="margin-top:10px;font-size:12px">
+      Save each annual report PDF to <code>pdfs/&lt;stock code&gt;/</code>, then run
+      <code>.venv\Scripts\python -m bursa.cli ingest pdfs/</code> and
+      <code>.venv\Scripts\python -m bursa.cli normalize facts --only-without-facts</code>.
+      Rows tick off here automatically.
+    </div>
+  </div></section>
+
+  <section class="grid two">
+    <div class="panel"><h2>Recent extraction runs</h2>
+      <div class="tablewrap"><table class="runs"><tbody id="runs"></tbody></table></div></div>
+    <div class="panel"><h2>Roadmap</h2><div id="roadmap"></div></div>
+  </section>
+</div>
+
+<script>
+const $ = (id) => document.getElementById(id);
+const esc = (v) => String(v ?? "").replace(/[&<>"']/g, (c) => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const fmt = (n) => Number(n || 0).toLocaleString();
+const pct = (a, b) => (b ? (100 * a / b) : 0);
+const dur = (s) => {
+  if (s == null) return "–";
+  s = Math.round(s);
+  const h = Math.floor(s / 3600), m = Math.floor((s % 3600) / 60), sec = s % 60;
+  return h ? `${h}h ${m}m` : m ? `${m}m ${sec}s` : `${sec}s`;
+};
+const ago = (iso) => {
+  if (!iso) return "–";
+  const s = (Date.now() - new Date(iso).getTime()) / 1000;
+  if (s < 60) return "just now";
+  if (s < 3600) return `${Math.floor(s / 60)}m ago`;
+  if (s < 86400) return `${Math.floor(s / 3600)}h ago`;
+  return `${Math.floor(s / 86400)}d ago`;
+};
+
+let data = null, sortKey = "facts", sortDir = -1, timer = null;
+
+function renderKpis(d) {
+  const withFacts = d.funnel.find((f) => f.stage === "Has facts")?.count ?? 0;
+  const b = d.benchmark, good = (b.MATCH || 0) + (b.CLOSE || 0), compared = good + (b.MISMATCH || 0) + (b.SCALE_ERROR || 0);
+  const tiles = [
+    ["Companies with facts", `${fmt(withFacts)}`, `of ${fmt(d.totals.companies)} on watchlist`, pct(withFacts, d.totals.companies)],
+    ["Documents", fmt(d.totals.documents), Object.entries(d.document_status).map(([k, v]) => `${k.toLowerCase()} ${fmt(v)}`).join(" · "), null],
+    ["Facts", fmt(d.totals.facts), `${fmt(d.totals.periods)} periods`, null],
+    ["Validation pass rate", `${pct(d.validation.passed, d.validation.run).toFixed(1)}%`, `${fmt(d.validation.passed)} / ${fmt(d.validation.run)} rules`, pct(d.validation.passed, d.validation.run)],
+    ["Benchmark agreement", compared ? `${pct(good, compared).toFixed(1)}%` : "–", `${fmt(good)} match/close · ${fmt(b.MISMATCH || 0)} mismatch · ${fmt(b.MISSING || 0)} missing`, compared ? pct(good, compared) : null],
+  ];
+  $("kpis").innerHTML = tiles.map(([l, v, s, p]) => `
+    <div class="panel kpi"><div class="l">${esc(l)}</div><div class="v">${esc(v)}</div>
+    ${p != null ? `<div class="bar" style="margin:6px 0 2px"><span style="width:${p.toFixed(1)}%"></span></div>` : ""}
+    <div class="s">${esc(s)}</div></div>`).join("");
+}
+
+function renderJobs(d) {
+  if (!d.jobs.length) {
+    $("jobs").innerHTML = `<div class="empty">No tracked jobs yet. Run <code>bursa normalize facts</code> to see live progress here.</div>`;
+    return;
+  }
+  $("jobs").innerHTML = d.jobs.map((j) => {
+    const p = pct(j.done, j.total);
+    return `<div class="job">
+      <div class="row1"><div><strong>${esc(j.kind)}</strong> <span class="pill ${esc(j.status)}">${esc(j.status.toLowerCase())}</span></div>
+        <div class="meta">${fmt(j.done)} / ${fmt(j.total)} · ${p.toFixed(0)}%</div></div>
+      <div class="bar big"><span style="width:${p.toFixed(1)}%"></span></div>
+      <div class="meta" style="margin-top:6px">
+        ${j.status === "RUNNING" ? `now: ${esc(j.current || "starting…")} · elapsed ${dur(j.elapsed_s)} · ETA ${dur(j.eta_s)}`
+          : `started ${ago(j.started_at)} · took ${dur(j.elapsed_s)}`}
+      </div>
+      ${j.error ? `<div class="err-box">${esc(j.error)}</div>` : ""}
+    </div>`;
+  }).join("");
+}
+
+function renderFunnel(d) {
+  const top = d.funnel[0]?.count || 1;
+  $("funnel").innerHTML = d.funnel.map((f) => `
+    <div class="f"><div>${esc(f.stage)}</div>
+      <div class="bar"><span style="width:${pct(f.count, top).toFixed(1)}%"></span></div>
+      <div class="n">${fmt(f.count)}</div></div>`).join("") +
+    `<div class="muted" style="font-size:12px;margin-top:10px">Bars are relative to the full watchlist.</div>`;
+}
+
+function yearRange(rows) {
+  const ys = rows.flatMap((r) => r.years);
+  if (!ys.length) return [];
+  const max = Math.max(...ys), min = Math.max(Math.min(...ys), max - 9);
+  return Array.from({ length: max - min + 1 }, (_, i) => min + i);
+}
+
+const COLS = [
+  ["stock_code", "Code"], ["name", "Name"], ["documents", "Docs", "num"], ["facts", "Facts", "num"],
+  ["years", "Coverage"], ["valid", "Validation", "num"], ["bench", "Benchmark", "num"], ["last_activity", "Updated"],
+];
+const sortVal = (r, k) => k === "valid" ? (r.validation.run ? r.validation.passed / r.validation.run : -1)
+  : k === "bench" ? ((r.benchmark.MATCH || 0) + (r.benchmark.CLOSE || 0))
+  : k === "years" ? r.years.length
+  : k === "last_activity" ? (r.last_activity || "")
+  : r[k];
+
+function renderCompanies() {
+  if (!data) return;
+  const q = $("q").value.trim().toLowerCase(), only = $("onlyFacts").checked;
+  let rows = data.companies.filter((r) => (!only || r.facts) &&
+    (!q || r.stock_code.toLowerCase().includes(q) || r.name.toLowerCase().includes(q)));
+  rows.sort((a, b) => {
+    const x = sortVal(a, sortKey), y = sortVal(b, sortKey);
+    return (x > y ? 1 : x < y ? -1 : 0) * sortDir;
+  });
+  const years = yearRange(data.companies);
+  $("cos").querySelector("thead").innerHTML = "<tr>" + COLS.map(([k, l, cls]) =>
+    `<th data-k="${k}" class="${cls || ""}">${esc(l)}${k === "years" && years.length ? ` <span class="muted">${years[0]}–${years.at(-1)}</span>` : ""}${sortKey === k ? (sortDir > 0 ? " ▲" : " ▼") : ""}</th>`).join("") + "</tr>";
+  $("cos").querySelector("tbody").innerHTML = rows.map((r) => {
+    const cells = years.map((y) => {
+      const n = ["is", "bs", "cf"].filter((s) => (r.statements[s] || []).includes(y)).length;
+      return `<i class="cov c${n}" title="FY${y}: ${n}/3 statements"></i>`;
+    }).join("");
+    const v = r.validation, vr = v.run ? v.passed / v.run : null;
+    const b = r.benchmark, bg = (b.MATCH || 0) + (b.CLOSE || 0), bx = (b.MISMATCH || 0) + (b.SCALE_ERROR || 0);
+    return `<tr>
+      <td>${esc(r.stock_code)}</td><td class="name" title="${esc(r.name)}">${esc(r.name)}</td>
+      <td class="num">${fmt(r.documents)}</td><td class="num">${fmt(r.facts)}</td>
+      <td>${cells}</td>
+      <td class="num ${vr == null ? "muted" : vr === 1 ? "ok" : vr < 0.9 ? "bad" : "warn"}">${v.run ? `${v.passed}/${v.run}` : "–"}</td>
+      <td class="num">${bg || bx ? `<span class="ok">${bg}</span>${bx ? ` / <span class="bad">${bx}</span>` : ""}` : "<span class=muted>–</span>"}</td>
+      <td class="muted">${ago(r.last_activity)}</td></tr>`;
+  }).join("") || `<tr><td colspan="8" class="empty">No companies match.</td></tr>`;
+  $("cosCount").textContent = `${rows.length} of ${data.companies.length} companies`;
+}
+
+const TIER_ORDER = { LARGE: 0, MID: 1, SMALL: 2, UNKNOWN: 3 };
+
+function renderManual() {
+  if (!data) return;
+  const all = data.manual_downloads || [];
+  const done = all.filter((r) => r.documents > 0);
+  const byTier = {};
+  for (const r of all) {
+    byTier[r.tier] ??= { total: 0, pending: 0 };
+    byTier[r.tier].total++;
+    if (!r.documents) byTier[r.tier].pending++;
+  }
+  $("mdSummary").textContent = all.length
+    ? `${all.length - done.length} pending of ${all.length} · ` + Object.entries(byTier)
+        .sort(([a], [b]) => TIER_ORDER[a] - TIER_ORDER[b])
+        .map(([t, v]) => `${t.toLowerCase()} ${v.pending}/${v.total}`).join(" · ")
+    : "manual_downloads.txt not found.";
+  const q = $("mdQ").value.trim().toLowerCase(), tier = $("mdTier").value, pending = $("mdPending").checked;
+  const rows = all.filter((r) => (!pending || !r.documents) && (!tier || r.tier === tier) &&
+      (!q || r.stock_code.toLowerCase().includes(q) || r.name.toLowerCase().includes(q)))
+    .sort((a, b) => TIER_ORDER[a.tier] - TIER_ORDER[b.tier] || (b.market_cap_bn ?? -1) - (a.market_cap_bn ?? -1));
+  $("md").querySelector("tbody").innerHTML = rows.map((r) => `<tr>
+      <td>${esc(r.tier.toLowerCase())}</td><td>${esc(r.stock_code)}</td>
+      <td class="name" title="${esc(r.name)}">${esc(r.name)}</td>
+      <td class="num">${r.market_cap_bn != null ? r.market_cap_bn.toFixed(1) : "–"}</td>
+      <td class="muted">${esc(r.reason)}</td>
+      <td>${r.documents ? `<span class="ok">✓ ${r.documents} doc${r.documents > 1 ? "s" : ""}${r.facts ? "" : " · no facts yet"}</span>` : `<span class="warn">pending</span>`}</td>
+      <td>${r.url_suspect || !/^https?:\/\//i.test(r.url) ? `<span class="bad" title="${esc(r.url)}">bad URL – search manually</span>`
+        : `<a href="${esc(r.url)}" target="_blank" rel="noopener noreferrer">${esc(r.url.replace(/^https?:\/\/(www\.)?/, "").slice(0, 48))}</a>`}</td>
+    </tr>`).join("") || `<tr><td colspan="7" class="empty">Nothing matches.</td></tr>`;
+}
+
+function renderRuns(d) {
+  $("runs").innerHTML = d.activity.recent.map((r) => `
+    <tr><td>${esc(r.stock_code || "–")}</td><td class="name" title="${esc(r.document)}">${esc(r.document)}</td>
+    <td class="num">${fmt(r.facts)} facts</td><td class="muted">${ago(r.at)}</td></tr>`).join("")
+    || `<tr><td class="empty">No runs yet.</td></tr>`;
+}
+
+function renderRoadmap(d) {
+  $("roadmap").innerHTML = d.roadmap.map((s) => {
+    const done = s.items.filter((i) => i.done).length;
+    return `<div class="rsec"><span>${esc(s.section)}</span><span class="muted">${done}/${s.items.length}</span></div>
+      <div class="bar"><span style="width:${pct(done, s.items.length).toFixed(1)}%"></span></div>
+      <ul class="road">${s.items.map((i) => `<li class="${i.done ? "done" : ""}">${esc(i.text).replace(/`([^`]+)`/g, "<code>$1</code>")}</li>`).join("")}</ul>`;
+  }).join("") || `<div class="empty">No roadmap found in README.md.</div>`;
+}
+
+async function refresh() {
+  clearTimeout(timer);
+  let running = false;
+  try {
+    const res = await fetch("/api/progress", { cache: "no-store" });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    data = await res.json();
+    running = data.jobs.some((j) => j.status === "RUNNING");
+    renderKpis(data); renderJobs(data); renderFunnel(data); renderCompanies(); renderManual(); renderRuns(data); renderRoadmap(data);
+    $("dot").className = "dot" + (running || data.activity.active ? " live" : "");
+    $("updated").textContent = `${running ? "job running · " : ""}updated ${new Date().toLocaleTimeString()}`;
+  } catch (e) {
+    $("dot").className = "dot err";
+    $("updated").textContent = `can't reach API (${e.message}) – retrying`;
+  }
+  timer = setTimeout(refresh, running ? 2000 : 10000);
+}
+
+$("q").addEventListener("input", renderCompanies);
+$("mdQ").addEventListener("input", renderManual);
+$("mdTier").addEventListener("change", renderManual);
+$("mdPending").addEventListener("change", renderManual);
+$("onlyFacts").addEventListener("change", renderCompanies);
+$("cos").addEventListener("click", (e) => {
+  const k = e.target.closest("th")?.dataset.k;
+  if (!k) return;
+  sortDir = sortKey === k ? -sortDir : (k === "stock_code" || k === "name" ? 1 : -1);
+  sortKey = k;
+  renderCompanies();
+});
+document.addEventListener("visibilitychange", () => { if (!document.hidden) refresh(); });
+refresh();
+</script>
+</body>
+</html>

@@ -5,7 +5,8 @@
 # For each company, visit the IR URL in a browser,
 # download the latest annual report PDF, and place it in:
 #   pdfs/<stock_code>/<filename>.pdf
-# Then run: .venv\Scripts\python.exe -m bursa ingest pdfs/<stock_code>/
+# Then run: .venv\Scripts\python.exe -m bursa.cli ingest pdfs/
+#           .venv\Scripts\python.exe -m bursa.cli normalize facts --only-without-facts
 #
 # Tier   Code   Name                                     MCap(B)  Reason          URL
 # ----------------------------------------------------------------------------------------------------------------------------------

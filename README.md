@@ -33,7 +33,7 @@ python -m venv .venv
 
 bursa init-db          # schema + 137 concepts + ~500 seed synonyms
 bursa upload report.pdf --company 1295   # full pipeline in one shot
-bursa serve            # start API server at http://localhost:8000
+bursa serve            # API + progress dashboard at http://localhost:8000
 ```
 
 ## CLI Commands
@@ -43,26 +43,40 @@ bursa serve            # start API server at http://localhost:8000
 | `bursa init-db` | Create all database tables and seed taxonomy |
 | `bursa upload <pdf> -c <CODE>` | Upload a PDF and run the full pipeline |
 | `bursa ingest [path]` | Ingest PDFs from the inbox or a path |
-| `bursa serve` | Start the FastAPI server |
+| `bursa serve` | Start the FastAPI server and progress dashboard |
 | `bursa status` | Pipeline health at a glance |
 | `bursa company add/list/set-ir-url/import-csv` | Manage companies |
 | `bursa scrape annual-reports` | Crawl IR sites for annual reports |
 | `bursa scrape discover-ir-urls` | Use Claude + web search to find IR URLs |
 | `bursa extract statements` | Extract IS, BS, CF, EQ from documents |
-| `bursa normalize facts` | Write Fact rows from extractions |
+| `bursa normalize facts` | Write Fact rows from extractions. PDF extraction runs in `--workers` processes (default: CPUs − 2, ~7x faster on 12 threads); one process writes, a commit per company. `--only-without-facts` skips companies already done |
 | `bursa normalize derive` | Derive missing facts from identities |
 | `bursa validate facts` | Run accounting-identity validation |
 | `bursa validate comparative` | Cross-document consistency check |
 | `bursa benchmark facts` | Cross-validate against yfinance |
 | `bursa valuation metrics` | Compute FCFF, FCFE, EBITDA, EV |
+| `bursa analysis dupont` | 3- and 5-factor DuPont ROE decomposition |
+| `bursa analysis growth` | Revenue / earnings / asset CAGR (3Y, 5Y), ROE trend |
+| `bursa analysis prices` | P/E, P/B, EV/EBITDA, dividend yield at FY-end close (yfinance) |
+| `bursa peers sector NAME` / `peers CODE` | Sector medians, quartiles, percentile ranks |
+| `bursa export excel -c CODE` / `export csv -o FILE` | Analyst workbook per company / long CSV (`pip install .[export]`) |
+| `bursa db upgrade` / `db stamp` / `db check` | Alembic schema migrations |
+| `bursa storage migrate-to-r2` / `storage verify` | Copy local PDFs to R2 (dry run unless `--execute`) |
 
 ## API
 
-Start with `bursa serve`, docs at `http://localhost:8000/docs`.
+Start with `bursa serve`. The progress dashboard is at `http://localhost:8000/` (pipeline
+funnel, per-company coverage by fiscal year, validation/benchmark rates, live job progress for
+`bursa normalize facts`, roadmap status); API docs at `http://localhost:8000/docs`.
 
 | Endpoint | Description |
 |----------|-------------|
 | `GET /api/status` | Pipeline health |
+| `GET /api/progress` | Dashboard snapshot: funnel, coverage, jobs, roadmap |
+| `GET /api/peers/sectors`, `/api/peers/sector/{sector}`, `/api/peers/{code}` | Peer comparison |
+
+React frontend (dashboard, companies, company detail, upload): `cd frontend; npm install; npm run dev`
+→ http://localhost:3000 (proxies `/api` to the backend on :8000). See `frontend/README.md`.
 | `GET /api/companies` | List/search companies |
 | `GET /api/companies/{code}` | Company detail with documents |
 | `POST /api/upload` | Upload PDF, run pipeline |
@@ -70,6 +84,9 @@ Start with `bursa serve`, docs at `http://localhost:8000/docs`.
 | `GET /api/validation/{code}` | Validation results |
 | `GET /api/benchmark/{code}` | Benchmark results |
 | `GET /api/valuation/{code}` | Valuation metrics |
+| `GET /api/analysis/{code}/dupont` | DuPont decomposition |
+| `GET /api/analysis/{code}/growth` | Growth rates and ROE trend |
+| `GET /api/analysis/{code}/prices` | Market-price ratios |
 
 ## Pipeline stages
 
@@ -117,15 +134,16 @@ src/bursa/
   pipeline/          ingest, normalize, derive, validate stages
   benchmark/         yfinance cross-validation
   valuation/         FCFF, FCFE, EBITDA, EV computation
+  analysis/          annual fact selection, DuPont, growth, market-price ratios
   scrapers/          IR website crawler, content filter, robots.txt compliance
   cli.py             Typer CLI
-tests/               289 tests
+tests/               336 tests
 ```
 
 ## Tests
 
 ```powershell
-.venv\Scripts\python -m pytest -q     # 289 tests
+.venv\Scripts\python -m pytest -q     # 336 tests
 ```
 
 ## Roadmap
@@ -138,14 +156,14 @@ tests/               289 tests
 
 ### Infrastructure
 
-- [ ] Alembic migrations for schema evolution
-- [ ] Switch to R2 cloud storage for team access (backend exists in `src/bursa/storage/r2.py`)
-- [ ] Export to Excel/CSV for analyst consumption
-- [ ] React frontend (dashboard, company detail, upload UI, concept review UI)
+- [x] Alembic migrations for schema evolution (`bursa db ...`; existing DBs: `bursa db stamp`)
+- [ ] Switch to R2 cloud storage for team access — ready and tested offline (`bursa storage migrate-to-r2`, dry run by default); needs R2 credentials to flip
+- [x] Export to Excel/CSV for analyst consumption
+- [ ] React frontend (dashboard, company detail, upload UI, concept review UI) — in `frontend/`; concept review needs a `/api/review` backend endpoint
 
 ### Extraction Quality
 
-- [ ] OCR support for scanned PDFs (Tesseract + pdf2image)
+- [ ] OCR support for scanned PDFs (Tesseract + pdf2image) — `--ocr` flag wired, not yet verified on a real scanned PDF
 - [ ] Wire LLM concept mapper for unmapped rows (exists in `src/bursa/mapping/llm_mapper.py`)
 - [ ] Equity statement matrix layout → structured facts normalization
 
@@ -154,11 +172,11 @@ tests/               289 tests
 - [ ] Bursa financial highlights cross-check
 - [ ] 5-year summary page extraction and cross-validation
 - [ ] EPS back-check against shares outstanding
-- [ ] Share price integration (P/E, P/B, EV/EBITDA with market data)
-- [ ] Dividend history and yield tracking
-- [ ] Growth rate computation (revenue CAGR, earnings growth)
-- [ ] DuPont decomposition (3-factor and 5-factor ROE)
-- [ ] Peer comparison / sector analysis
+- [x] Share price integration (P/E, P/B, EV/EBITDA with market data)
+- [ ] Dividend history and yield tracking (FY-level cash yield done; per-share history not yet)
+- [x] Growth rate computation (revenue CAGR, earnings growth)
+- [x] DuPont decomposition (3-factor and 5-factor ROE)
+- [x] Peer comparison / sector analysis
 
 ## Legal
 
