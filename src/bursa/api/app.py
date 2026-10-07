@@ -15,6 +15,7 @@ from bursa.api.routes import (
     fiveyear,
     peers,
     progress,
+    review,
     upload,
     validation,
     valuation,
@@ -45,6 +46,7 @@ app.include_router(progress.router, prefix="/api/progress", tags=["progress"])
 app.include_router(peers.router, prefix="/api/peers", tags=["peers"])
 app.include_router(dividends.router, prefix="/api/dividends", tags=["dividends"])
 app.include_router(fiveyear.router, prefix="/api/fiveyear", tags=["fiveyear"])
+app.include_router(review.router, prefix="/api", tags=["review"])
 
 DASHBOARD = Path(__file__).parent / "static" / "dashboard.html"
 

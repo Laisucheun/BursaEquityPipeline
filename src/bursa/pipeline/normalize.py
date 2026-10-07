@@ -499,6 +499,11 @@ def _write_statement_facts(
 
         write_equity_facts(session, company, document_id, run_id, concepts, extracted, result, touched_fact_ids)
         return
+    # Concept-review queue: unmapped, figure-bearing rows -> ReviewItem. Adds
+    # rows to review_items only; fact output below is unaffected.
+    from bursa.pipeline.review import record_unmapped_rows
+
+    record_unmapped_rows(session, company, document_id, run_id, statement, extracted)
     instant_statement = statement == Statement.BALANCE_SHEET
     stated = parse_stated_period_end(extracted.header_text, instant=instant_statement)
     if stated is None:
