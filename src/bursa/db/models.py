@@ -469,6 +469,27 @@ class BenchmarkResult(Base):
     )
 
 
+class JobProgress(Base):
+    """Live progress of one long-running CLI job, polled by the dashboard."""
+
+    __tablename__ = "job_progress"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    kind: Mapped[str] = mapped_column(String(32), nullable=False)
+    status: Mapped[RunStatus] = mapped_column(String(16), default=RunStatus.RUNNING, nullable=False)
+    total: Mapped[int] = mapped_column(Integer, default=0, nullable=False)
+    done: Mapped[int] = mapped_column(Integer, default=0, nullable=False)
+    current: Mapped[str | None] = mapped_column(String(256))
+    error: Mapped[str | None] = mapped_column(Text)
+    started_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), server_default=func.now(), nullable=False
+    )
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), server_default=func.now(), onupdate=func.now(), nullable=False
+    )
+    finished_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+
+
 class ReviewItem(Base, TimestampMixin):
     __tablename__ = "review_items"
     __table_args__ = (Index("ix_review_open", "resolved_at"),)
