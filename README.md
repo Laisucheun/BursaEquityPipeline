@@ -62,6 +62,9 @@ bursa serve            # API + progress dashboard at http://localhost:8000
 | `bursa export excel -c CODE` / `export csv -o FILE` | Analyst workbook per company / long CSV (`pip install .[export]`) |
 | `bursa db upgrade` / `db stamp` / `db check` | Alembic schema migrations |
 | `bursa storage migrate-to-r2` / `storage verify` | Copy local PDFs to R2 (dry run unless `--execute`) |
+| `bursa dividends history CODE` / `dividends screen` | Dividend history; consistent-payer screen |
+| `bursa fiveyear check -c CODE` | Compare facts with the report's own 5-year summary |
+| `bursa hygiene report` | Read-only data-quality decision list (duplicates, wrong codes, junk docs) |
 
 ## API
 
@@ -74,9 +77,9 @@ funnel, per-company coverage by fiscal year, validation/benchmark rates, live jo
 | `GET /api/status` | Pipeline health |
 | `GET /api/progress` | Dashboard snapshot: funnel, coverage, jobs, roadmap |
 | `GET /api/peers/sectors`, `/api/peers/sector/{sector}`, `/api/peers/{code}` | Peer comparison |
-
-React frontend (dashboard, companies, company detail, upload): `cd frontend; npm install; npm run dev`
-→ http://localhost:3000 (proxies `/api` to the backend on :8000). See `frontend/README.md`.
+| `GET /api/dividends/{code}?prices=` | Dividend history: DPS, payout, cover, streak, yield |
+| `GET /api/fiveyear/{code}` | Facts vs the report's own 5-year summary page |
+| `GET /api/review`, `POST /api/review/{id}/resolve`, `GET /api/concepts` | Concept-review queue for unmapped labels |
 | `GET /api/companies` | List/search companies |
 | `GET /api/companies/{code}` | Company detail with documents |
 | `POST /api/upload` | Upload PDF, run pipeline |
@@ -87,6 +90,10 @@ React frontend (dashboard, companies, company detail, upload): `cd frontend; npm
 | `GET /api/analysis/{code}/dupont` | DuPont decomposition |
 | `GET /api/analysis/{code}/growth` | Growth rates and ROE trend |
 | `GET /api/analysis/{code}/prices` | Market-price ratios |
+
+React frontend (dashboard, companies, company detail with valuation / DuPont / growth / dividends /
+5-year check / peers tabs, peers, upload, concept review): `cd frontend; npm install; npm run dev`
+→ http://localhost:3000 (proxies `/api` to the backend on :8000). See `frontend/README.md`.
 
 ## Pipeline stages
 
@@ -137,13 +144,13 @@ src/bursa/
   analysis/          annual fact selection, DuPont, growth, market-price ratios
   scrapers/          IR website crawler, content filter, robots.txt compliance
   cli.py             Typer CLI
-tests/               336 tests
+tests/               464 tests
 ```
 
 ## Tests
 
 ```powershell
-.venv\Scripts\python -m pytest -q     # 336 tests
+.venv\Scripts\python -m pytest -q     # 464 tests
 ```
 
 ## Roadmap
@@ -151,7 +158,7 @@ tests/               336 tests
 ### Data Completeness
 
 - [ ] Process 385 manual-download companies (3 large + 24 mid + 358 small) — see `manual_downloads.txt`
-- [ ] Add quarterly report ingestion (Q1–Q4 period semantics, cumulative vs individual quarter)
+- [x] Add quarterly report ingestion (Q1–Q4 period semantics, cumulative vs individual quarter) — Bursa's standard 4-column layout
 - [ ] Historical data before 2021
 
 ### Infrastructure
@@ -159,21 +166,21 @@ tests/               336 tests
 - [x] Alembic migrations for schema evolution (`bursa db ...`; existing DBs: `bursa db stamp`)
 - [ ] Switch to R2 cloud storage for team access — ready and tested offline (`bursa storage migrate-to-r2`, dry run by default); needs R2 credentials to flip
 - [x] Export to Excel/CSV for analyst consumption
-- [ ] React frontend (dashboard, company detail, upload UI, concept review UI) — in `frontend/`; concept review needs a `/api/review` backend endpoint
+- [x] React frontend (dashboard, company detail, upload UI, concept review UI) — in `frontend/`
 
 ### Extraction Quality
 
 - [ ] OCR support for scanned PDFs (Tesseract + pdf2image) — `--ocr` flag wired, not yet verified on a real scanned PDF
 - [ ] Wire LLM concept mapper for unmapped rows (exists in `src/bursa/mapping/llm_mapper.py`)
-- [ ] Equity statement matrix layout → structured facts normalization
+- [x] Equity statement matrix layout → structured facts normalization
 
 ### Validation & Analysis
 
 - [ ] Bursa financial highlights cross-check
-- [ ] 5-year summary page extraction and cross-validation
-- [ ] EPS back-check against shares outstanding
+- [x] 5-year summary page extraction and cross-validation
+- [x] EPS back-check against shares outstanding (shares from the EPS note; `eps_consistency` rule)
 - [x] Share price integration (P/E, P/B, EV/EBITDA with market data)
-- [ ] Dividend history and yield tracking (FY-level cash yield done; per-share history not yet)
+- [x] Dividend history and yield tracking
 - [x] Growth rate computation (revenue CAGR, earnings growth)
 - [x] DuPont decomposition (3-factor and 5-factor ROE)
 - [x] Peer comparison / sector analysis
