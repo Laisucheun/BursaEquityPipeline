@@ -287,15 +287,14 @@ def test_re_extracting_an_unchanged_document_deletes_no_facts_but_cleans_up_the_
 
 
 # --------------------------------------------------------------------------
-# A quarterly statement's "individual quarter" and "cumulative" columns can
-# share the same printed year - writing both into the same FY period would
-# silently let one figure overwrite the other. They must be skipped, not
-# merged (quarterly column semantics are explicitly out of scope - see
-# bursa/pipeline/normalize.py's module docstring).
+# A quarterly report's "individual quarter" and "cumulative" columns share
+# printed years. They are typed by position (Bursa's standard layout:
+# current quarter, prior-year quarter, current cumulative, prior cumulative)
+# - S P Setia's 3-month column used to be written as its financial year.
 # --------------------------------------------------------------------------
 
 
-def test_skips_colliding_columns_from_a_quarterly_statement_rather_than_merging_them(
+def test_quarterly_report_is_skipped_while_fy_end_is_unknown(
     seeded: Session, tmp_path: Path
 ) -> None:
     company, document = _make_company_and_document(
@@ -304,13 +303,31 @@ def test_skips_colliding_columns_from_a_quarterly_statement_rather_than_merging_
 
     result = write_facts_for_document(seeded, company, document.id, Path(document.storage_path))
 
-    assert any("ambiguous" in msg for msg in result.skipped_columns)
+    assert result.facts_written == 0
+    assert company.fy_end_month is None  # a Q3 end month is never taken as the year end
 
-    revenue_facts = seeded.execute(select(Fact).where(Fact.concept_key == "is.revenue")).scalars().all()
-    # Columns 0/2 both say 2024 (individual quarter vs cumulative), 1/3 both
-    # say 2023 - only the first-seen column per resolved period is written.
-    assert len(revenue_facts) == 2
-    assert {f.value_as_printed for f in revenue_facts} == {"125,430", "110,220"}
+
+def test_quarterly_report_columns_are_typed_by_position(seeded: Session, tmp_path: Path) -> None:
+    company, document = _make_company_and_document(
+        seeded, tmp_path, QUARTERLY_INCOME_STATEMENT, "is.pdf"
+    )
+    company.fy_end_month = 12
+
+    write_facts_for_document(seeded, company, document.id, Path(document.storage_path))
+
+    revenue = {
+        (p.period_type, p.period_start, p.period_end): f.value_as_printed
+        for f, p in seeded.execute(
+            select(Fact, Period).join(Period, Fact.period_id == Period.id)
+            .where(Fact.concept_key == "is.revenue")
+        ).all()
+    }
+    assert revenue == {
+        (PeriodType.Q3, date(2024, 7, 1), date(2024, 9, 30)): "125,430",
+        (PeriodType.Q3, date(2023, 7, 1), date(2023, 9, 30)): "110,220",
+        (PeriodType.YTD, date(2024, 1, 1), date(2024, 9, 30)): "362,890",
+        (PeriodType.YTD, date(2023, 1, 1), date(2023, 9, 30)): "318,455",
+    }
 
 
 # --------------------------------------------------------------------------

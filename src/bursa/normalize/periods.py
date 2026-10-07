@@ -204,9 +204,59 @@ _WORD_MONTHS: dict[str, int] = {
 # `parse_stated_period_end`. Checked before `_FINANCIAL_YEAR_ENDED` since a
 # caption can carry both ("...for the financial year ended 31 December 2024"
 # next to a quarter's own "Three Months Ended" caption on the same page).
+# Spelled out or as digits: "3 MONTHS ENDED 12 MONTHS ENDED" (S P Setia).
 _MONTHS_ENDED = re.compile(
-    r"\b(" + "|".join(_WORD_MONTHS) + r")\s+months?\s+ended", re.IGNORECASE
+    r"\b(" + "|".join(_WORD_MONTHS) + r"|1[0-2]|[1-9])\s+months?\s+ended", re.IGNORECASE
 )
+# Bursa quarterly-report column bands, with no "N months ended" of their own.
+_INDIVIDUAL_QUARTER = re.compile(r"\b(individual|current)\s+quarter\b", re.IGNORECASE)
+_CUMULATIVE = re.compile(r"\bcumulative\b|\byear[\s-]*to[\s-]*date\b", re.IGNORECASE)
+
+
+def _months(token: str) -> int:
+    return int(token) if token.isdigit() else _WORD_MONTHS[token.lower()]
+
+
+def stated_durations(text: str) -> list[int]:
+    """Every distinct "N months ended" duration a header states, in order of
+    appearance - two of them ([3, 12], [3, 9]) mark a quarterly report's
+    side-by-side individual-quarter / cumulative column pairs."""
+    out: list[int] = []
+    for match in _MONTHS_ENDED.finditer(text):
+        months = _months(match.group(1))
+        if months not in out:
+            out.append(months)
+    return out
+
+
+_QUARTER_ENDED = re.compile(r"\bquarter\s+ended\b", re.IGNORECASE)
+
+
+def is_interim_header(text: str) -> bool:
+    """Whether a statement's header marks it as an interim (quarterly /
+    half-year) report - such a statement's end month is a quarter end, never
+    evidence of the company's fiscal year end."""
+    return bool(
+        _INDIVIDUAL_QUARTER.search(text) or _CUMULATIVE.search(text) or _QUARTER_ENDED.search(text)
+        or any(d != 12 for d in stated_durations(text))
+    )
+
+
+def quarterly_column_durations(text: str, period_end: date, fy_end_month: int) -> list[int] | None:
+    """Durations for a quarterly report's four value columns - current
+    quarter, prior-year quarter, current cumulative, prior cumulative - or
+    None when the header doesn't describe that layout. Bursa's standard
+    Appendix 9B format; the cumulative length follows from the period end
+    when only "individual / cumulative quarter" bands are printed."""
+    durations = stated_durations(text)
+    if len(durations) == 2 and durations[0] < durations[1]:
+        short, long = durations
+    elif _INDIVIDUAL_QUARTER.search(text) and _CUMULATIVE.search(text):
+        short = 3
+        long = (period_end.month - fy_end_month) % 12 or 12
+    else:
+        return None
+    return [short, short, long, long]
 _FINANCIAL_YEAR_ENDED = re.compile(r"\b(?:financial\s+)?year\s+ended", re.IGNORECASE)
 
 
@@ -225,7 +275,7 @@ def parse_statement_duration_months(text: str) -> int | None:
     """
     match = _MONTHS_ENDED.search(text)
     if match:
-        return _WORD_MONTHS[match.group(1).lower()]
+        return _months(match.group(1))
     if _FINANCIAL_YEAR_ENDED.search(text):
         return 12
     return None

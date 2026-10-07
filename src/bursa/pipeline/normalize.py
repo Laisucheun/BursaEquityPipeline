@@ -80,7 +80,9 @@ from bursa.normalize.periods import (
     parse_dotted_date,
     parse_stated_period_end,
     parse_statement_duration_months,
+    is_interim_header,
     period_bounds,
+    quarterly_column_durations,
     resolve_duration_period_type,
     same_month_day,
 )
@@ -306,7 +308,7 @@ def _reconcile_fy_end_month(
     statements on every run. It used to be set once, from whichever statement
     came first, and never revisited - one misread (TNB stored August for a
     December year end) then shifted every fiscal year it labelled."""
-    votes: dict[int, int] = {}
+    annual: list[date] = []
     for (statement, _), (_, extracted, _) in best.items():
         if statement == Statement.BALANCE_SHEET:
             continue
@@ -314,9 +316,17 @@ def _reconcile_fy_end_month(
             continue
         stated = parse_stated_period_end(extracted.header_text, instant=False)
         if stated is not None:
-            votes[stated.month] = votes.get(stated.month, 0) + 1
-    if not votes:
+            annual.append(stated)
+    if not annual:
         return
+    # Only the latest ~two years vote: a company that changed its year end
+    # (S P Setia, October -> December) would otherwise be outvoted by a
+    # decade of older reports and have its current years mislabelled.
+    latest = max(annual)
+    votes: dict[int, int] = {}
+    for stated in annual:
+        if (latest - stated).days <= 730:
+            votes[stated.month] = votes.get(stated.month, 0) + 1
     month, count = max(votes.items(), key=lambda kv: kv[1])
     if count >= 2 and count * 2 > sum(votes.values()) and company.fy_end_month != month:
         if company.fy_end_month is not None:
@@ -377,7 +387,42 @@ def _resolve_columns(
     resolved: list[_ResolvedColumn] = []
     seen_keys: set[tuple] = set()
 
+    # A quarterly report's standard four value columns - current quarter,
+    # prior-year quarter, current cumulative, prior cumulative - are typed by
+    # position: their own header cells are too bled-into to trust (S P Setia's
+    # prior-year quarter column read as 2025), and without this the 3-month
+    # column was written as the financial year.
+    value_columns = [
+        c for c in extracted.columns if not (c.is_note or _NOTE_WORD.search(c.header_text))
+    ]
+    quarterly_plan: dict[int, tuple[int, int]] = {}
+    if not instant_statement and len(value_columns) == 4:
+        durations = quarterly_column_durations(extracted.header_text, stated, fy_end_month)
+        if durations is not None:
+            quarterly_plan = {
+                c.col_index: (durations[i], stated.year - (i % 2))
+                for i, c in enumerate(value_columns)
+            }
+
     for column in extracted.columns:
+        if column.col_index in quarterly_plan:
+            months, year = quarterly_plan[column.col_index]
+            period_end = same_month_day(year, stated.month, stated.day)
+            period_type = resolve_duration_period_type(months, period_end, fy_end_month)
+            if period_type is None:
+                result.skipped_columns.append(
+                    f"col{column.col_index}: a {months}-month quarterly-report column has no "
+                    "period-type rule - not guessed"
+                )
+                continue
+            bounds = period_bounds(period_end, period_type, fy_end_month)
+            basis = Basis.COMPANY if _COMPANY_BASIS.search(column.header_text) else Basis.CONSOLIDATED
+            key = (bounds.period_start, bounds.period_end, bounds.period_type, basis)
+            if key not in seen_keys:
+                seen_keys.add(key)
+                resolved.append(_ResolvedColumn(column=column, basis=basis, bounds=bounds))
+            continue
+
         if column.is_note or _NOTE_WORD.search(column.header_text):
             # A "Note" column's own header carries no year, so `_column_year`
             # falls back to the table-wide header text and still finds one -
@@ -472,6 +517,12 @@ def _write_statement_facts(
     duration_months = None if instant_statement else parse_statement_duration_months(extracted.header_text)
     if company.fy_end_month is not None:
         fy_end_month = company.fy_end_month
+    elif is_interim_header(extracted.header_text):
+        result.skipped_statements[statement] = (
+            "an interim (quarterly) statement, found before this company's real fiscal year end "
+            "is known - skipped rather than guessed"
+        )
+        return
     elif instant_statement or duration_months is None or duration_months == 12:
         fy_end_month = stated.month
         company.fy_end_month = fy_end_month

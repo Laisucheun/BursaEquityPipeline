@@ -32,6 +32,17 @@ def test_wrong_stored_fy_end_month_is_corrected_by_annual_statements() -> None:
     assert any("corrected 8 -> 12" in s for s in result.skipped_columns)
 
 
+def test_a_changed_year_end_follows_the_latest_reports() -> None:
+    # S P Setia: October year end until 2017, December since.
+    company = Company(stock_code="8664", name="S P Setia", fy_end_month=12)
+    old = [(Statement.INCOME_STATEMENT, f"For the financial year ended 31 October {y}") for y in range(2008, 2017)]
+    new = [(Statement.INCOME_STATEMENT, f"For the financial year ended 31 December {y}") for y in (2023, 2024)]
+
+    _reconcile_fy_end_month(company, _best(*old, *new), FactWriteResult())
+
+    assert company.fy_end_month == 12
+
+
 def test_interim_and_single_votes_do_not_change_it() -> None:
     company = Company(stock_code="1", name="X", fy_end_month=3)
     best = _best(
