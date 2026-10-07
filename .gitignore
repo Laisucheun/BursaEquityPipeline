@@ -10,10 +10,14 @@ build/
 .env.local
 
 # Local blob storage and the ingest drop folder hold copyrighted filings.
-storage/
-inbox/
-pdfs/
+# Anchored to the repo root: an unanchored "storage/" also matched the
+# src/bursa/storage/ source package and kept it out of git.
+/storage/
+/inbox/
+/pdfs/
 *.sqlite
+*.sqlite-shm
+*.sqlite-wal
 *.sqlite3
 *.db
 

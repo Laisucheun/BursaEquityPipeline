@@ -27,6 +27,12 @@ class Settings(BaseSettings):
     r2_bucket: str | None = None
     r2_access_key_id: str | None = None
     r2_secret_access_key: str | None = None
+    # Optional: overrides the endpoint derived from R2_ACCOUNT_ID (any
+    # S3-compatible endpoint; also lets tests/dev point at a local fake).
+    r2_endpoint_url: str | None = None
+    # Local cache for remote blobs materialized for extraction. None means
+    # <system temp>/bursa-blobs.
+    blob_cache_dir: Path | None = None
 
     anthropic_api_key: str | None = None
     mapper_model: str = "claude-opus-5"
