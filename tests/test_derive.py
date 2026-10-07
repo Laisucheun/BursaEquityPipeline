@@ -2,9 +2,8 @@
 
 from decimal import Decimal
 
-import pytest
 
-from bursa.pipeline.derive import RULES, _DerivationRule
+from bursa.pipeline.derive import RULES
 
 
 class TestDerivationRules:

@@ -271,7 +271,7 @@ def _find_ir_urls_batch(
     ]
     prompt = (
         "Find the official investor-relations homepage for each of these "
-        f"Bursa Malaysia companies:\n" + "\n".join(lines)
+        "Bursa Malaysia companies:\n" + "\n".join(lines)
     )
     response = client.messages.create(
         model=model,

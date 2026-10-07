@@ -2,7 +2,7 @@
 
 from decimal import Decimal
 
-from bursa.benchmark.compare import BenchmarkOutcome, compare_facts
+from bursa.benchmark.compare import compare_facts
 from bursa.benchmark.yfinance_fetch import YfinanceFigure, _to_ticker
 
 from datetime import date

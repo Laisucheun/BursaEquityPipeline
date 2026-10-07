@@ -5,6 +5,7 @@ from __future__ import annotations
 import asyncio
 import json
 import logging
+from decimal import Decimal
 import os
 from pathlib import Path
 from typing import Annotated
@@ -1321,12 +1322,12 @@ def valuation_metrics_cmd(
     """Compute FCFF, FCFE, EBITDA, and EV components per company per FY."""
     from bursa.valuation.metrics import compute_valuation
 
-    def fmt(v: "Decimal | None") -> str:
+    def fmt(v: Decimal | None) -> str:
         if v is None:
             return "-"
         return f"{v / 1_000_000:,.1f}"
 
-    def pct(v: "Decimal | None") -> str:
+    def pct(v: Decimal | None) -> str:
         if v is None:
             return "-"
         return f"{v * 100:.1f}%"

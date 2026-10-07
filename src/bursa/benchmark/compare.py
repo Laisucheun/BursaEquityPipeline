@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from datetime import date, timedelta
 from decimal import Decimal
 
 from bursa.benchmark.yfinance_fetch import YfinanceFigure

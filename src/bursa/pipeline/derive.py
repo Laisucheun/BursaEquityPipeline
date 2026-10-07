@@ -22,8 +22,7 @@ from decimal import Decimal
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-from bursa.db.enums import Basis, Continuity, PeriodType
-from bursa.db.models import Company, Concept, ExtractionRun, Fact, Period
+from bursa.db.models import Company, Concept, Fact, Period
 
 log = logging.getLogger(__name__)
 

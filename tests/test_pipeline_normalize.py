@@ -7,7 +7,7 @@ import pytest
 from sqlalchemy import func, select
 from sqlalchemy.orm import Session
 
-from bursa.db.enums import Basis, DocSource, PeriodType, RunStatus
+from bursa.db.enums import Basis, DocSource, PeriodType
 from bursa.db.models import Company, Document, ExtractionRun, Fact, Period, ValidationResult
 from bursa.mapping.synonyms import seed_concepts
 from bursa.pipeline.normalize import write_facts_for_company, write_facts_for_document
