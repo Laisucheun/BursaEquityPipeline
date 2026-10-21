@@ -76,6 +76,8 @@ funnel, per-company coverage by fiscal year, validation/benchmark rates, live jo
 |----------|-------------|
 | `GET /api/status` | Pipeline health |
 | `GET /api/progress` | Dashboard snapshot: funnel, coverage, jobs, roadmap |
+| `GET /api/feed?months=&days=` | Results feed: results grouped by FY-end month with digests, plus upcoming Listing Requirements filing deadlines |
+| `GET /api/feed/report/{code}?fy=` | Per-company results report: bottom line, headline numbers vs prior year, flags, sector context, data quality |
 | `GET /api/peers/sectors`, `/api/peers/sector/{sector}`, `/api/peers/{code}` | Peer comparison |
 | `GET /api/dividends/{code}?prices=` | Dividend history: DPS, payout, cover, streak, yield |
 | `GET /api/fiveyear/{code}` | Facts vs the report's own 5-year summary page |
@@ -91,8 +93,8 @@ funnel, per-company coverage by fiscal year, validation/benchmark rates, live jo
 | `GET /api/analysis/{code}/growth` | Growth rates and ROE trend |
 | `GET /api/analysis/{code}/prices` | Market-price ratios |
 
-React frontend (dashboard, companies, company detail with valuation / DuPont / growth / dividends /
-5-year check / peers tabs, peers, upload, concept review): `cd frontend; npm install; npm run dev`
+React frontend (dashboard, results feed + per-company results reports, companies, company detail
+with valuation / DuPont / growth / dividends / 5-year check / peers tabs, peers, upload, concept review): `cd frontend; npm install; npm run dev`
 → http://localhost:3000 (proxies `/api` to the backend on :8000). See `frontend/README.md`.
 
 ## Pipeline stages

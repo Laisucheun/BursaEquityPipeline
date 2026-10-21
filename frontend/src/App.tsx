@@ -5,6 +5,8 @@ import CompanyDetail from "./pages/CompanyDetail";
 import Upload from "./pages/Upload";
 import Review from "./pages/Review";
 import Peers from "./pages/Peers";
+import Feed from "./pages/Feed";
+import ResultsReport from "./pages/ResultsReport";
 
 export default function App() {
   return (
@@ -13,6 +15,7 @@ export default function App() {
         <div className="wrap navrow">
           <span className="brand">Bursa Equity Pipeline</span>
           <NavLink to="/" end>Dashboard</NavLink>
+          <NavLink to="/feed">Results feed</NavLink>
           <NavLink to="/companies">Companies</NavLink>
           <NavLink to="/peers">Peers</NavLink>
           <NavLink to="/upload">Upload</NavLink>
@@ -22,6 +25,8 @@ export default function App() {
       <main className="wrap">
         <Routes>
           <Route path="/" element={<Dashboard />} />
+          <Route path="/feed" element={<Feed />} />
+          <Route path="/feed/:code" element={<ResultsReport />} />
           <Route path="/companies" element={<Companies />} />
           <Route path="/company/:code" element={<CompanyDetail />} />
           <Route path="/upload" element={<Upload />} />

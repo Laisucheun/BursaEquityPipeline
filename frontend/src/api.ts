@@ -498,10 +498,127 @@ export interface PeerComparison {
   notes: string[];
 }
 
+// ------------------------------------------------------------------ /api/feed
+// src/bursa/analysis/feed.py (Feed / ResultsReport via asdict)
+export type Tone = "up" | "down" | "flat" | "new";
+export type ProfitChange = "growth" | "turnaround" | "to_loss" | "loss_narrowed" | "loss_widened" | "none";
+
+export interface FeedItem {
+  stock_code: string;
+  name: string;
+  sector: string | null;
+  fiscal_year: number;
+  period_end: string;
+  tone: Tone;
+  summary: string;
+  revenue: number | null;
+  patami: number | null;
+  prior_patami: number | null;
+  revenue_growth: number | null; // fraction
+  patami_growth: number | null; // fraction
+  patami_change: ProfitChange;
+}
+
+export interface Mover {
+  stock_code: string;
+  name: string;
+  fiscal_year: number;
+  /** PATAMI growth (fraction) for gainers/decliners; PATAMI (RM) for turnarounds/to_loss. */
+  value: number | null;
+}
+
+export interface MonthGroup {
+  month: string; // YYYY-MM
+  label: string;
+  companies: number;
+  compared: number;
+  up: number;
+  down: number;
+  flat: number;
+  median_revenue_growth: number | null;
+  median_patami_growth: number | null;
+  gainers: Mover[];
+  decliners: Mover[];
+  turnarounds: Mover[];
+  to_loss: Mover[];
+  items: FeedItem[];
+}
+
+export interface Deadline {
+  due: string;
+  kind: "quarterly" | "annual";
+  label: string;
+  period_end: string;
+  stock_code: string;
+  name: string;
+  /** We already hold facts for this period. */
+  on_file: boolean;
+  context: string | null;
+}
+
+export interface Feed {
+  as_of: string;
+  latest_period_end: string | null;
+  months: MonthGroup[];
+  upcoming: Deadline[];
+  sectors: string[];
+  notes: string[];
+}
+
+export interface HeadlineRow {
+  measure: string;
+  kind: "money" | "sen" | "pct";
+  current: number | null;
+  prior: number | null;
+  /** Fraction for money/sen; percentage points for pct. */
+  change: number | null;
+  change_kind: ProfitChange | "pp";
+}
+
+export interface Observation {
+  level: "good" | "watch" | "data";
+  title: string;
+  text: string;
+}
+
+export interface SectorContext {
+  sector: string;
+  companies: number;
+  median_revenue_growth: number | null;
+  median_net_margin: number | null;
+  revenue_growth_rank: number | null;
+  revenue_growth_n: number;
+  net_margin_rank: number | null;
+  net_margin_n: number;
+}
+
+export interface ResultsReport {
+  stock_code: string;
+  name: string;
+  sector: string | null;
+  fiscal_year: number;
+  period_end: string;
+  prior_fiscal_year: number | null;
+  tone: Tone;
+  headline: string;
+  bottom_line: string;
+  rows: HeadlineRow[];
+  observations: Observation[];
+  sector_context: SectorContext | null;
+  validation: { run: number; passed: number; failures: { rule: string; detail: string | null }[] };
+  history: { fiscal_year: number; revenue: number | null; patami: number | null; net_margin: number | null }[];
+  available_years: number[];
+  notes: string[];
+}
+
 // ------------------------------------------------------------------ client
 export const api = {
   status: () => request<Status>("/api/status"),
   progress: () => request<Progress>("/api/progress"),
+
+  feed: (p: { months?: number; days?: number } = {}) => request<Feed>(`/api/feed${qs(p)}`),
+  resultsReport: (code: string, fy?: number) =>
+    request<ResultsReport>(`/api/feed/report/${enc(code)}${qs({ fy })}`),
 
   companies: (p: { search?: string; sector?: string; limit?: number; offset?: number } = {}) =>
     request<CompanyList>(`/api/companies${qs(p)}`),

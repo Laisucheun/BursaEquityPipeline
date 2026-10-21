@@ -15,6 +15,7 @@ revenue into an annual ratio, so the selection rules live here once:
 
 from __future__ import annotations
 
+from collections.abc import Iterable
 from dataclasses import dataclass, field
 from datetime import date
 from decimal import Decimal
@@ -44,33 +45,46 @@ class AnnualFacts:
 
 
 def load_annual_facts(session: Session, company: Company) -> dict[int, AnnualFacts]:
-    rows = session.execute(
+    return load_annual_facts_many(session, [company.id]).get(company.id, {})
+
+
+def load_annual_facts_many(
+    session: Session,
+    company_ids: Iterable[int] | None = None,
+    concepts: Iterable[str] | None = None,
+) -> dict[int, dict[int, AnnualFacts]]:
+    """``load_annual_facts`` for many companies in one query (None = all)."""
+    query = (
         select(
-            Fact.concept_key, Fact.value,
+            Fact.company_id, Fact.concept_key, Fact.value,
             Period.fiscal_year, Period.period_end,
             Document.filed_date, Document.period_end_hint, Document.id,
         )
         .join(Period, Fact.period_id == Period.id)
         .join(Document, Fact.reported_in_document_id == Document.id)
         .where(
-            Fact.company_id == company.id,
             Fact.basis == Basis.CONSOLIDATED,
             Fact.continuity == Continuity.TOTAL,
             Fact.confidence >= MIN_CONFIDENCE,
             Period.period_type.in_((PeriodType.FY, PeriodType.INSTANT)),
         )
-    ).all()
+    )
+    if company_ids is not None:
+        query = query.where(Fact.company_id.in_(list(company_ids)))
+    if concepts is not None:
+        query = query.where(Fact.concept_key.in_(list(concepts)))
 
-    best: dict[tuple[int, str], tuple[tuple, Decimal, date]] = {}
-    for concept_key, value, fy, period_end, filed, end_hint, doc_id in rows:
+    best: dict[tuple[int, int, str], tuple[tuple, Decimal, date]] = {}
+    for cid, concept_key, value, fy, period_end, filed, end_hint, doc_id in session.execute(query):
         rank = (period_end, filed or date.min, end_hint or date.min, doc_id)
-        key = (fy, concept_key)
+        key = (cid, fy, concept_key)
         if key not in best or rank > best[key][0]:
             best[key] = (rank, value, period_end)
 
-    result: dict[int, AnnualFacts] = {}
-    for (fy, concept_key), (_, value, period_end) in best.items():
-        year = result.setdefault(fy, AnnualFacts(fiscal_year=fy, period_end=period_end))
+    result: dict[int, dict[int, AnnualFacts]] = {}
+    for (cid, fy, concept_key), (_, value, period_end) in best.items():
+        years = result.setdefault(cid, {})
+        year = years.setdefault(fy, AnnualFacts(fiscal_year=fy, period_end=period_end))
         year.period_end = max(year.period_end, period_end)
         year.values[concept_key] = value
-    return dict(sorted(result.items()))
+    return {cid: dict(sorted(years.items())) for cid, years in result.items()}
