@@ -29,6 +29,32 @@ export function CoverageCells({ years, statements }: {
   );
 }
 
+/**
+ * A section whose body can be hidden. The body stays mounted while hidden so
+ * its own state (filters, sort order) survives a collapse. `bare` drops the
+ * panel chrome for sections that are already a grid of panels.
+ */
+export function Collapsible({ title, open, onToggle, summary, bare, children }: {
+  title: string;
+  open: boolean;
+  onToggle: () => void;
+  summary?: ReactNode;
+  bare?: boolean;
+  children: ReactNode;
+}) {
+  return (
+    <div className={`${bare ? "bare-sec" : "panel"} collapsible${open ? "" : " closed"}`}>
+      <h2 className="collapse-head">
+        <button type="button" aria-expanded={open} onClick={onToggle}>
+          <span className="chev" aria-hidden>▾</span>{title}
+        </button>
+        {!open && summary != null && <span className="collapse-sum">{summary}</span>}
+      </h2>
+      <div hidden={!open}>{children}</div>
+    </div>
+  );
+}
+
 export function Loading({ what = "Loading" }: { what?: string }) {
   return <div className="muted">{what}…</div>;
 }

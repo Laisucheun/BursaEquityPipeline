@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { api, type CoverageRow, type ManualDownload, type Progress } from "../api";
-import { Bar, CoverageCells, InlineCode } from "../components";
+import { Bar, Collapsible, CoverageCells, InlineCode } from "../components";
 import { ago, dur, fmt, pct } from "../lib";
 
 type SortKey = "stock_code" | "name" | "documents" | "facts" | "years" | "valid" | "bench" | "last_activity";
@@ -67,9 +67,41 @@ function useProgress() {
   return { data, error, updated };
 }
 
+const SECTIONS = ["overview", "jobs", "funnel", "coverage", "manual", "runs", "roadmap"] as const;
+type SectionId = (typeof SECTIONS)[number];
+const STORAGE_KEY = "bursa.dashboard.collapsed";
+
+/** Which sections are collapsed, remembered per browser. */
+function useCollapsed() {
+  const [collapsed, setCollapsed] = useState<Set<SectionId>>(() => {
+    try {
+      const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) ?? "[]");
+      return new Set(Array.isArray(saved) ? saved.filter((s) => SECTIONS.includes(s)) : []);
+    } catch {
+      return new Set();
+    }
+  });
+  useEffect(() => {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify([...collapsed]));
+    } catch {
+      /* storage unavailable: state just isn't remembered */
+    }
+  }, [collapsed]);
+  const toggle = (id: SectionId) =>
+    setCollapsed((prev) => {
+      const next = new Set(prev);
+      if (!next.delete(id)) next.add(id);
+      return next;
+    });
+  return { collapsed, toggle, setAll: (closed: boolean) => setCollapsed(new Set(closed ? SECTIONS : [])) };
+}
+
 export default function Dashboard() {
   const { data, error, updated } = useProgress();
   const running = !!data?.jobs.some((j) => j.status === "RUNNING");
+  const { collapsed, toggle, setAll } = useCollapsed();
+  const sec = (id: SectionId) => ({ open: !collapsed.has(id), onToggle: () => toggle(id) });
 
   return (
     <>
@@ -84,25 +116,70 @@ export default function Dashboard() {
                 ? `${running ? "job running · " : ""}updated ${updated.toLocaleTimeString()}`
                 : "loading…"}
           </span>
+          <span className="seg">
+            <button onClick={() => setAll(false)} disabled={!collapsed.size}>Expand all</button>
+            <button onClick={() => setAll(true)} disabled={collapsed.size === SECTIONS.length}>Collapse all</button>
+          </span>
         </div>
       </div>
       {data && (
         <>
-          <Kpis d={data} />
+          <Collapsible title="Overview" bare {...sec("overview")} summary={overviewSummary(data)}>
+            <Kpis d={data} />
+          </Collapsible>
           <section className="grid two">
-            <div className="panel"><h2>Jobs</h2><Jobs d={data} /></div>
-            <div className="panel"><h2>Pipeline funnel</h2><Funnel d={data} /></div>
+            <Collapsible title="Jobs" {...sec("jobs")} summary={jobsSummary(data)}><Jobs d={data} /></Collapsible>
+            <Collapsible title="Pipeline funnel" {...sec("funnel")}
+              summary={data.funnel.map((f) => `${f.stage} ${fmt(f.count)}`).slice(-2).join(" · ")}>
+              <Funnel d={data} />
+            </Collapsible>
           </section>
-          <section className="grid"><CoverageTable rows={data.companies} /></section>
-          <section className="grid"><ManualDownloads rows={data.manual_downloads} /></section>
+          <section className="grid">
+            <Collapsible title="Company coverage" {...sec("coverage")}
+              summary={`${fmt(data.companies.filter((c) => c.facts).length)} with facts of ${fmt(data.companies.length)}`}>
+              <CoverageTable rows={data.companies} />
+            </Collapsible>
+          </section>
+          <section className="grid">
+            <Collapsible title="Manual downloads needed" {...sec("manual")} summary={manualSummary(data.manual_downloads)}>
+              <ManualDownloads rows={data.manual_downloads} />
+            </Collapsible>
+          </section>
           <section className="grid two">
-            <div className="panel"><h2>Recent extraction runs</h2><Runs d={data} /></div>
-            <div className="panel"><h2>Roadmap</h2><Roadmap d={data} /></div>
+            <Collapsible title="Recent extraction runs" {...sec("runs")}
+              summary={data.activity.recent.length ? `latest ${ago(data.activity.recent[0].at)}` : "none yet"}>
+              <Runs d={data} />
+            </Collapsible>
+            <Collapsible title="Roadmap" {...sec("roadmap")} summary={roadmapSummary(data)}>
+              <Roadmap d={data} />
+            </Collapsible>
           </section>
         </>
       )}
     </>
   );
+}
+
+function overviewSummary(d: Progress): string {
+  const withFacts = d.funnel.find((f) => f.stage === "Has facts")?.count ?? 0;
+  return `${fmt(withFacts)} companies with facts · ${fmt(d.totals.documents)} docs · ${fmt(d.totals.facts)} facts · `
+    + `${pct(d.validation.passed, d.validation.run).toFixed(1)}% validation pass`;
+}
+
+function jobsSummary(d: Progress): string {
+  const run = d.jobs.find((j) => j.status === "RUNNING");
+  if (run) return `${run.kind} running · ${pct(run.done, run.total).toFixed(0)}%`;
+  return d.jobs.length ? `${d.jobs.length} recent, none running` : "none tracked";
+}
+
+function manualSummary(rows: ManualDownload[] | undefined): string | undefined {
+  if (!rows?.length) return undefined;
+  return `${fmt(rows.filter((r) => !r.documents).length)} pending of ${fmt(rows.length)}`;
+}
+
+function roadmapSummary(d: Progress): string {
+  const items = d.roadmap.flatMap((s) => s.items);
+  return `${items.filter((i) => i.done).length}/${items.length} done`;
 }
 
 function Kpis({ d }: { d: Progress }) {
@@ -202,8 +279,7 @@ function CoverageTable({ rows }: { rows: CoverageRow[] }) {
   };
 
   return (
-    <div className="panel">
-      <h2>Company coverage</h2>
+    <>
       <div className="toolbar">
         <input type="search" placeholder="Filter by code or name" value={q} onChange={(e) => setQ(e.target.value)} />
         <label className="chk">
@@ -258,7 +334,7 @@ function CoverageTable({ rows }: { rows: CoverageRow[] }) {
         </table>
       </div>
       <div className="muted" style={{ marginTop: 8, fontSize: 12 }}>{shown.length} of {rows.length} companies</div>
-    </div>
+    </>
   );
 }
 
@@ -303,8 +379,7 @@ function ManualDownloads({ rows }: { rows: ManualDownload[] | undefined }) {
   }, [all, q, tier, pending]);
 
   return (
-    <div className="panel">
-      <h2>Manual downloads needed</h2>
+    <>
       {rows === undefined ? (
         <div className="empty">This backend's <code>/api/progress</code> has no <code>manual_downloads</code> field.</div>
       ) : !all.length ? (
@@ -360,7 +435,7 @@ function ManualDownloads({ rows }: { rows: ManualDownload[] | undefined }) {
           </div>
         </>
       )}
-    </div>
+    </>
   );
 }
 
