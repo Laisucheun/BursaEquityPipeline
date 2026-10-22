@@ -85,6 +85,7 @@ funnel, per-company coverage by fiscal year, validation/benchmark rates, live jo
 | `GET /api/companies` | List/search companies |
 | `GET /api/companies/{code}` | Company detail with documents |
 | `POST /api/upload` | Upload PDF, run pipeline |
+| `POST /api/upload/ingest`, `POST /api/upload/finalize/{code}` | Bulk upload: ingest each PDF, then normalize/derive/validate once per company (Upload → Bulk / folder in the UI) |
 | `GET /api/facts/{code}` | Facts by company/period |
 | `GET /api/validation/{code}` | Validation results |
 | `GET /api/benchmark/{code}` | Benchmark results |

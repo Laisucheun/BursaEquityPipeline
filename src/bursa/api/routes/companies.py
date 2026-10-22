@@ -13,7 +13,7 @@ router = APIRouter()
 def list_companies(
     search: str | None = Query(None, description="Filter by name or stock code"),
     sector: str | None = Query(None),
-    limit: int = Query(50, ge=1, le=500),
+    limit: int = Query(50, ge=1, le=2000),
     offset: int = Query(0, ge=0),
 ):
     with session_scope() as session:

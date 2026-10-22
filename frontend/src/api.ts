@@ -321,6 +321,31 @@ export interface UploadResult {
   comparative: { match: number; rounding: number; restatement: number } | null;
 }
 
+// -------------------------------------- /api/upload/ingest, /api/upload/finalize
+// src/bursa/api/routes/upload.py - bulk: ingest each file, then finalize each company once.
+export interface IngestResult {
+  document_id: number;
+  /** false = identical file (same sha256) was already ingested. */
+  created: boolean;
+  /** The document's owner - for a duplicate, possibly not the company it was uploaded for. */
+  stock_code: string | null;
+  company: string | null;
+  doc_type: string;
+  page_count: number | null;
+  has_financial_statements: boolean;
+}
+
+export interface FinalizeResult {
+  stock_code: string;
+  facts_written: number;
+  facts_updated: number;
+  facts_deleted: number;
+  periods_created: number;
+  facts_derived: number;
+  validation: UploadResult["validation"];
+  comparative: UploadResult["comparative"];
+}
+
 // ------------------------------------------------- /api/review, /api/concepts
 // src/bursa/api/routes/review.py
 //   GET  /api/review?status=open|resolved|all&reason=&stock_code=&limit=&offset= -> ReviewList
@@ -615,6 +640,15 @@ export interface ResultsReport {
 export const api = {
   status: () => request<Status>("/api/status"),
   progress: () => request<Progress>("/api/progress"),
+
+  ingestPdf: (file: File, stockCode: string, signal?: AbortSignal) => {
+    const form = new FormData();
+    form.append("file", file);
+    form.append("stock_code", stockCode);
+    return request<IngestResult>("/api/upload/ingest", { method: "POST", body: form, signal });
+  },
+  finalizeCompany: (code: string) =>
+    request<FinalizeResult>(`/api/upload/finalize/${enc(code)}`, { method: "POST" }),
 
   feed: (p: { months?: number; days?: number } = {}) => request<Feed>(`/api/feed${qs(p)}`),
   resultsReport: (code: string, fy?: number) =>

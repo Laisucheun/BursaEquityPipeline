@@ -1,12 +1,30 @@
 import { useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { api, uploadPdf, type CompanySummary, type UploadResult } from "../api";
+import BulkUpload from "./BulkUpload";
 import { Bar } from "../components";
 import { fmt, useAsync, useDebounced } from "../lib";
 
 type Phase = "idle" | "uploading" | "processing" | "done" | "error";
 
 export default function Upload() {
+  const [params, setParams] = useSearchParams();
+  const bulk = params.get("mode") === "bulk";
+  return (
+    <>
+      <div className="pagehead">
+        <h1>Upload annual reports</h1>
+        <div className="seg">
+          <button className={bulk ? "" : "on"} onClick={() => setParams({}, { replace: true })}>Single file</button>
+          <button className={bulk ? "on" : ""} onClick={() => setParams({ mode: "bulk" }, { replace: true })}>Bulk / folder</button>
+        </div>
+      </div>
+      {bulk ? <BulkUpload /> : <SingleUpload />}
+    </>
+  );
+}
+
+function SingleUpload() {
   const [file, setFile] = useState<File | null>(null);
   const [code, setCode] = useState("");
   const [over, setOver] = useState(false);
@@ -60,7 +78,6 @@ export default function Upload() {
 
   return (
     <>
-      <div className="pagehead"><h1>Upload annual report</h1></div>
       <section className="grid two">
         <div className="panel">
           <h2>PDF</h2>

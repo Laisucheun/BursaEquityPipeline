@@ -220,6 +220,8 @@ ul.obs li:first-child { border-top: 0; }
   .feed-item .fc { grid-column: 2; text-align: left; }
 }
 
+input.bad-input { border-color: var(--bad); }
+
 /* peers */
 table.peers tr.hl td { background: var(--hover); font-weight: 600; }
 table.peers tfoot td { border-top: 2px solid var(--line); color: var(--muted); font-size: 12px; font-weight: 600; }
