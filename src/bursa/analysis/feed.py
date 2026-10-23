@@ -39,6 +39,12 @@ MAX_FULL_YEAR_DAYS = 400
 # +900% on a RM 50k base is noise, not news.
 MOVER_MIN_BASE = 5_000_000
 MOVERS = 5
+# No Bursa issuer reports anywhere near this much revenue or profit; a figure
+# above it is an extraction scale error and must not top a ranking.
+IMPLAUSIBLE_RM = 5e11
+# ...and no listed company has annual revenue this small: a figure below it
+# is a missing thousand multiplier, not a real number.
+IMPLAUSIBLE_MIN_REVENUE = 1e5
 # A profit change smaller than this either way reads as "flat".
 FLAT_BAND = 0.05
 
@@ -663,7 +669,24 @@ class Feed:
     notes: list[str] = field(default_factory=list)
 
 
-def _item(c: Company, sector: str | None, annual: dict[int, AnnualFacts], fy: int) -> FeedItem:
+def _plausible(y: YearFigures) -> bool:
+    if y.revenue is not None and abs(y.revenue) < IMPLAUSIBLE_MIN_REVENUE:
+        return False
+    return all(v is None or abs(v) <= IMPLAUSIBLE_RM for v in (y.revenue, y.patami))
+
+
+def implausible(i: FeedItem) -> bool:
+    return any(v is not None and abs(v) > IMPLAUSIBLE_RM for v in (i.revenue, i.patami))
+
+
+def size_of(i: FeedItem) -> float:
+    """Ranking size: revenue, else |PATAMI|; 0 for implausible figures."""
+    return 0.0 if implausible(i) else abs(i.revenue or i.patami or 0)
+
+
+def feed_item(
+    c: Company, sector: str | None, annual: dict[int, AnnualFacts], fy: int,
+) -> FeedItem:
     cur = figures(annual[fy])
     prior = comparable_prior(annual, fy)
     prev = figures(annual[prior]) if prior is not None else None
@@ -705,7 +728,7 @@ def _group(month: str, items: list[FeedItem]) -> MonthGroup:
         turnarounds=[mv(i, i.patami) for i in compared if i.patami_change == "turnaround"],
         to_loss=[mv(i, i.patami) for i in compared if i.patami_change == "to_loss"],
     )
-    g.items = sorted(items, key=lambda i: -(i.revenue or 0))
+    g.items = sorted(items, key=lambda i: -size_of(i))
     return g
 
 
@@ -740,7 +763,7 @@ def upcoming_deadlines(
             continue
         ly = last_year.get(c.id)
         context = None
-        if ly is not None:
+        if ly is not None and _plausible(ly):
             context = f"FY{ly.fiscal_year}: revenue {rm(ly.revenue)}, PATAMI {rm(ly.patami)}"
         # Quarter ends from 5 months back (their deadlines can still be ahead).
         for back in range(-5, days // 28 + 2):
@@ -790,7 +813,7 @@ def build_feed(session: Session, *, months: int = 12, days: int = 45,
                 continue
             if f.get("is.pat_owners", "is.profit_for_period", "is.revenue") is None:
                 continue
-            all_items.append(_item(c, sector, years, fy))
+            all_items.append(feed_item(c, sector, years, fy))
         if (lfy := latest_full_year(years)) is not None:
             latest_year[c.id] = figures(years[lfy])
 

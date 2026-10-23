@@ -17,6 +17,7 @@ from sqlalchemy import func, select
 
 from bursa.analysis.dividends_cli import app as dividends_app
 from bursa.analysis.peers_cli import app as peers_app
+from bursa.briefs.cli import app as brief_app
 from bursa.config import get_settings
 from bursa.db.enums import DocSource, DocStatus, DocType, Market, ScrapeStatus, Statement
 from bursa.db.migrate import app as db_app
@@ -54,6 +55,7 @@ app.add_typer(storage_app, name="storage")
 app.add_typer(fiveyear_app, name="fiveyear")
 app.add_typer(dividends_app, name="dividends")
 app.add_typer(hygiene_app, name="hygiene")
+app.add_typer(brief_app, name="brief")
 
 console = Console()
 logging.basicConfig(level=logging.INFO, format="%(levelname)s %(name)s: %(message)s")

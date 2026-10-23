@@ -35,6 +35,8 @@ htmlcov/
 
 # Derived snapshot for quick analysis - regenerate with scripts/export_cache.py
 cache/
+# Daily news briefs (bursa brief generate / the scheduled task) - generated content
+/briefs/
 
 node_modules/
 web/.next/

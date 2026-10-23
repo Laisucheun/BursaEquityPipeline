@@ -65,6 +65,24 @@ bursa serve            # API + progress dashboard at http://localhost:8000
 | `bursa dividends history CODE` / `dividends screen` | Dividend history; consistent-payer screen |
 | `bursa fiveyear check -c CODE` | Compare facts with the report's own 5-year summary |
 | `bursa hygiene report` | Read-only data-quality decision list (duplicates, wrong codes, junk docs) |
+| `bursa brief generate [--date]` | Research the daily morning brief via the Anthropic API (web search); needs credentials |
+| `bursa brief validate` / `schema` / `list` | Check brief files against the format, print its JSON Schema, list dates |
+
+### Daily morning brief
+
+Malaysian macro developments and top Bursa corporate news, shown under Results feed →
+Morning briefs. One JSON file per day in `briefs/` (gitignored), following
+`src/bursa/briefs/schema.py`; the research brief both generators follow is
+`src/bursa/briefs/instructions.md`. Two ways to produce it:
+
+- a Claude Code scheduled task (`bursa-morning-brief`, weekdays ~7:30 am MYT) that researches
+  with web search, writes the file and validates it with `bursa brief validate`;
+- `bursa brief generate`, which does the same through the Anthropic API. Model and effort
+  come from `BRIEF_MODEL` (default `claude-sonnet-5-5`; `claude-haiku-5-5` is cheaper) and
+  `BRIEF_EFFORT` (default `medium`), or `--model` per run; it prints token and search usage.
+
+The app adds the deterministic part itself: upcoming annual reports and the statutory filing
+calendar for the next 14 days.
 
 ## API
 
@@ -77,6 +95,7 @@ funnel, per-company coverage by fiscal year, validation/benchmark rates, live jo
 | `GET /api/status` | Pipeline health |
 | `GET /api/progress` | Dashboard snapshot: funnel, coverage, jobs, roadmap |
 | `GET /api/feed?months=&days=` | Results feed: results grouped by FY-end month with digests, plus upcoming Listing Requirements filing deadlines |
+| `GET /api/feed/briefs`, `GET /api/feed/brief?date=` | Daily Bursa morning brief (macro + corporate news from `briefs/YYYY-MM-DD.json`) plus upcoming annual reports and the filing calendar |
 | `GET /api/feed/report/{code}?fy=` | Per-company results report: bottom line, headline numbers vs prior year, flags, sector context, data quality |
 | `GET /api/peers/sectors`, `/api/peers/sector/{sector}`, `/api/peers/{code}` | Peer comparison |
 | `GET /api/dividends/{code}?prices=` | Dividend history: DPS, payout, cover, streak, yield |

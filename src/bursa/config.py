@@ -22,6 +22,8 @@ class Settings(BaseSettings):
     storage_backend: str = "local"
     storage_local_root: Path = PROJECT_ROOT / "storage"
     inbox_dir: Path = PROJECT_ROOT / "inbox"
+    # One JSON file per day of the news brief (bursa.briefs).
+    briefs_dir: Path = PROJECT_ROOT / "briefs"
 
     r2_account_id: str | None = None
     r2_bucket: str | None = None
@@ -37,6 +39,10 @@ class Settings(BaseSettings):
     anthropic_api_key: str | None = None
     mapper_model: str = "claude-opus-5"
     mapper_effort: str = "high"
+    # Morning brief research (bursa brief generate). Sonnet halves Opus's cost;
+    # claude-haiku-5-5 is cheaper still but weaker at cross-checking sources.
+    brief_model: str = "claude-sonnet-5-5"
+    brief_effort: str = "medium"
 
     min_mapping_confidence: float = 0.80
     validation_tolerance_units: float = 1.0

@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { api, type Deadline, type FeedItem, type MonthGroup, type Mover } from "../api";
 import { Section } from "../components";
 import { money, useAsync, useDebounced } from "../lib";
+import { longDate } from "./Brief";
 
 const TONES = [["all", "All"], ["up", "Up"], ["down", "Down"], ["flat", "Flat"]] as const;
 type ToneFilter = (typeof TONES)[number][0];
@@ -35,6 +36,7 @@ export default function Feed() {
       <Section state={feed} isEmpty={(d) => !d.months.length && !d.upcoming.length} empty="No annual facts yet.">
         {(d) => (
           <>
+            <Briefs />
             <Upcoming deadlines={d.upcoming.filter(matches)} filtered={!!query} />
             <div className="toolbar" style={{ marginTop: 20 }}>
               <input type="search" placeholder="Filter by company or stock code" value={q} onChange={(e) => setQ(e.target.value)} />
@@ -59,6 +61,44 @@ export default function Feed() {
         )}
       </Section>
     </>
+  );
+}
+
+// ------------------------------------------------------------------ briefs
+const BRIEFS_SHOWN = 5;
+
+function Briefs() {
+  const briefs = useAsync(() => api.briefs(), []);
+  const [all, setAll] = useState(false);
+  const list = briefs.data ?? [];
+  const shown = all ? list : list.slice(0, BRIEFS_SHOWN);
+  return (
+    <div className="panel" style={{ marginTop: 16 }}>
+      <div className="rsec">
+        <strong>Morning briefs</strong>
+        <span className="muted">Malaysian macro and Bursa corporate news</span>
+      </div>
+      {!list.length && !briefs.loading && (
+        <div className="muted small">
+          No briefs yet. <Link to="/feed/brief">Today's filing calendar →</Link>
+        </div>
+      )}
+      {shown.map((b) => (
+        <div className="feed-item" key={b.date}>
+          <span className="tag annual">Morning</span>
+          <span className="feed-text">
+            <Link to={`/feed/brief/${b.date}`}>{b.title ?? `Bursa Morning Brief: ${longDate(b.date)}`}</Link>
+            {!b.valid && <span className="feed-sum down">invalid file</span>}
+          </span>
+          <span className="fc" />
+        </div>
+      ))}
+      {list.length > BRIEFS_SHOWN && (
+        <button className="chip" style={{ marginTop: 6 }} onClick={() => setAll(!all)}>
+          {all ? "Show fewer" : `All ${list.length} briefs`}
+        </button>
+      )}
+    </div>
   );
 }
 

@@ -636,6 +636,46 @@ export interface ResultsReport {
   notes: string[];
 }
 
+// ------------------------------------------------- /api/feed/brief(s)
+// News: src/bursa/briefs/schema.py (NewsBrief). Bullets may contain
+// **bold** and [label](https://...) - render them with <Rich>, never as HTML.
+// Calendar: src/bursa/analysis/brief.py (BriefCalendar).
+export interface BriefListItem {
+  date: string;
+  title: string | null;
+  valid: boolean;
+}
+
+export interface NewsBrief {
+  date: string;
+  title: string;
+  generated_by: string;
+  generated_at: string;
+  tldr: string[];
+  markets: { as_of: string; rows: { asset: string; level: string; change: string }[]; comment: string[] };
+  sections: { heading: string; bullets: string[]; table: { columns: string[]; rows: string[][] } | null }[];
+  corporate: { company: string; stock_code: string | null; headline: string; detail: string; source_url: string | null }[];
+  watch: string[];
+  sources: { title: string; url: string }[];
+}
+
+export interface BriefCalendar {
+  as_of: string;
+  days: number;
+  annual_reports: Deadline[];
+  calendar: Deadline[];
+  watch: string[];
+}
+
+export interface Brief {
+  date: string;
+  news: NewsBrief | null;
+  news_error: string | null;
+  calendar: BriefCalendar;
+  previous_date: string | null;
+  next_date: string | null;
+}
+
 // ------------------------------------------------------------------ client
 export const api = {
   status: () => request<Status>("/api/status"),
@@ -651,6 +691,8 @@ export const api = {
     request<FinalizeResult>(`/api/upload/finalize/${enc(code)}`, { method: "POST" }),
 
   feed: (p: { months?: number; days?: number } = {}) => request<Feed>(`/api/feed${qs(p)}`),
+  briefs: () => request<BriefListItem[]>("/api/feed/briefs"),
+  brief: (date?: string) => request<Brief>(`/api/feed/brief${qs({ date })}`),
   resultsReport: (code: string, fy?: number) =>
     request<ResultsReport>(`/api/feed/report/${enc(code)}${qs({ fy })}`),
 
