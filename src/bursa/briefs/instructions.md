@@ -28,7 +28,8 @@ how this brief is produced. Never mention them.
 Search widely and cross-check numbers. Good sources: The Edge Malaysia,
 The Star (Business), New Straits Times (Business), Business Times, Bernama,
 Malay Mail, Free Malaysia Today, Reuters, Bloomberg, Bank Negara Malaysia
-(bnm.gov.my), DOSM (dosm.gov.my), company and Bursa announcements as
+(bnm.gov.my, including its MYOR, interest-rate and monthly statistics pages),
+BIX Malaysia (bixmalaysia.com, bond yields), DOSM (dosm.gov.my), company and Bursa announcements as
 reported by these outlets. Use the most recent figures available; say when a
 figure is from an earlier date.
 
@@ -56,7 +57,25 @@ figure is from an earlier date.
   yield, plus S&P 500, Nasdaq, Hang Seng, Nikkei and US 10-year. `as_of`
   names the session. `comment`: 1-3 bullets on what drove the moves,
   including foreign fund flows when reported.
-- **sections** - in this order, skipping any with nothing material:
+- **sections** - in this order, skipping any with nothing material except
+  "Rates", which is always included:
+  "Rates" (table: Rate | Level | Change | As of, with exactly these rows in
+  this order:
+  interbank - "MYOR (overnight)", "KLIBOR 3-month", "KLIBOR 12-month (1-year)",
+  "MYR IRS 2-year", "MYR IRS 10-year";
+  mortgage - "Standardised Base Rate (SBR)" (the range across major banks,
+  e.g. "3.00-3.25%"), "Avg lending rate, housing loans" (BNM monthly).
+  Level in % to 2-3 decimals as published; Change in bp vs the previous
+  observation, e.g. "-1 bp" or "0 bp" (for SBR and the monthly housing rate,
+  vs their last change/month). Sources: MYOR from Bank Negara Malaysia
+  (bnm.gov.my, published the next business day); KLIBOR as reported by BNM,
+  Bursa/financial press or data pages; MYR IRS from financial press or data
+  pages that quote it; SBR from banks' published rates or press; housing
+  lending rate from BNM's Monthly Highlights and Statistics. Put the date each
+  figure applies to in As of. If a figure can't be found, write
+  "I couldn't confirm" in Level and Change - never estimate. Add 1-2 bullets
+  on what the curve did and why, e.g. OPR expectations or bond flows, and what
+  it means for borrowers),
   "What moved markets" (bullets), "Economic data" (table: Release | Actual |
   Expected | Prior, plus bullets for interpretation), "BNM and policy",
   "Results" (table: Company | Result | What drove it | Reaction; recent
